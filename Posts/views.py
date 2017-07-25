@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import PostForm
 from django.core.urlresolvers import reverse
 from .models import PostModel
@@ -18,7 +18,7 @@ def createView(request):
         if form.is_valid():
             instance=form.save(commit=False)
             instance.save()
-    return HttpResponseRedirect(instance.get_absolute_url())
+    return redirect('Posts:list')
         
 def listView(request):
     queryset=PostModel.objects.all()
