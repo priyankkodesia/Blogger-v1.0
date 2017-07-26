@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
-{{ object.title }}
-{{ object.content }}
-{{ object.timestamp }}
-{{ object.updated }}
-
-
+	<div class="thumbnail col-sm-5 col-sm-offset-3" style="text-align:center;">
+			<h3>{{ object.title|upper }}</h3>
+			{% if object.image %}
+			<img src="{{ object.image.url  }}" style="width:150px;height:150px">
+			{% endif %}
+			{{ object.content }}<br>
+			{{ object.timestamp }}<br>
+			{{ object.updated }} ago <br><br>
+			<a href="{% url 'Posts:list' %}"><button class="btn btn-primary">Back</button></a>
+			
+			
+		<br></div></br>
+	
 {% endblock content %}

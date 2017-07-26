@@ -1,14 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% for obj in object_list %}
+<h2 style="text-align:center;padding:50px; background-color:#333;color:green">POSTS</h2><br>
 
-<a href="{{ obj.get_absolute_url }}"><h1>{{ obj.title }}</h1></a>
-{{ obj.content }}
-{{ obj.timestamp }}
-{{ obj.updated }}
+<div class="col-sm-6 col-sm-offset-3" >
 
 
-{% endfor %}
+	{% for obj in object_list %}
+		<div class="thumbnail" style="text-align:center">
+			<a href="{{ obj.get_absolute_url }}" ><h3>{{ obj.title }}</h3></a>
+			{% if obj.image %}
+			<img src="{{ obj.image.url  }}" style="width:150px;height:150px">
+			{% endif %}
+			{{ obj.content }}<br>
+			{{ obj.timestamp }}<br>
+			{{ obj.updated|timesince }} ago <br><br>
+			<a href="{{ obj.get_absolute_url }}"><button class="btn btn-primary"  href="{{ obj.get_absolute_url }}">View</button></a>
+			
+		<br></div></br>
+	
+	{% endfor %}
+	<div style="margin-left:40%">
+	<div class="pagination" style="text-align:center;">
+    <span class="step-links">
+        {% if object_list.has_previous %}
+            <a href="?page={{ object_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        </span>
+
+        {% if object_list.has_next %}
+            <a href="?page={{ object_list.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+</div>
 
 {% endblock content %}
