@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import PostForm
+from urllib.parse import quote_plus
 from django.core.urlresolvers import reverse
 from .models import PostModel
 from django.http.response import HttpResponseRedirect
@@ -35,7 +36,8 @@ def listView(request):
 
 def detailView(request,slug=None):
     queryset=PostModel.objects.get(slug=slug)
-    context={'object':queryset}
+    share_string=quote_plus(queryset.content)
+    context={'object':queryset,'share_string':share_string}
     return render(request,'post_detail.html',context)
 
 def deleteView(request,pk=None):

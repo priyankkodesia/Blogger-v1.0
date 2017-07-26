@@ -6,9 +6,12 @@
 			{% if object.image %}
 			<img src="{{ object.image.url  }}" style="width:150px;height:150px">
 			{% endif %}
+			<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">Facebook</a>&nbsp;
+			<a href="https://twitter.com/home?status={{ share_string }}%20{{ object.content }}">Twitter</a>&nbsp;
+			<a href="https://www.linkedin.com/shareArticle?mini=true&url=http://swiftforentrepreneurs.com/&title={{ object.title }}&source={{ request.build_absolute_uri }}">Linkedin</a>&nbsp;
 			{{ object.content }}<br>
-			{{ object.timestamp }}<br>
-			{{ object.updated }} ago <br><br>
+			Created: {{ object.timestamp }}<br>
+			Updated:{{ object.updated|timesince }} ago <br><br>
 			<a href="{% url 'Posts:list' %}"><button class="btn btn-primary">Back</button></a>
 			
 			

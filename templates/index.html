@@ -13,8 +13,8 @@
 			<img src="{{ obj.image.url  }}" style="width:150px;height:150px">
 			{% endif %}
 			{{ obj.content }}<br>
-			{{ obj.timestamp }}<br>
-			{{ obj.updated|timesince }} ago <br><br>
+			Created: {{ obj.timestamp }}<br>
+			Updated:{{ obj.updated|timesince }} ago <br><br>
 			<a href="{{ obj.get_absolute_url }}"><button class="btn btn-primary"  href="{{ obj.get_absolute_url }}">View</button></a>
 			
 		<br></div></br>
