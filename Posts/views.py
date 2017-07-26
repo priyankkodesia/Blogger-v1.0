@@ -1,10 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .forms import PostForm
 from urllib.parse import quote_plus
 from django.core.urlresolvers import reverse
 from .models import PostModel
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import render_to_response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
