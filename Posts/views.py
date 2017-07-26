@@ -33,8 +33,8 @@ def listView(request):
     context={'object_list':queryset}
     return render(request,'index.html',context)
 
-def detailView(request,pk=None):
-    queryset=PostModel.objects.get(pk=pk)
+def detailView(request,slug=None):
+    queryset=PostModel.objects.get(slug=slug)
     context={'object':queryset}
     return render(request,'post_detail.html',context)
 
