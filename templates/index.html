@@ -4,21 +4,37 @@
 <h2 style="text-align:center;padding:50px; background-color:#333;color:green">POSTS</h2><br>
 
 <div class="col-sm-6 col-sm-offset-3" >
+<form method='GET' action=''>
+<div class="form-group row">
+<div class="col-sm-8 col-sm-offset-2">
+<input type='text' class="form-control" placeholder='Search' value='{{ request.GET.q }}' name='q'><br>
+</div>
+<div class="col-sm-2 col-sm-offset-5">
 
+<input type='submit' class="btn btn-primary" value='Search'>
+</div>
+</div>
 
+</form>
+<div class="row">
+<div class="col-sm-2 col-sm-offset-5">
+  <a href="{% url 'Posts:create' %}" ><button class="btn btn-success" value="Create">Create</button></a>
+</div>
+</div><br>
 	{% for obj in object_list %}
 		<div class="thumbnail" style="text-align:center">
 			<a href="{{ obj.get_absolute_url }}" ><h3>{{ obj.title }}</h3></a>
 			{% if obj.image %}
 			<img src="{{ obj.image.url  }}" style="width:150px;height:150px">
 			{% endif %}
-			{{ obj.content }}<br>
-				{% if obj.Author %}
-			Author:{{ obj.Author  }}
+			{{ obj.content }}<br><br>
+			{% if obj.Author.get_full_name %}
+			<b>Author </b>:{{ obj.Author.get_full_name  }}
 			{% endif %}</br>
-			Created: {{ obj.timestamp }}<br>
-			Updated:{{ obj.updated|timesince }} ago <br><br>
+			<b>Created </b> {{ obj.timestamp }}<br>
+			<b>Updated </b>{{ obj.updated|timesince }} ago <br><br>
 			<a href="{{ obj.get_absolute_url }}"><button class="btn btn-primary"  href="{{ obj.get_absolute_url }}">View</button></a>
+			<a href="{% url 'Posts:delete' pk=obj.pk %}"><button class="btn btn-primary">Delete</button></a>
 			
 		<br></div></br>
 	

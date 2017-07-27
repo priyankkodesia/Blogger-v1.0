@@ -12,6 +12,7 @@ def createView(request):
     form =PostForm(request.POST or None,request.FILES or None)
     if form.is_valid():
         instance=form.save(commit=False)
+        instance.user=request.user
         instance.save()
         return redirect('Posts:list')
     return render(request,'create_post.html',{'form':PostForm})
@@ -19,6 +20,9 @@ def createView(request):
         
 def listView(request):
     query=PostModel.objects.all().order_by('-pk')
+    search_query=request.GET.get('q')
+    if search_query:
+        query=PostModel.objects.filter(title__icontains=search_query)
     paginator = Paginator(query, 10)
     page = request.GET.get('page')
     try:
@@ -42,5 +46,4 @@ def detailView(request,slug=None):
 def deleteView(request,pk=None):
     queryset=PostModel.objects.get(pk=pk)
     queryset.delete()
-    return render(request,'delete_post.html')
-    
+    return redirect('Posts:list')

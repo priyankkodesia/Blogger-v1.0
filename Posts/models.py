@@ -11,9 +11,9 @@ def upload_location(object,filename):
 
 class PostModel(models.Model):
     Author          =models.ForeignKey(settings.AUTH_USER_MODEL,default=1)
-    title           =models.CharField(max_length=120)
+    title           =models.CharField(max_length=120,null=True)
     slug            =models.SlugField(unique=True,null=True,blank=True)
-    content         =models.TextField(max_length=256)
+    content         =models.TextField(max_length=256,null=True)
     image           =models.ImageField(upload_to=upload_location,null=True,blank=True)
     timestamp       =models.DateField(auto_now_add=True)
     updated         =models.DateTimeField(auto_now=True)
