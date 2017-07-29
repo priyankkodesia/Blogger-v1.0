@@ -8,5 +8,4 @@ urlpatterns = [
     url(r'^(?P<slug>[-\w]+)/$',views.detailView,name='detail'),
     url(r'^(?P<pk>\d+)/delete/$',views.deleteView,name='delete'),
 
-
 ]

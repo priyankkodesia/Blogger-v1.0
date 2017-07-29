@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Posts',
     'crispy_forms',
+    'pagedown',
 ]
 
 MIDDLEWARE = [

@@ -1,61 +1,108 @@
 {% extends 'base.html' %}
 {% block content %}
+ <h2 style="text-align:center;padding:50px; background-color:#333;color:green">POSTS</h2><br>
 
-<h2 style="text-align:center;padding:50px; background-color:#333;color:green">POSTS</h2><br>
+			<form method='GET' action=''>{% csrf_token %}
+				<div class="row">
+					<div class="col-sm-5 col-sm-offset-3" >
+						<input type='text' class="form-control" id="search_text" placeholder='Search' value='{{ request.POST.get }}' name='q'><br>
+					</div>
+					<div class="col-sm-1">
+				  <a href="" ><input type=submit class="btn btn-primary" id="search_btn" value="submit"></a>
+					</div>
+				</div>
 
-<div class="col-sm-6 col-sm-offset-3" >
-<form method='GET' action=''>
-<div class="form-group row">
-<div class="col-sm-8 col-sm-offset-2">
-<input type='text' class="form-control" placeholder='Search' value='{{ request.GET.q }}' name='q'><br>
-</div>
-<div class="col-sm-2 col-sm-offset-5">
+			</form>
 
-<input type='submit' class="btn btn-primary" value='Search'>
-</div>
-</div>
-
-</form>
-<div class="row">
-<div class="col-sm-2 col-sm-offset-5">
-  <a href="{% url 'Posts:create' %}" ><button class="btn btn-success" value="Create">Create</button></a>
-</div>
-</div><br>
-	{% for obj in object_list %}
-		<div class="thumbnail" style="text-align:center">
-			<a href="{{ obj.get_absolute_url }}" ><h3>{{ obj.title }}</h3></a>
-			{% if obj.image %}
-			<img src="{{ obj.image.url  }}" style="width:150px;height:150px">
-			{% endif %}
-			{{ obj.content }}<br><br>
-			{% if obj.Author.get_full_name %}
-			<b>Author </b>:{{ obj.Author.get_full_name  }}
-			{% endif %}</br>
-			<b>Created </b> {{ obj.timestamp }}<br>
-			<b>Updated </b>{{ obj.updated|timesince }} ago <br><br>
-			<a href="{{ obj.get_absolute_url }}"><button class="btn btn-primary"  href="{{ obj.get_absolute_url }}">View</button></a>
-			<a href="{% url 'Posts:delete' pk=obj.pk %}"><button class="btn btn-primary">Delete</button></a>
+			<div class="row">
+				<div class="col-sm-2 col-sm-offset-5">
+  						<a href="{% url 'Posts:create' %}" ><button class="btn btn-success" id="create" value="Create">Create</button></a>
+				</div>
+			</div><br>
+  <div class="col-xs-6 col-xs-offset-3">
+  <div id="searcher">
+		{% for obj in object_list %}
+		<div class="object_list">
+			<div class="thumbnail" style="text-align:center">
+					<a href="{{ obj.get_absolute_url }}" ><h3>{{ obj.title }}</h3></a>
+			{% if obj.image %}<img src="{{ obj.image.url  }}" style="width:430px;height:400px">{% endif %}
 			
-		<br></div></br>
+					<p class="content-markdown">{{ obj.content }}</p><br><br>
+			{% if obj.Author.get_full_name %}<b>Author </b>:{{ obj.Author.get_full_name  }}{% endif %}</br>
+			
+					<b>Created </b> {{ obj.timestamp }}<br>
+			
+					<b>Updated </b>{{ obj.updated|timesince }} ago <br><br>
+				<a href="{{ obj.get_absolute_url }}"><button class="btn btn-primary"  href="{{ obj.get_absolute_url }}">View</button></a>
+				{% if request.Author is request.user %}<a href="{% url 'Posts:delete' pk=obj.pk %}"><button class="btn btn-primary">Delete</button></a>{% endif %}<br>
+			</div></br>
+		</div>
+		{% endfor %}
+</div>
+	 <div style="margin-left:40%" >
+		<div class="pagination" style="text-align:center;">
+    				<span class="step-links">
+   		     {% if object_list.has_previous %}<a href="?page={{ object_list.previous_page_number }}">previous</a>{% endif %}
+
+		        <span class="current">
+        		    Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        		</span>
+
+        	{% if object_list.has_next %}<a href="?page={{ object_list.next_page_number }}">next</a>{% endif %}
+   					 </span>
+		</div>
+	 </div>
+</div>
+
+
 	
-	{% endfor %}
-	<div style="margin-left:40%">
-	<div class="pagination" style="text-align:center;">
-    <span class="step-links">
-        {% if object_list.has_previous %}
-            <a href="?page={{ object_list.previous_page_number }}">previous</a>
-        {% endif %}
+<script> 
+   $(document).ready(function(){
+			$("#search_btn").on('click',function(e){
+				var val= $('#search_text').val();	
+			    e.preventDefault();
+				$.ajax({
+					type:'POST',
+					dataType:'json',
+					url:'/searchPosts/',
+					data:{
+						'q':val,
+						csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),		
+						},
+					success:function(result){
+						$('.object_list').remove();
+						$('#searcher').empty();
+						var len=(result['result'].length);
+						console.log(len)
+						for(var i=0;i<len;i++){
+							
+							title=result['result'][i]['title']
+							content=result['result'][i]['title']
+							if (result['result'][i]['image']){
+								image=result['result'][i]['image']
+							}
+							full_name=result['result'][i]['full_name']
+							timestamp=result['result'][i]['timstamp']
+							updated=result['result'][i]['updated']
+							slug=result['result'][i]['slug']
+							var get_abs_url = "{% url 'Posts:detail' slug=12345 %}".replace(/12345/, slug);
+							console.log(get_abs_url)
+							
+							 $('#searcher').append('<div class=\"thumbnail\" style=\"text-align:center\"> <a href=\" '+ get_abs_url+' \"><h3> '+title+'</h3></a> </div>')
 
-        <span class="current">
-            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
-        </span>
+							
+						}
 
-        {% if object_list.has_next %}
-            <a href="?page={{ object_list.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
-</div>
-</div>
+					}
+					
+					
+				});
+				
+			});
+	   
+   });
+   
+   
 
+</script>
 {% endblock content %}

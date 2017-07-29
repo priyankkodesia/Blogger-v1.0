@@ -4,29 +4,33 @@
 	<div class="thumbnail col-sm-5 col-sm-offset-3" style="text-align:center;">
 			<h3>{{ object.title|upper }}</h3>
 			{% if object.image %}
-			<img src="{{ object.image.url  }}" style="width:150px;height:150px">
+			<img src="{{ object.image.url  }}" style="width:430px;height:400px">
 			{% endif %}
-			{{ object.content }}<br><br>
 			{% if object.Author.get_full_name %}
 			<b>Author </b>:{{ object.Author.get_full_name  }}
 			{% endif %}</br>
 			<b>Created </b>: {{ object.timestamp }}<br>
 			<b>Updated </b>:{{ object.updated|timesince }} ago <br><br>
-			
+   {% if object.edited %}Edited{% endif %}
 <p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 </p>
 <div class='row'>
-<div class='col-sm-12'>
-<br/>
-<div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-width="300" data-numposts="5"></div>
+<div class='col-sm-12 '>
+
+   <div class='content-markdown'>{{ object.content }}</div>
+
+
+    <hr/>
+    <br/>
+    <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-width="400px" data-numposts="5"></div>
 
 </div>
 </div>
 
-			
+
 			<a href="{% url 'Posts:list' %}"><button class="btn btn-primary">Back</button></a>
-</div>			
-			
+</div>
+
 		<br></br>
-	
+
 {% endblock content %}
