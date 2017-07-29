@@ -58,7 +58,7 @@
 	
 <script> 
    $(document).ready(function(){
-			$("#search_btn").on('click',function(e){
+	   			$("#search_btn").on('click',function(e){
 				var val= $('#search_text').val();	
 			    e.preventDefault();
 				$.ajax({
@@ -81,25 +81,45 @@
 							if (result['result'][i]['image']){
 								image=result['result'][i]['image']
 							}
+							else{
+								image='no image';
+							}
+							console.log(image);
 							full_name=result['result'][i]['full_name']
-							timestamp=result['result'][i]['timstamp']
+							timestamp=result['result'][i]['timestamp']
 							updated=result['result'][i]['updated']
 							slug=result['result'][i]['slug']
 							var get_abs_url = "{% url 'Posts:detail' slug=12345 %}".replace(/12345/, slug);
-							console.log(get_abs_url)
-							
-							 $('#searcher').append('<div class=\"thumbnail\" style=\"text-align:center\"> <a href=\" '+ get_abs_url+' \"><h3> '+title+'</h3></a> </div>')
+							console.log(updated)
+							if(image!= 'no image'){
+							 $('#searcher').append('<div class=\"thumbnail\" style=\"text-align:center\">'+
+									 '<a href=\" '+ get_abs_url+' \"><h3> '+title+'</h3></a>'+
+										'<p class=\"content-markdown\">'+content+'</p><br><br>'+
+									 '<img src=\" '+image+'\" style="width:430px;height:400px">'+
+									     '<b>Author </b>:'+full_name+'</br>'+
+									     '<b>Created </b>:'+timestamp+'<br>'+
 
-							
+									 
+									 '</div>')
+							}
+							else{
+								 $('#searcher').append('<div class=\"thumbnail\" style=\"text-align:center\">'+
+										 '<a href=\" '+ get_abs_url+' \"><h3> '+title+'</h3></a>'+
+											'<p class=\"content-markdown\">'+content+'</p><br><br>'+
+										     '<b>Author </b>:'+full_name+'</br>'+
+										     '<b>Created </b>:'+timestamp+'<br>'+
+
+										 '</div>')
+								}
 						}
+						
 
 					}
 					
 					
 				});
-				
 			});
-	   
+
    });
    
    

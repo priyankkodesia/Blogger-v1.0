@@ -75,7 +75,7 @@ def searchPosts(request):
                            'full_name':full_name,
                            'timestamp':r.timestamp,
                            'updated':r.updated,
-                           'slug':slug})
+                           'slug':r.slug})
     print(result)
     return JsonResponse({'result':result})
 
