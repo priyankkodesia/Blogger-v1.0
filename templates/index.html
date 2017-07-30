@@ -2,7 +2,7 @@
 {% block content %}
  <h2 style="text-align:center;padding:50px; background-color:#333;color:green">POSTS</h2><br>
 
-			<form method='GET' action=''>{% csrf_token %}
+			<form method='POST' action=''>{% csrf_token %}
 				<div class="row">
 					<div class="col-sm-5 col-sm-offset-3" >
 						<input type='text' class="form-control" id="search_text" placeholder='Search' value='{{ request.POST.get }}' name='q'><br>

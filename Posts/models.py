@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 
 
 def upload_location(object,filename):
-    return "%s/%s" %(object.pk,filename)
+    return "%s/%s" %(object.Author.pk,filename)
 
 class PostModel(models.Model):
     Author          =models.ForeignKey(User,default=1)
