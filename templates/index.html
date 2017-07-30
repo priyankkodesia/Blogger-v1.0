@@ -1,128 +1,124 @@
-{% extends 'base.html' %}
-{% block content %}
- <h2 style="text-align:center;padding:50px; background-color:#333;color:green">POSTS</h2><br>
+<!DOCTYPE html>
+<html lang="en">
 
-			<form method='POST' action=''>{% csrf_token %}
-				<div class="row">
-					<div class="col-sm-5 col-sm-offset-3" >
-						<input type='text' class="form-control" id="search_text" placeholder='Search' value='{{ request.POST.get }}' name='q'><br>
-					</div>
-					<div class="col-sm-1">
-				  <a href="" ><input type=submit class="btn btn-primary" id="search_btn" value="submit"></a>
+<head>
+	<title>Bootstrap Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+#logout{position:absolute;top:8px;right:12px}
+.navbar-form{position:absolute;right:120px}
+.carousel-caption h3{color:black;font-weight:bold;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif}
+#myCarousel{margin-top:-20px;border-bottom: 1.5px solid slateblue;}
+		</style>
+</head>
+
+
+<body>
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">BLOG</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li class="active"><a href="#">Home</a></li>
+			<li><a href="#">Page 1</a></li>
+			<li><a href="#">Page 2</a></li>
+		</ul>
+		<form class="navbar-form" method='POST' action=''> {% csrf_token %}
+
+			<div class="form-group">
+				<input class="form-control " type="text" id="search_text" placeholder="Search" value='{{ request.POST.get }}' name='q'>
+			</div>
+				<button class="btn btn-primary" id="search_btn" type="submit">Search Posts</button>
+		</form>
+				<a href="{% url 'logout' %}"><button class="btn btn-info" id="logout" type="submit" style ><span class="glyphicon glyphicon-log-out"><span style="font-size:17px;margin-left:-5px"> Logout</span></span></button></a>
+				
+		
+	</div>
+</nav>
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+			</ol>
+
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner">
+
+				<div class="item active">
+					<img src="http://wallpaperswide.com/download/travel_planning-wallpaper-1920x1200.jpg" alt="Los Angeles" style="width:100%;height:450px;">
+					<div class="carousel-caption">
+						<h3>TRAVEL</h3>
+						<p>LA is always so much fun!</p>
 					</div>
 				</div>
 
-			</form>
+				<div class="item">
+					<img src="http://images.huffingtonpost.com/2015-03-20-1426853494-9761329-iStock_000026246607_Large.jpg" alt="Chicago" style="width:100%;height:450px;">
+					<div class="carousel-caption">
+						<h3>EXPLORE</h3>
+						<p>Thank you, Chicago!</p>
+					</div>
+				</div>
 
+				<div class="item">
+					<img src="https://cn.best-wallpaper.net/wallpaper/2560x1440/1212/Tourist-destination-Italy-Venice-Watertown_2560x1440.jpg" alt="New York" style="width:100%;height:450px;">
+					<div class="carousel-caption">
+						<h3>SHARE WITH US</h3>
+						<p>We love the Big Apple!</p>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Left and right controls -->
+			<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+			<a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+		</div>
+	</div>
+	<div class="container">
+		<div id="searcher">
 			<div class="row">
-				<div class="col-sm-2 col-sm-offset-5">
-  						<a href="{% url 'Posts:create' %}" ><button class="btn btn-success" id="create" value="Create">Create</button></a>
-				</div>
-			</div><br>
-  <div class="col-xs-6 col-xs-offset-3">
-  <div id="searcher">
-		{% for obj in object_list %}
-		<div class="object_list">
-			<div class="thumbnail" style="text-align:center">
-					<a href="{{ obj.get_absolute_url }}" ><h3>{{ obj.title }}</h3></a>
-			{% if obj.image %}<img src="{{ obj.image.url  }}" style="width:430px;height:400px">{% endif %}
-			
-					<p class="content-markdown">{{ obj.content }}</p><br><br>
-			{% if obj.Author.get_full_name %}<b>Author </b>:{{ obj.Author.get_full_name  }}{% endif %}</br>
-			
+			{% for obj in object_list %}
+			<div class="object_list">
+				<div class="thumbnail" style="text-align:center">
+					<a href="{{ obj.get_absolute_url }}">
+						<h3>{{ obj.title }}</h3>
+					</a>
+					{% if obj.image %}<img src="{{ obj.image.url  }}" style="width:430px;height:400px">{% endif %}
+
+					<p class="content-markdown">{{ obj.content }}</p><br><br> {% if obj.Author.get_full_name %}<b>Author </b>:{{ obj.Author.get_full_name }}{% endif %}
+					</br>
+
 					<b>Created </b> {{ obj.timestamp }}<br>
-			
+
 					<b>Updated </b>{{ obj.updated|timesince }} ago <br><br>
-				<a href="{{ obj.get_absolute_url }}"><button class="btn btn-primary"  href="{{ obj.get_absolute_url }}">View</button></a>
-				{% if request.Author is request.user %}<a href="{% url 'Posts:delete' pk=obj.pk %}"><button class="btn btn-primary">Delete</button></a>{% endif %}<br>
-			</div></br>
+					<a href="{{ obj.get_absolute_url }}"><button class="btn btn-primary"  href="{{ obj.get_absolute_url }}">View</button></a>					
+					{% if request.Author is request.user %}<a href="{% url 'Posts:delete' pk=obj.pk %}"><button class="btn btn-primary">Delete</button></a>{% endif %}<br>
+				</div>
+				</br>
+			</div>
+			{% endfor %}
 		</div>
-		{% endfor %}
-</div>
-	 <div style="margin-left:40%" >
-		<div class="pagination" style="text-align:center;">
-    				<span class="step-links">
-   		     {% if object_list.has_previous %}<a href="?page={{ object_list.previous_page_number }}">previous</a>{% endif %}
 
-		        <span class="current">
-        		    Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
-        		</span>
 
-        	{% if object_list.has_next %}<a href="?page={{ object_list.next_page_number }}">next</a>{% endif %}
-   					 </span>
-		</div>
-	 </div>
-</div>
 
+
+
+</body>
+
+</html>
 
 	
-<script> 
-   $(document).ready(function(){
-	   			$("#search_btn").on('click',function(e){
-				var val= $('#search_text').val();	
-			    e.preventDefault();
-				$.ajax({
-					type:'POST',
-					dataType:'json',
-					url:'/searchPosts/',
-					data:{
-						'q':val,
-						csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),		
-						},
-					success:function(result){
-						$('.object_list').remove();
-						$('#searcher').empty();
-						var len=(result['result'].length);
-						console.log(len)
-						for(var i=0;i<len;i++){
-							
-							title=result['result'][i]['title']
-							content=result['result'][i]['title']
-							if (result['result'][i]['image']){
-								image=result['result'][i]['image']
-							}
-							else{
-								image='no image';
-							}
-							console.log(image);
-							full_name=result['result'][i]['full_name']
-							timestamp=result['result'][i]['timestamp']
-							updated=result['result'][i]['updated']
-							slug=result['result'][i]['slug']
-							var get_abs_url = "{% url 'Posts:detail' slug=12345 %}".replace(/12345/, slug);
-							console.log(updated)
-							if(image!= 'no image'){
-							 $('#searcher').append('<div class=\"thumbnail\" style=\"text-align:center\">'+
-									 '<a href=\" '+ get_abs_url+' \"><h3> '+title+'</h3></a>'+
-										'<p class=\"content-markdown\">'+content+'</p><br><br>'+
-									 '<img src=\" '+image+'\" style="width:430px;height:400px">'+
-									     '<b>Author </b>:'+full_name+'</br>'+
-									     '<b>Created </b>:'+timestamp+'<br>'+
-
-									 
-									 '</div>')
-							}
-							else{
-								 $('#searcher').append('<div class=\"thumbnail\" style=\"text-align:center\">'+
-										 '<a href=\" '+ get_abs_url+' \"><h3> '+title+'</h3></a>'+
-											'<p class=\"content-markdown\">'+content+'</p><br><br>'+
-										     '<b>Author </b>:'+full_name+'</br>'+
-										     '<b>Created </b>:'+timestamp+'<br>'+
-
-										 '</div>')
-								}
-						}
-						
-
-					}
-					
-					
-				});
-			});
-
-   });
-   
-   
-
-</script>
-{% endblock content %}

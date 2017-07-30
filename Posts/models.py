@@ -46,14 +46,3 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_post_receiver, sender=PostModel)
 
-#
-# def pre_save_post_reciever(sender,intance,*args,**kwargs):
-#     slug=slugify(instance.title)
-#     print(slug)
-#     exists=PostModel.objects.filter(slug=instance.slug).exists()
-#     if exists:
-#         slug="%s-%s" %(slug,instance.id)
-#     instance.slug=slug
-#
-# pre_save.connect(pre_save_post_reciever,sender=PostModel)
-#

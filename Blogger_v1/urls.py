@@ -24,7 +24,8 @@ urlpatterns = [
     url(r'^searchPosts/',views.searchPosts,name='search'),
     url(r'^posts/',include('Posts.urls',namespace='Posts')),
     url(r'^$',views.loginView,name='login'),
-    url(r'^register/$',views.register,name='register'),
+    url(r'^register/$',views.register.as_view(),name='register'),
+    url(r'^logout/$',views.logoutView,name='logout'),
 
 ]
 if settings.DEBUG:

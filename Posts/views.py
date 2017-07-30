@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from .forms import PostForm,LoginForm,RegistrationForm
+from .forms import PostForm,LoginForm,UserRegistrationForm
 from urllib.parse import quote_plus
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse,reverse_lazy
 from .models import PostModel
 from django.http import Http404
 from django.http.response import HttpResponseRedirect, JsonResponse
@@ -9,16 +9,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
+
 # Create your views here.
 
-def register(request):
-    form=RegistrationForm(request.POST or None)
-    if form.is_valid():
-        instance=form.save(commit=False)
-        instance.Author=request.user
-        instance.save()
-        return redirect('Posts:login')
-    return render(request,'registration.html',{'form':form})
+class register(CreateView):
+    form_class=UserRegistrationForm
+    template_name='registration.html'
+    success_url=reverse_lazy('login')
     
 
 def loginView(request):
@@ -129,3 +127,8 @@ def editView(request,slug=None):
             instance.edited= True
             return redirect('Posts:list')
     return render(request,'create_post.html',{'form':PostForm})
+
+@login_required
+def logoutView(request):
+    logout(request)
+    return redirect('login')

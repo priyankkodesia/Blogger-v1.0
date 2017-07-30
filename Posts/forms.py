@@ -3,7 +3,7 @@ from pagedown.widgets import PagedownWidget
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
-
+from django.contrib.auth.forms import UserCreationForm
 
 
 class PostForm(forms.ModelForm):
@@ -12,10 +12,10 @@ class PostForm(forms.ModelForm):
         model=PostModel
         fields=['title','content','image']
 
-class RegistrationForm(forms.ModelForm):
-    class Meta:
+class UserRegistrationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
         model = User
-        fields=['username','password','email','first_name','last_name']
+        fields=UserCreationForm.Meta.fields
 # 
 class LoginForm(forms.ModelForm):
     class Meta:
