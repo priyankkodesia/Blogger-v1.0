@@ -12,13 +12,14 @@ def upload_location(object,filename):
     return "%s/%s" %(object.Author.pk,filename)
 
 class PostModel(models.Model):
+    category_choices =[('Travel','Travel'),('Fashion','Fashion'),('Life','Life'),('Education','Education'),('Entertainment','Entertainment')]  
     Author          =models.ForeignKey(User,default=1)
-    title           =models.CharField(max_length=120,null=True)
+    title           =models.CharField(max_length=120,default='')
     slug            =models.SlugField(unique=True,null=True,blank=True)
-    content         =models.TextField(max_length=256,null=True)
+    content = models.TextField(max_length=256, default='')
+    category        =models.CharField(max_length=10,choices=category_choices,null=True)
     image           =models.ImageField(upload_to=upload_location,null=True,blank=True)
-    timestamp       =models.DateField(auto_now_add=True)
-    updated         =models.DateTimeField(auto_now=True)
+    timestamp       =models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title

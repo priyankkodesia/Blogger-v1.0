@@ -65,14 +65,12 @@ def searchPosts(request):
                            'image':r.image.url,
                            'full_name':full_name,
                            'timestamp':r.timestamp,
-                           'updated':r.updated,
                            'slug':r.slug})
         else:
             result.append({'title':r.title,
                            'content':r.content,
                            'full_name':full_name,
                            'timestamp':r.timestamp,
-                           'updated':r.updated,
                            'slug':r.slug})
     print(result)
     return JsonResponse({'result':result})

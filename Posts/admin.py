@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import PostModel
 
 class PostModelAdmin(admin.ModelAdmin):
-    list_display=['title','timestamp','updated']
+    list_display=['title','timestamp']
     list_display_links = ['title','timestamp']
 
     class Meta:

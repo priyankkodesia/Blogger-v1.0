@@ -2,24 +2,48 @@
 <html lang="en">
 
 <head>
-	<title>Bootstrap Example</title>
+	<title>BLOG</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	 crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<style>
-#logout{position:absolute;top:8px;right:12px}
+body{background-color:#444}
+#logout{position:absolute;top:18px;right:12px}
 .navbar-form{position:absolute;right:120px}
 .carousel-caption h3{color:black;font-weight:bold;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif}
-#myCarousel{margin-top:-20px;border-bottom: 1.5px solid slateblue;}
+#myCarousel{border: 1px solid black;max-width:98.8%;margin:auto;margin-top:-10px}
+.navbar{padding-top:10px;padding-bottom: 10px;}
+#list-headings {background-color:chocolate;padding:6px;text-align:center;max-width:98.8%;margin:auto}
+#list-headings a{text-decoration:none;}
+.link{height:50px;text-align: center}
+.link:hover{background-color:greenyellow}
+.active{background-color: black}
+
+
+
+.category-links.small{font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+				font-size:20px;
+				margin:8px 10px -13px 10px;
+				
+				color:black;
+				text-decoration:none;
+				
+				}
+
+#list{background-color:seashell;max-width:98.8%;margin:auto}
+
+
 		</style>
 </head>
 
 
 <body>
+<div class="container-fluid">
 <nav class="navbar navbar-inverse">
-	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">BLOG</a>
 		</div>
@@ -35,11 +59,13 @@
 			</div>
 				<button class="btn btn-primary" id="search_btn" type="submit">Search Posts</button>
 		</form>
-				<a href="{% url 'logout' %}"><button class="btn btn-info" id="logout" type="submit" style ><span class="glyphicon glyphicon-log-out"><span style="font-size:17px;margin-left:-5px"> Logout</span></span></button></a>
+				<a href="{% url 'logout' %}"><button class="btn btn-info" id="logout" type="submit" style ><span class="glyphicon glyphicon-log-out"><span style="font-size:14px;margin-left:-4px;padding-top:-4px"> Logout</span></span></button></a>
 				
 		
-	</div>
+
 </nav>
+	</div>
+<div class="container-fluid">
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
 			<!-- Indicators -->
 			<ol class="carousel-indicators">
@@ -88,34 +114,68 @@
     </a>
 		</div>
 	</div>
-	<div class="container">
-		<div id="searcher">
-			<div class="row">
-			{% for obj in object_list %}
-			<div class="object_list">
-				<div class="thumbnail" style="text-align:center">
-					<a href="{{ obj.get_absolute_url }}">
-						<h3>{{ obj.title }}</h3>
-					</a>
-					{% if obj.image %}<img src="{{ obj.image.url  }}" style="width:430px;height:400px">{% endif %}
-
-					<p class="content-markdown">{{ obj.content }}</p><br><br> {% if obj.Author.get_full_name %}<b>Author </b>:{{ obj.Author.get_full_name }}{% endif %}
-					</br>
-
-					<b>Created </b> {{ obj.timestamp }}<br>
-
-					<b>Updated </b>{{ obj.updated|timesince }} ago <br><br>
-					<a href="{{ obj.get_absolute_url }}"><button class="btn btn-primary"  href="{{ obj.get_absolute_url }}">View</button></a>					
-					{% if request.Author is request.user %}<a href="{% url 'Posts:delete' pk=obj.pk %}"><button class="btn btn-primary">Delete</button></a>{% endif %}<br>
+	<div class="container-fluid">
+		<div class="row" id='list-headings'>
+				<div class="col-sm-5">
+					<p style="margin:-2px 0px -2px -50px;padding:11px 11px;font-size:20px;border-right:1px solid black">Recent Posts from <b>All Categories</b></p>
 				</div>
-				</br>
-			</div>
-			{% endfor %}
+					<div class="col-sm-1 link">
+						<a href=""><p class="category-links small">Travel</p><a>
+					</div>
+					<div class="col-sm-1 link">
+							<a href=""><p class="category-links small">Sports</p><a>
+					</div>
+					<div class="col-sm-1 link">
+						<a href=""><p class="category-links small">Life</p><a>
+					</div>
+					<div class="col-sm-2 link">
+						<a href=""><p class="category-links large" style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+									font-size:20px;
+									margin:9px -15px -5px 0px;
+									color:black;text-decoration:none;">Education</p><a>
+					</div>
+					<div class="col-sm-2 link">
+						<a href=""><p class="category-links large" style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+									font-size:20px;
+									margin:8px -20px -5px 0px;
+									color:black;text-decoration:none;">Entertainment</p><a>
+					</div>
 		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row" id='list'>
+			<div class="col-sm-5">
+				{% for obj in object_list %}
+					<div class="object_list">
+						<div class='list-item'>
+						{% if obj.image %}<img class="img-responsive" src="{{ obj.image.url  }}" style="width:150px;height:150px;float:left;">{% endif %}
+						<a href="{{ obj.get_absolute_url }}"><h2 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-weight:bolder;color:black">{{ obj.title }}</h2></a>
+			
+				{% endfor %}
+			</div>
+		
+		</div>
+	
 
 
 
 
+
+
+
+	</div>
+
+<script>
+	$(document).ready(function(){
+		$('.link').on('click',function(){
+			var $clicked=$(this);
+			('.active').removeClass('active')
+			$clicked.addClass("active")
+		// 	
+		})
+
+	})
+</script>
 
 </body>
 

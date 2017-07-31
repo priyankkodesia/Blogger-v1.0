@@ -114,7 +114,6 @@
 
       <b>Created </b> {{ obj.timestamp }}<br>
 
-      <b>Updated </b>{{ obj.updated|timesince }} ago <br><br>
       <a href="{{ obj.get_absolute_url }}"><button class="btn btn-primary"  href="{{ obj.get_absolute_url }}">View</button></a>      {% if request.Author is request.user %}<a href="{% url 'Posts:delete' pk=obj.pk %}"><button class="btn btn-primary">Delete</button></a>{%
       endif %}<br>
     </div>
