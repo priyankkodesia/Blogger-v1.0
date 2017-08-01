@@ -1,4 +1,6 @@
-	@use cssnext;
+{% load static %}
+
+@use cssnext;
 /* config.css */
 :root {
   --baseColor: #606468;
@@ -68,7 +70,7 @@ html {
 }
 body {
   background-color: var(--bodyBackgroundColor);
-  background-image: url("https://seon.io/blog/wp-content/uploads/2016/12/blog.jpg") !important;
+  background-image: url("{% static 'img/login-page.jpg' %}") !important;
   background-repeat:no-repeat;
   background-size:100%;
   color: var(--bodyColor);
