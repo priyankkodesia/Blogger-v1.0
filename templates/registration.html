@@ -9,13 +9,13 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <style>
-body{background-image:url('https://cdn.allwallpaper.in/wallpapers/1920x1080/9949/white-forests-grass-switzerland-hostel-tourism-skies-1920x1080-wallpaper.jpg');opacity:1;max-height:600px;color:green;background-size:100%}
+body{background-image:url('https://cdn.allwallpaper.in/wallpapers/1920x1080/9949/white-forests-grass-switzerland-hostel-tourism-skies-1920x1080-wallpaper.jpg');opacity:1;max-height:600px;color:black;background-size:100%}
 .add{text-align:center;font-size:30px;position:absolute;top:33%;left:45%;padding-left:33px;padding-right:27px}
 .edit{text-align:center;font-size:30px;position:absolute;top:47%;left:45%;padding-left:37px;padding-right:37px}
 .del{text-align:center;position:absolute;top:55%;left:45%}
 .close{margin-top:-35px;margin-right:5px;font-size:30px}
 .modal-header{background-color:#222}
-.modal-body{background-image:url('https://cdn.allwallpaper.in/wallpapers/1920x1080/9949/white-forests-grass-switzerland-hostel-tourism-skies-1920x1080-wallpaper.jpg');background-size:100%}
+.modal-body{background-color:#444;background-repeat:repeat;background-size:100%}
 legend{color:black}
 #signup{background-color:black}
 </style>
@@ -79,6 +79,39 @@ legend{color:black}
        <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name" required>
    </div>
 </div>
+<div class="form-group row">
+    <legend class="col-form-legend col-sm-2 col-sm-offset-3">Work</legend>
+    <div class="col-sm-4">
+        <input type="text" name="work" class="form-control" id="work" placeholder="Where do you work?" required>
+    </div>
+</div>
+
+<div class="form-group row">
+    <legend class="col-form-legend col-sm-2 col-sm-offset-3">Address</legend>
+    <div class="col-sm-4">
+        <textarea class="form-control" name="address" id="address" rows="5" cols="8" placeholder="Where do you Live?" required></textarea>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-4">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <legend class="col-form-legend col-sm-2 col-sm-offset-3">About You</legend>
+        <div class="col-sm-4">
+            <textarea type="address" name="author_bio" class="form-control" id="author_bio" placeholder="Tell us About You .." rows="5"
+                cols="7" required></textarea>
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <legend class="col-form-legend col-sm-2 col-sm-offset-3">Profile Picture</legend>
+        <div class="col-sm-4">
+            <input type="file" class="form-control-file btn " name="profile_pic" id="profile_pic" aria-describedby="fileHelp">
+        </div>
+    </div>
 
     <div class="form-group row">
       <div class="col-sm-5 col-sm-offset-5">

@@ -46,7 +46,7 @@
 		}
 
 		#list-headings {
-			background-color: #7ab218;
+			background-color: #aa321d;
 			padding: 6px;
 			text-align: center;
 			max-width: 98.8%;
@@ -63,7 +63,7 @@
 		}
 
 		.link:hover {
-			background-color:#5765af;
+			background-color:#02307a;
 			border-radius: 5px
 		}
 
@@ -192,24 +192,26 @@
 	<div class="container-fluid">
 		<div class="row " id='list-headings'>
 			<div class="col-sm-5">
-				<p style="margin:-2px -13px -2px -50px;padding:11px 11px;font-size:20px;border-right:1px solid black; color:white">Recent Posts from <b>All Categories</b></p>
+				<p style="margin:-2px -13px -2px -50px;padding:11px 11px;font-size:20px;border-right:1px solid grey; color:white">Recent Posts from <b>All Categories</b></p>
 			</div>
-			<div class="col-sm-2 link acti">
-				<a href="">
-					<p class="category-links small">Most Liked</p></a>
-					
-			</div>
-			<div class="col-sm-2 link">
-				<a href=""><p class="category-links small">Videos</p></a>
+			<div class="col-sm-2 link acti" >
+				<a href="" ><p class="category-links small" id="videos_link" >Videos</p></a>
 					
 			
 			</div>
-			<div class="col-sm-3 link">
-				<a href="">
-					<p class="category-links large" style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+			<div class="col-sm-2 link " style="border-right:1px solid grey">
+				<a href="" >
+					<p class="category-links small" id="most_liked_link">Popular Posts</p></a>
+					
+			</div>
+
+			<div class="col-sm-3 ">
+				
+					<h4 class="category-links large" style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
 									font-size:20px;
+									font-weight:900;
 									margin:9px -15px -5px 0px;margin-left:-10px;
-									color:white;text-decoration:none;">Authors</p></a>
+									color:white;text-decoration:none;">Authors</h4>
 					
 			</div>
 		</div>
@@ -218,49 +220,50 @@
 		<div class="row" id='list'>
 			<div class="col-sm-5" style="background-color:#eee">
 				<div class="item" style="border-bottom:.5px solid black !important;padding-bottom:0px">
-					<img src="http://tremendouswallpapers.com/wp-content/uploads/2014/12/436949.jpg" style="height:160px;width:160px;float:left;margin:5px 15px -15px 20px;border:0.5 solid grey">
+					<img src="http://tremendouswallpapers.com/wp-content/uploads/2014/12/436949.jpg" style="height:140px;width:160px;float:left;margin:5px 15px -15px 20px;border:0.5 solid grey">
 					<h2 style="margin:30px 5px 13px 15px;font-weight:900;">The Adventures of California</h2>
 					<h4><span style="background-color:greenyellow;padding:0.3px">Jul 16</span>&nbsp; POSTED BY <b>PRIYANK</b></h4>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor....</p>
+					<p >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor....</p>
 					<hr>
 				</div>
 				
 					<div class="item" style="border-bottom:.5px solid black ;padding-top:-20px !important">
-						<img src="http://images.huffingtonpost.com/2015-03-20-1426853494-9761329-iStock_000026246607_Large.jpg" style="height:160px;width:160px;float:left;margin:7px 15px 15px 20px;border:0.5px solid grey"></img>
+						<img src="http://images.huffingtonpost.com/2015-03-20-1426853494-9761329-iStock_000026246607_Large.jpg" style="height:140px;width:160px;float:left;margin:7px 15px 15px 20px;border:0.5px solid grey"></img>
 						<h2 style="margin:35px 5px 13px 15px;font-weight:900">Live it Large</h2>
 						<h4><span style="background-color:greenyellow;;padding:0.3px">Aug 16</span>&nbsp; POSTED BY <b>MAYANK</b></h4>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor....</p>
 						<hr>
 					</div>
 					<div class="item" style="border-bottom:.5px solid black">
-						<img src="http://images.huffingtonpost.com/2015-03-20-1426853494-9761329-iStock_000026246607_Large.jpg" style="height:160px;width:160px;float:left;margin:7px 15px 15px 20px;border:0.5px solid grey"></img>
+						<img src="http://images.huffingtonpost.com/2015-03-20-1426853494-9761329-iStock_000026246607_Large.jpg" style="height:140px;width:160px;float:left;margin:7px 15px 15px 20px;border:0.5px solid grey"></img>
 						<h2 style="margin:35px 5px 13px 15px;font-weight:900;;padding:0.3px">Hola! New York</h2>
 						<h4><span style="background-color:greenyellow">Aug 16</span>&nbsp; POSTED BY <b>MAYANK</b></h4>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor....</p>
 						<hr>
 					</div>
 			</div>
-			<div class="col-sm-4" style="background-color:#dee1f2">
-				<div class="vid-1">
-					<h2 id="heading-vid-1" style="margin:35px 5px 13px 15px;font-weight:900;text-align:center">Around the World!!</h2>
-					<iframe id="vid-1" width="400" height="200" src="https://www.youtube.com/embed/RcmrbNRK-jY" frameborder="0" allowfullscreen></iframe>
+			<div class="col-sm-4" style="background-color:#111;color:white !important">
+				<div class="videos">
+					<div class="vid-1">
+						<h2 id="heading-vid-1" style="margin:35px 5px 13px 15px;font-weight:900;text-align:center">Around the World!!</h2>
+						<iframe id="vid-1" width="400" height="200" src="https://www.youtube.com/embed/RcmrbNRK-jY" frameborder="0" allowfullscreen></iframe>
+					</div>
+					<div class="vid-2">
+						<h2 id="heading-vid-2" style="margin:35px 5px 13px 15px;font-weight:900;text-align:center">Insanely Cheap Destinations!!</h2>
+						<iframe  id="vid-2" width="400" height="200" src="https://www.youtube.com/embed/sRyslbdtT90" frameborder="0" allowfullscreen></iframe>
+						
+					</div>
+
+					<div class="col-sm-2">
+						<button type="button" id="videos-prev" class=btn style="background-color:#14247a;margin:10px 20px 10px 200px;color:white;">Prev</button>
+					</div>
+					<div class="col-sm-2">
+						<button type="button" id="videos-next" class=btn style="background-color:#14247a;margin:10px 30px 10px 50px;color:white;">Next</button>
+					</div>
 				</div>
-				<div class="vid-2">
-					<h2 id="heading-vid-2" style="margin:35px 5px 13px 15px;font-weight:900;text-align:center">Insanely Cheap Destinations!!</h2>
-					<iframe  id="vid-2" width="400" height="200" src="https://www.youtube.com/embed/sRyslbdtT90" frameborder="0" allowfullscreen></iframe>
-					
-				</div>
-				<div class="col-sm-2">
-					<button type="button" id="videos-prev" class=btn style="background-color:#14247a;margin-left:200px;margin-bottom:10px;margin-right:20px;color:white;">Prev</button>
-				</div>
-				<div class="col-sm-2">
-					<button type="button" id="videos-next" class=btn style="background-color:#14247a;margin-right:30px;margin-left:50px;margin-bottom:10px;color:white;">Next</button>
-				</div>
-				
 			</div>
 
-
-
+			<div class="col-sm-3" style="background-color: ">
 
 		</div>
 
@@ -275,9 +278,20 @@
 				e.preventDefault();
 				$(".acti").removeClass("acti");
 				$(this).addClass("acti")
-				console.log("inside script")
-				// 	
+				
 			})
+			$('#videos_link').on('click',function(){
+				$('.most_liked').hide();
+				$('.videos').show();
+
+			})
+			$('#most_liked_link').on('click',function(){
+				$('.most_liked').show();
+				$('.videos').hide();
+
+			})
+
+
 			var count=0
 			$('#videos-prev').hide()
 			function vid_display(count) {
@@ -345,8 +359,7 @@
 					}
 				}
 			
-
-			$('#videos-next').on('click',function(){
+		    $('#videos-next').on('click',function(){
 			$('#videos-prev').show()
 			count+=1;
 			vid_display(count)
@@ -356,6 +369,8 @@
 				count=count-1;
 				vid_display(count)
 			})
+
+
 
 
 

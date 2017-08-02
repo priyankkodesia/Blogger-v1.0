@@ -1,4 +1,4 @@
-from Posts.models import PostModel
+from Posts.models import PostModel,AuthorDetailModel
 from pagedown.widgets import PagedownWidget
 from django import forms
 from django.conf import settings
@@ -21,3 +21,8 @@ class LoginForm(forms.ModelForm):
     class Meta:
         model = User
         fields=['username','password',]
+
+class UserBioForm(forms.ModelForm):
+    class Meta:
+        model=AuthorDetailModel
+        fields=['work','address','profile_pic','author_bio']

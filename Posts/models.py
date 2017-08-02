@@ -31,6 +31,8 @@ class PostModel(models.Model):
 
 class AuthorDetailModel(models.Model):
     Author          =models.OneToOneField(User,default=1)
+    work            =models.TextField(max_length=100,default='',null=True)
+    address         =models.TextField(max_length=100,default='',null=True)
     profile_pic     =models.ImageField(upload_to=upload_location_profile_pic,null=True,blank=True)
     author_bio      =models.TextField(max_length=256,default='',null=True)
 

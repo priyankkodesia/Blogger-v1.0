@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from .forms import PostForm,LoginForm,UserRegistrationForm
+from .forms import PostForm,LoginForm,UserRegistrationForm,UserBioForm
 from urllib.parse import quote_plus
 from django.core.urlresolvers import reverse,reverse_lazy
-from .models import PostModel
+from .models import PostModel,AuthorDetailModel
 from django.http import Http404
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -13,10 +13,26 @@ from django.views.generic.edit import CreateView
 
 # Create your views here.
 
-class register(CreateView):
-    form_class=UserRegistrationForm
-    template_name='registration.html'
-    success_url=reverse_lazy('login')
+def register(request):
+    if request.method=="GET":
+        context = {'UserRegistrationForm': UserRegistrationForm,
+                   'UserBioForm': UserBioForm}
+        return render(request,'registration.html',context)
+    if request.method=="POST":
+        RegForm = UserRegistrationForm(request.POST)
+        BioForm = UserBioForm(request.POST or None,request.FILES or None)
+        if RegForm.is_valid() and BioForm.is_valid():
+            RegForm.save()
+            BioForm.save()
+            return redirect('login')
+        else:
+            return render(request, 'registration.html', context)
+
+class register_author_bio(CreateView):
+    form_class = UserBioForm
+    template_name='registration_author_bio.html'
+    success_url = reverse_lazy('login')
+
     
 
 def loginView(request):
@@ -80,6 +96,7 @@ def listView(request):
     if not request.user.is_authenticated:
         raise Http404
     query=PostModel.objects.all().order_by('-pk')
+    authors_list = AuthorDetailModel.objects.all().order_by('-pk')
     paginator = Paginator(query, 10)
     page = request.GET.get('page')
     try:
@@ -91,7 +108,7 @@ def listView(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         queryset = paginator.page(paginator.num_pages)
 
-    context={'object_list':queryset}
+    context={'object_list':queryset,'authors_list':authors_list}
     return render(request,'index.html',context)
 
 @login_required
