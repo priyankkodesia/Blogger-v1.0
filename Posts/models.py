@@ -8,8 +8,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-def upload_location(object,filename):
-    return "%s/%s" %(object.Author.pk,filename)
+def upload_location_post(object,filename):
+    return "posts/%s/%s" %(object.Author.pk,filename)
+
+def upload_location_profile_pic(object,filename):
+    return "profile_pics/%s/%s" %(object.Author.pk,filename)
 
 class PostModel(models.Model):
     Author          =models.ForeignKey(User,default=1)
@@ -17,7 +20,7 @@ class PostModel(models.Model):
     slug            =models.SlugField(unique=True,null=True,blank=True)
     content         =models.TextField(max_length=256, default='')
     category        =models.CharField(max_length=10,null=True)
-    image           =models.ImageField(upload_to=upload_location,null=True,blank=True)
+    image           =models.ImageField(upload_to=upload_location_post,null=True,blank=True)
     timestamp       =models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -25,6 +28,14 @@ class PostModel(models.Model):
 
     def get_absolute_url(self):
         return reverse('Posts:detail',kwargs={'slug':self.slug})
+
+class AuthorDetailModel(models.Model):
+    Author          =models.OneToOneField(User,default=1)
+    profile_pic     =models.ImageField(upload_to=upload_location_profile_pic,null=True,blank=True)
+    author_bio      =models.TextField(max_length=256,default='',null=True)
+
+    def __str__(self):
+        return self.Author.first_name
 
 def create_slug(instance, new_slug=None):
     slug = slugify(instance.title)
