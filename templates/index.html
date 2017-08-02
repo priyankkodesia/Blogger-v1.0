@@ -248,11 +248,17 @@
 				<div class="vid-2">
 					<h2 id="heading-vid-2" style="margin:35px 5px 13px 15px;font-weight:900;text-align:center">Insanely Cheap Destinations!!</h2>
 					<iframe  id="vid-2" width="400" height="200" src="https://www.youtube.com/embed/sRyslbdtT90" frameborder="0" allowfullscreen></iframe>
-					<button type="button" id="videos-prev" class=btn style="background-color:#14247a;margin-left:140px;margin-bottom:10px;margin-top:10px;color:white;">Prev</button>
-					<button type="button" id="videos-next" class=btn  style="background-color:#14247a;margin-left:20px;margin-bottom:10px;margin-top:10px;color:white;">Next</button>
+					
+				</div>
+				<div class="col-sm-2">
+					<button type="button" id="videos-prev" class=btn style="background-color:#14247a;margin-left:200px;margin-bottom:10px;margin-right:20px;color:white;">Prev</button>
+				</div>
+				<div class="col-sm-2">
+					<button type="button" id="videos-next" class=btn style="background-color:#14247a;margin-right:30px;margin-left:50px;margin-bottom:10px;color:white;">Next</button>
 				</div>
 				
 			</div>
+
 
 
 
@@ -274,69 +280,89 @@
 			})
 			var count=0
 			$('#videos-prev').hide()
+			function vid_display(count) {
+					switch (count) {
+						case 1:
+							$('#heading-vid-1').text("Pro Packing Tips.!!")
+							$('#vid-1').attr("src", "https://www.youtube.com/embed/KT7KJPagp-I")
+
+							$('#heading-vid-2').text("Top 10 Packing Essentials.!!")
+							$('#vid-2').attr("src", "https://www.youtube.com/embed/vCQE-D6AqNY")
+							break;
+						case 2:
+							$('#heading-vid-2').text("3 Years Travel in 3 minutes.!!")
+							$('#vid-2').attr("src", "https://www.youtube.com/embed/wJF5NXygL4k")
+
+							$('#heading-vid-1').text("Tips for Solo Travel.!!")
+							$('#vid-1').attr("src", "https://www.youtube.com/embed/cK3wK1bS7Do")
+							break;
+						case 3:
+							$('#heading-vid-2').text("The Hong Kong Experience.!!")
+							$('#vid-2').attr("src", "https://www.youtube.com/embed/w1uoP9ZBDO8")
+
+							$('#heading-vid-1').text("Tropical Paradise.!!")
+							$('#vid-1').attr("src", "https://www.youtube.com/embed/JFh38v0HJyQ")
+							break;
+						case 4:
+							$('#heading-vid-2').text("How to Travel with No Money..!!")
+							$('#vid-2').attr("src", "https://www.youtube.com/embed/R7vmHGAshi8")
+
+							$('#heading-vid-1').text("Travel Inspiration.!!")
+							$('#vid-1').attr("src", "https://www.youtube.com/embed/8Ulrn4D3M_Y")
+							break;
+						case 5:
+							$('#heading-vid-2').text("Countries to visit in 2017..!!")
+							$('#vid-2').attr("src", "https://www.youtube.com/embed/Bwoz31mUzoc")
+
+							$('#heading-vid-1').text("25 Must Visit Places.!!")
+							$('#vid-1').attr("src", "https://www.youtube.com/embed/k4tkrJ563b0")
+							break;
+						case 6:
+							$('#heading-vid-1').text("10 Best Cities..!!")
+							$('#vid-1').attr("src", "https://www.youtube.com/embed/IQVdvGRkfKs")
+
+							$('#heading-vid-2').text("10 Most Expensive Places.!!")
+							$('#vid-2').attr("src", "https://www.youtube.com/embed/OEgkqVbnv3E")
+							break;
+						case 7:
+							$('#heading-vid-1').text("10 Best Airports..!!")
+							$('#vid-1').attr("src", "https://www.youtube.com/embed/HUIBUYdEPPg")
+
+							$('#heading-vid-2').text("Places to Visit in Canada.!!")
+							$('#vid-2').attr("src", "https://www.youtube.com/embed/5jxexBzT20Y")
+							break;
+						case 8:
+							$('#videos-next').hide();
+							break;
+						default:
+							count =1;
+							$('#videos-prev').hide();
+							$('#videos-next').show();
+							vid_display(count)
+
+
+
+					}
+				}
+			
+
 			$('#videos-next').on('click',function(){
 			$('#videos-prev').show()
-				count+=1;
-				$('#videos-prev').on('click',function(){
-					count=count-1;
-				})
-				switch(count){
-					case 1:
-						$('#heading-vid-1').text("Pro Packing Tips.!!")
-						$('#vid-1').attr("src","https://www.youtube.com/embed/KT7KJPagp-I")
-
-						$('#heading-vid-2').text("Top 10 Packing Essentials.!!")
-						$('#vid-2').attr("src","https://www.youtube.com/embed/vCQE-D6AqNY")
-						break;
-					case 2:
-						$('#heading-vid-1').text("3 Years Travel in 3 minutes.!!")
-						$('#vid-1').attr("src", "https://www.youtube.com/embed/wJF5NXygL4k")
-
-						$('#heading-vid-2').text("Tips for Solo Travel.!!")
-						$('#vid-2').attr("src", "https://www.youtube.com/embed/cK3wK1bS7Do")
-						break;
-					case 3:
-						$('#heading-vid-1').text("The Hong Kong Experience.!!")
-						$('#vid-1').attr("src", "https://www.youtube.com/embed/w1uoP9ZBDO8")
-
-						$('#heading-vid-2').text("Tropical Paradise.!!")
-						$('#vid-2').attr("src", "https://www.youtube.com/embed/JFh38v0HJyQ")
-						break;
-					case 4:
-						$('#heading-vid-1').text("How to Travel with No Money..!!")
-						$('#vid-1').attr("src", "https://www.youtube.com/embed/R7vmHGAshi8")
-
-						$('#heading-vid-2').text("Travel Inspiration.!!")
-						$('#vid-2').attr("src", "https://www.youtube.com/embed/8Ulrn4D3M_Y")
-						break;
-					case 5:
-						$('#heading-vid-1').text("Countries to visit in 2017..!!")
-						$('#vid-1').attr("src", "https://www.youtube.com/embed/Bwoz31mUzoc")
-
-						$('#heading-vid-2').text("25 Must Visit Places.!!")
-						$('#vid-2').attr("src", "https://www.youtube.com/embed/k4tkrJ563b0")
-						break;
-					case 6:
-						$('#heading-vid-1').text("10 Best Cities..!!")
-						$('#vid-1').attr("src", "https://www.youtube.com/embed/IQVdvGRkfKs")
-
-						$('#heading-vid-2').text("10 Most Expensive Places.!!")
-						$('#vid-2').attr("src", "https://www.youtube.com/embed/OEgkqVbnv3E")
-						break;
-					case 7:
-						$('#heading-vid-1').text("10 Best Airports..!!")
-						$('#vid-1').attr("src", "https://www.youtube.com/embed/HUIBUYdEPPg")
-
-						$('#heading-vid-2').text("Places to Visit in Canada.!!")
-						$('#vid-2').attr("src", "https://www.youtube.com/embed/5jxexBzT20Y")
-						break;
-					case 8:
-						$('#videos-next').hide();
-
-					
-				}
-
+			count+=1;
+			vid_display(count)
 			})
+			$('#videos-prev').on('click', function () {
+				$('#videos-next').show();
+				count=count-1;
+				vid_display(count)
+			})
+
+
+
+			
+				
+
+			
 		})
 
 	</script>
