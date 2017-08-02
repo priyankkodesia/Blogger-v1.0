@@ -30,14 +30,14 @@ class PostModel(models.Model):
         return reverse('Posts:detail',kwargs={'slug':self.slug})
 
 class AuthorDetailModel(models.Model):
-    Author          =models.OneToOneField(User,default=1)
+    Author          =models.OneToOneField(User)
     work            =models.TextField(max_length=100,default='',null=True)
     address         =models.TextField(max_length=100,default='',null=True)
     profile_pic     =models.ImageField(upload_to=upload_location_profile_pic,null=True,blank=True)
     author_bio      =models.TextField(max_length=256,default='',null=True)
 
     def __str__(self):
-        return self.Author.first_name
+        return self.Author.username
 
 def create_slug(instance, new_slug=None):
     slug = slugify(instance.title)

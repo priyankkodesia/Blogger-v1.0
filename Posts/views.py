@@ -22,11 +22,15 @@ def register(request):
         RegForm = UserRegistrationForm(request.POST)
         BioForm = UserBioForm(request.POST or None,request.FILES or None)
         if RegForm.is_valid() and BioForm.is_valid():
-            RegForm.save()
+            user=RegForm.save()
+            Auth=BioForm.save(commit=False)
+            Auth.Author = user
             BioForm.save()
             return redirect('login')
         else:
-            return render(request, 'registration.html', context)
+            
+            return render(request, 'registration.html', {'RegForm.errors': RegForm.errors,
+                                                         'BioForm.errors': BioForm.errors})
 
 class register_author_bio(CreateView):
     form_class = UserBioForm
@@ -97,7 +101,7 @@ def listView(request):
         raise Http404
     query=PostModel.objects.all().order_by('-pk')
     authors_list = AuthorDetailModel.objects.all().order_by('-pk')
-    paginator = Paginator(query, 10)
+    paginator = Paginator(query, 3)
     page = request.GET.get('page')
     try:
         queryset = paginator.page(page)
