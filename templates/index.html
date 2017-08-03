@@ -219,31 +219,31 @@
 		<div class="row" id='list'>
 			<div class="col-sm-5" style="background-color:#eee">
 				<div class="item" style="border-bottom:.5px solid black !important;padding-bottom:0px">
-					<img src="http://tremendouswallpapers.com/wp-content/uploads/2014/12/436949.jpg" class="img-responsive" style="height:140px;width:160px;float:left;margin:5px 15px -15px 20px;border:0.5 solid grey">
-					<h2 style="margin:30px 5px 13px 15px;font-weight:900;">The Adventures of California</h2>
-					<h4><span style="background-color:greenyellow;padding:0.3px">Jul 16</span>&nbsp; POSTED BY <b>PRIYANK</b></h4>
-					<p >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor....</p>
+					{% for post in posts_list %}
+					<img src="{{ post.image.url }}" class="img-responsive" style="height:140px;width:160px;float:left;margin:5px 15px -15px 20px;border:0.5 solid grey">
+					<h2 style="margin:30px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2>
+					<h4><span style="background-color:greenyellow;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
+					<p >{{ post.content|truncatechars:90 }}</p>
 					<hr>
+					{% endfor %}
 				</div>
-				
-					<div class="item" style="border-bottom:.5px solid black ;padding-top:-20px !important">
-						<img src="http://images.huffingtonpost.com/2015-03-20-1426853494-9761329-iStock_000026246607_Large.jpg" class="img-responsive" style="height:140px;width:160px;float:left;margin:7px 15px 15px 20px;border:0.5px solid grey"></img>
-						<h2 style="margin:35px 5px 13px 15px;font-weight:900">Live it Large</h2>
-						<h4><span style="background-color:greenyellow;;padding:0.3px">Aug 16</span>&nbsp; POSTED BY <b>MAYANK</b></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor....</p>
-						<hr>
-					</div>
-					<div class="item" style="border-bottom:.5px solid black">
-						<img src="http://images.huffingtonpost.com/2015-03-20-1426853494-9761329-iStock_000026246607_Large.jpg" class="img-responsive" style="height:140px;width:160px;float:left;margin:7px 15px 15px 20px;border:0.5px solid grey"></img>
-						<h2 style="margin:35px 5px 13px 15px;font-weight:900;;padding:0.3px">Hola! New York</h2>
-						<h4><span style="background-color:greenyellow">Aug 16</span>&nbsp; POSTED BY <b>MAYANK</b></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor....</p>
-						<hr>
-					</div>
+								<div class="pagination" style="margin-left:25% !important">
+									<span class="step-links">
+								{% if posts_list.has_previous %}
+									<a href="?page1={{ posts_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;">previous</button></a>
+								{% endif %}
+
+								<span class="current" >
+									Page <b>{{ posts_list.number }}</b> of {{ posts_list.paginator.num_pages }}.
+								</span> {% if posts_list.has_next %}
+									<a href="?page1={{ posts_list.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;">next</button></a>									{% endif %}
+									</span>
+								</div>
+			
 			</div>
 			<div class="col-sm-4" style="background-color:#111;color:white !important">
 				<div class="videos">
-					<div class="vid-1">
+					<div class="vid-1"> 
 						<h2 id="heading-vid-1" style="margin:35px 5px 13px 15px;font-weight:900;text-align:center">Around the World!!</h2>
 						<iframe id="vid-1" width="400" height="190" src="https://www.youtube.com/embed/RcmrbNRK-jY"  frameborder="0" allowfullscreen></iframe>
 					</div>
@@ -263,7 +263,7 @@
 			</div>
 			<div class="col-sm-3" style="background-color:#eee ">
 				
-				{% for author in authors %}
+				{% for author in authors_list %}
 						<div class="item" style="border-bottom:.5px solid black !important;padding-bottom:0px">
 							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">
 							<h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">{{ author.Author.get_full_name}}</h2>
@@ -274,17 +274,17 @@
 				
 			</div>
 				
-					<div class="pagination">
+					<div class="pagination" style="margin-left:15px !important">
 						<span class="step-links">
-								{% if authors.has_previous %}
-									<a href="?page={{ authors.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;margin-left:55px">previous</button></a>
+								{% if authors_list.has_previous %}
+									<a href="?page2={{ authors_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;margin-left:55px">previous</button></a>
 								{% endif %}
 
 								<span class="current" >
-									Page <b>{{ authors.number }}</b> of {{ authors.paginator.num_pages }}.
+									Page <b>{{ authors_list.number }}</b> of {{ authors_list.paginator.num_pages }}.
 								</span> 
-								{% if authors.has_next %}
-									<a href="?page={{ authors.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;margin-right:0px !important">next</button></a>
+								{% if authors_list.has_next %}
+									<a href="?page2={{ authors_list.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;margin-right:0px !important">next</button></a>
 								{% endif %}
 						</span>
 					</div>

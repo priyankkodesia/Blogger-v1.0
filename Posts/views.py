@@ -99,42 +99,31 @@ def searchPosts(request):
 def listView(request):
     if not request.user.is_authenticated:
         raise Http404
-    authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
-    paginator = Paginator(authors_list, 3)  # Show 25 contacts per page
 
-    page = request.GET.get('page')
+
+    posts_list = PostModel.objects.all().order_by('-pk')
+    paginator = Paginator(posts_list, 3)
+    page = request.GET.get('page1')
     try:
-        authors = paginator.page(page)
+        posts_list = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        authors = paginator.page(1)
+        posts_list = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        authors = paginator.page(paginator.num_pages)
+        posts_list = paginator.page(paginator.num_pages)
 
-    return render(request, 'index.html', {'authors': authors})
-    # query_posts=PostModel.objects.all().order_by('-pk')
-    # authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
-    # paginator = Paginator(query_posts, 6)
-    # paginator_authors =Paginator(authors_list,6)
+    authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
+    paginator = Paginator(authors_list, 3)
+    page = request.GET.get('page2')
+    try:
+        authors_list = paginator.page(page)
+    except PageNotAnInteger:
+        authors_list = paginator.page(1)
+    except EmptyPage:
+        authors_list = paginator.page(paginator.num_pages)
 
-    # page = request.GET.get('page')
-    # try:
-    #     queryset_posts = paginator_posts.page(page)
-    #     queryset_authors =paginator_authors.page(page)
-    # except PageNotAnInteger:
-    #     # If page is not an integer, deliver first page.
-    #     queryset_posts = paginator_posts.page(1)
-    #     queryset_authors = paginator_posts.page(1)
+    context = {'posts_list': posts_list, 'authors_list': authors_list}
+    return render(request, 'index.html', context)
 
-    # except EmptyPage:
-    #     # If page is out of range (e.g. 9999), deliver last page of results.
-    #     queryset_posts = paginator_posts.page(paginator.num_pages)
-    #     queryset_authors = paginator_posts.page(paginator.num_pages)
-
-    # context = {'posts_list': queryset_posts,'authors':authors_list, 'authors_list': queryset_authors}
-    # print(authors_list)
-    # return render(request,'index.html',context)
 
 @login_required
 def detailView(request,slug=None):
