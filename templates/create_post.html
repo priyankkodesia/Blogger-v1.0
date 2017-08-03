@@ -1,20 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block head_extra %}{{  form.media }}{% endblock head_extra %}
 
 {% block content %}
+<style>
+body{background-image:url('{% static 'img/create_post.jpg'%}');
+				opacity:1;
+				color:black;
+				background-size:100% 100%;}
+}
+.container-fluid{max-width:450px;background-color:aquamarine}
+</style>
 
-<h1 class="col-sm-4 col-sm-offset-4" style="background-color:#777;text-align:center">CREATE POST</h1>
-<div class="col-sm-6 col-sm-offset-3">
-		<form method='POST' enctype='multipart/form-data' action='' >{% csrf_token %}
-			<div class="row">
-				<div class="col-sm-6 col-sm-offset-3">
-					{{ form|crispy }}
-					<input type=submit class="btn btn-primary" value=Submit />
+<div class="container-fluid">
+<h1 class="col-sm-4 col-sm-offset-4" style="background-color:#444;color:blanchedalmond;text-align:center">CREATE POST</h1>
+<div class="col-sm-5 col-sm-offset-3">
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form|crispy }}
+		
+			<div class="form-group row">
+				<div style="margin-left:46%">
+					<a href="{% url 'Posts:list' %}"><button type="submit" name="submit" id="create" class="btn btn-primary">Create</button>&nbsp;</a>
+					<a href="{% url 'Posts:list' %}">&nbsp;<button type="button" name="button" id="cancel" class="btn btn-danger">Cancel</button></a>
+
 				</div>
 			</div>
 		</form>
+				
+						
 </div>
-
+</div><!-- container-fluid -->
 {% endblock content %}

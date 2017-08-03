@@ -1,27 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-
+<style>
+body{background-image: url('http://1.bp.blogspot.com/-teEj3rZUjQk/UUhq1P2EFsI/AAAAAAAAjXU/c94NKqiCFVQ/s1600/Travel++HD+wallpapers+(3).jpg');background-size:100%}
+.thumbnail{background-color:azure}
+</style>
 	<div class="thumbnail col-sm-5 col-sm-offset-3" style="text-align:center;">
-			<h3>{{ object.title|upper }}</h3>
-			<div class='content-markdown'>{{ object.content }}</div>
+<h2 style="margin:30px 5px 13px 15px;font-weight:900;">{{ object.title|upper }}</h2>			
 			
-			{% if object.image %}
-			<img src="{{ object.image.url  }}" style="width:430px;height:400px">
-			{% endif %}
-			{% if object.Author.get_full_name %}
-			<b>Author </b>:{{ object.Author.get_full_name  }}
-			{% endif %}</br>
-			<b>Created </b>: {{ object.timestamp }}<br>
-   {% if object.edited %}Edited{% endif %}
+{% if object.image %}<img src="{{ object.image.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 0px 20px;border:0.8px solid grey">{% endif %}
+<div class="content-markdown">{{ object.content|truncatechars:90 }}</div>
+
+<hr>
 
 <div class='row'>
 <div class='col-sm-12 '>
 
-    <hr/>
     <br/>
 </div>
 </div>
 
+<h4><span style="background-color:greenyellow;padding:0.3px">{{ object.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ object.Author.get_full_name }}</b></h4>
 
 			<a href="{% url 'Posts:list' %}"><button class="btn btn-primary">Back</button></a>
 </div>

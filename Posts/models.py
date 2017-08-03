@@ -20,7 +20,7 @@ class PostModel(models.Model):
     slug            =models.SlugField(unique=True,null=True,blank=True)
     content         =models.TextField(max_length=256, default='')
     category        =models.CharField(max_length=10,null=True)
-    image           =models.ImageField(upload_to=upload_location_post,null=True,blank=True)
+    image           =models.ImageField(upload_to=upload_location_post,null=True,)
     timestamp       =models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
