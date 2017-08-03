@@ -263,7 +263,7 @@
 			</div>
 			<div class="col-sm-3" style="background-color:#eee ">
 				
-				{% for author in authors_list %}
+				{% for author in authors %}
 						<div class="item" style="border-bottom:.5px solid black !important;padding-bottom:0px">
 							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">
 							<h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">{{ author.Author.get_full_name}}</h2>
@@ -273,6 +273,22 @@
 					{% endfor %}
 				
 			</div>
+				
+					<div class="pagination">
+						<span class="step-links">
+								{% if authors.has_previous %}
+									<a href="?page={{ authors.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;margin-left:55px">previous</button></a>
+								{% endif %}
+
+								<span class="current" >
+									Page <b>{{ authors.number }}</b> of {{ authors.paginator.num_pages }}.
+								</span> 
+								{% if authors.has_next %}
+									<a href="?page={{ authors.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;margin-right:0px !important">next</button></a>
+								{% endif %}
+						</span>
+					</div>
+				
 
 
 		</div>
