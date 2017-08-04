@@ -5,7 +5,9 @@ urlpatterns = [
     url(r'^$',views.listView,name='list'),
     url(r'^create/$',views.createView,name='create'),
 
-    url(r'^(?P<slug>[-\w]+)/$',views.detailView,name='detail'),
+    url(r'^(?P<slug>[-\w]+)/$',views.postDetailView,name='postdetail'),
+    url(r'^author/(?P<pk>\d+)/$',views.authorDetailView,name='authordetail'),
+
     url(r'^(?P<pk>\d+)/delete/$',views.deleteView,name='delete'),
 
 ]

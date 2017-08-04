@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+body{background-image: url('{% static 'img/author_detail_background.jpg' %}');background-size:100%;}
+.thumbnail{background-color:azure}
+.author{background-color:#040811;color:whitesmoke !important}
+</style>
+
+<div class="container-fluid">
+
+<div class='row'>
+<div class='col-sm-12 '>
+			<a href="{% url 'Posts:list' %}"><button type="button" id="back" style="position:absolute;right:0;margin-top:10px;margin-right:15px" class="btn btn-primary">Back</button></a>
+
+				<div class="thumbnail author col-sm-5 col-sm-offset-3">
+			 {% if author.profile_pic %}<img src="{{ author.profile_pic.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 20px 20px;border:0.8px solid grey">{% endif %}
+
+			 {% if author.Author.get_full_name %}<h2 style="margin:10px 5px 5px 15px;font-weight:900;">Name : {{ author.Author.get_full_name }}</h2>{% endif %}
+			 {% if author.work %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Work : {{ author.work }}</h4>{% endif %}
+			{% if author.address %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Address : {{ author.address }}</h4>{% endif %}
+			 {% if author.author_bio %}<h4 style="margin:10px 5px 5px 15px;font-weight:900 !important;">About {{ author|capfirst }} :</h4> {{ author.author_bio }}{% endif %}
+			<h4><span style="background-color:greenyellow;padding:0.3px">{{ author.timestamp|date }}</span></h4>&nbsp;
+		</div>
+    <br/>
+</div>
+</div>
+<div class="header col-sm-4 col-sm-offset-4" style="background-color:#36a09d;margin-left:30%;margin-top:-10px;border:1px solid #222;border-radius:5px;text-align:center">
+
+<h3>Posts By {{ author.Author.get_full_name }} :-</h3>
+</div>
+<div class="container-fluid">
+	<div class="col-xs-12">
+				{% for post in posts %}
+				<div class="thumbnail col-sm-5 col-sm-offset-3" >
+					<a href="{{ post.get_absolute_url }}"><h2 style="margin:30px 5px 13px 15px;text-decoration:none;font-weight:900;">{{ post.title|upper }}</h2></a>			
+								
+					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 10px 20px;border:0.8px solid grey">{% endif %}
+					<div class="content-markdown">{{ post.content|truncatechars:250 }}</div>
+					<h4><span style="background-color:greenyellow;float:right !important;padding:0.3px">{{ post.timestamp|date }}</span></h4>&nbsp;
+				</div>
+					
+				{% endfor %}
+
+		
+		</div>
+		
+		
+		
+</div>
+</div>
+{% endblock content %}

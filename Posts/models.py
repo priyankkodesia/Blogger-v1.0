@@ -27,7 +27,7 @@ class PostModel(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('Posts:detail',kwargs={'slug':self.slug})
+        return reverse('Posts:postdetail',kwargs={'slug':self.slug})
 
 class AuthorDetailModel(models.Model):
     Author          =models.OneToOneField(User)
@@ -38,6 +38,9 @@ class AuthorDetailModel(models.Model):
 
     def __str__(self):
         return self.Author.username
+
+    def get_absolute_url(self):
+        return reverse('Posts:authordetail',kwargs={'pk':self.pk})
 
 def create_slug(instance, new_slug=None):
     slug = slugify(instance.title)

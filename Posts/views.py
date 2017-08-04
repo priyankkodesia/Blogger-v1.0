@@ -95,6 +95,31 @@ def searchPosts(request):
     print(result)
     return JsonResponse({'result':result})
 
+
+def searchAuthors(request):
+    result=[]
+    query=request.POST.get('query')
+    print('query is %s' %(query))
+    res=AuthorDetailModel.objects.get(title__icontains=query)
+    for r in res:
+        full_name=r.Author.get_full_name()
+        
+        if r.image :
+            result.append({'title':r.title,
+                           'content':r.content,
+                           'image':r.image.url,
+                           'full_name':full_name,
+                           'timestamp':r.timestamp,
+                           'slug':r.slug})
+        else:
+            result.append({'title':r.title,
+                           'content':r.content,
+                           'full_name':full_name,
+                           'timestamp':r.timestamp,
+                           'slug':r.slug})
+    print(result)
+    return JsonResponse({'result':result})
+
 @login_required
 def listView(request):
     if not request.user.is_authenticated:
@@ -126,13 +151,23 @@ def listView(request):
 
 
 @login_required
-def detailView(request,slug=None):
+def postDetailView(request,slug=None):
     if not request.user.is_authenticated:
         raise Http404
     queryset=PostModel.objects.get(slug=slug)
     share_string=quote_plus(queryset.content)
     context={'object':queryset,'share_string':share_string}
     return render(request,'post_detail.html',context)
+
+@login_required
+def authorDetailView(request,pk=None):
+    print("inside author detail view")
+    if not request.user.is_authenticated:
+        raise Http404
+    query=AuthorDetailModel.objects.get(pk=pk)
+    queryset=PostModel.objects.all()
+    context={'author':query,'posts':queryset}
+    return render(request,'author_detail.html',context)
 
 @login_required
 def deleteView(request,pk=None):

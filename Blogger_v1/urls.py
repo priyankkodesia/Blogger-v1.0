@@ -22,6 +22,7 @@ from Posts import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^searchPosts/',views.searchPosts,name='search'),
+    url(r'^searchAuthors/',views.searchAuthors,name='search_authors'),
     url(r'^posts/',include('Posts.urls',namespace='Posts')),
     url(r'^$',views.loginView,name='login'),
     url(r'^register/$',views.register,name='register'),
