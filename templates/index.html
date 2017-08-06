@@ -265,14 +265,14 @@
 		<div class="row" id='list' >
 			<div class="col-sm-5" style="background-color:#222">
 						
-				<div class="item content-markdown posts-list" style="border-bottom:.5px solid black !important;margin-top:20px;margin-bottom:4px">
+				<div class="item content-markdown posts-list" style="border-bottom:.5px solid black !important;margin-top:18px;margin-bottom:4px">
 									
 					<div id="searcher">
 					{% for post in posts_list %}
 					<div class="posts_list thumbnail" style="background-color:#c7c9cc">
 					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">{% endif %}
 					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2></a>
-					<h4><span style="background-color:;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
+					<h4><span style="background-color:#9423c4;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
 					<div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:90 }}</div>
 				
 					</div>
@@ -480,17 +480,17 @@
 								var get_abs_url = "{% url 'Posts:postdetail' slug=12345 %}".replace(/12345/, slug);
 								console.log(updated)
 								if (image != 'no image') {
-									$('#searcher').append( '<div class="posts_list"><img src=" ' + image + '" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 20px 20px;border:0.8px solid grey">'+
+									$('#searcher').append( '<div class="posts_list thumbnail"style="background-color:#158999"><img src=" ' + image + '" class="img-responsive" style="height:140px;width:140px;float:left;margin:5px 15px 20px 20px;border:0.8px solid grey">'+
 									'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-weight:900;">' + title + '</h3></a>' +
-										'<h4><span style="background-color:greenyellow;padding:0.3px">'+d+'</span>&nbsp; POSTED BY <b>'+ full_name + '</b></h4>'+
+										'<h4><span style="background-color:#9423c4;padding:0.3px">'+d+'</span>&nbsp; POSTED BY <b>'+ full_name + '</b></h4>'+
 										
-										'<div class="content-markdown">' + content + '</div><br><br><hr></div>')
+										'<div class="content-markdown">' + content + '</div><hr></div>')
 												}
 								else {
 																	
 									$('#searcher').append( '<div class="posts_list"><a href=" ' + get_abs_url +
 									 ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-weight:900;">' + title + '</h3></a>' +
-										'<h4><span style="background-color:greenyellow;padding:0.3px">'+timestamp+'</span>&nbsp; POSTED BY'+full_name+'<b>'+ full_name + '</b></h4>'+
+										'<h4><span style="background-color:#9423c4;padding:0.3px">'+d+'</span>&nbsp; POSTED BY'+full_name+'<b>'+ full_name + '</b></h4>'+
 										
 										'<div class="content-markdown">' + content + '</div><br><br></div>')
 								}

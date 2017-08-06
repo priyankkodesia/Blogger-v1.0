@@ -9,7 +9,7 @@ body{background-image: url('http://1.bp.blogspot.com/-teEj3rZUjQk/UUhq1P2EFsI/AA
 			
 {% if object.image %}<img src="{{ object.image.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 0px 20px;border:0.8px solid grey">{% endif %}
 <div class="content-markdown">{{ object.content }}</div>
-Likes:{{ object.likes.count }}
+<a href="{{ object.get_like_url }}" style="color:white"><button type="button" name="button" style="padding:6px 16px 6px 16px" class="btn btn-primary" value="Like"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ object.likes.count }}</button></a>
 
 <hr>
 

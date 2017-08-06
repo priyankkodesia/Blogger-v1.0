@@ -30,6 +30,9 @@ class PostModel(models.Model):
     def get_absolute_url(self):
         return reverse('Posts:postdetail',kwargs={'slug':self.slug})
 
+    def get_like_url(self):
+        return reverse('Posts:like-toggle',kwargs={'slug':self.slug})
+
 class AuthorDetailModel(models.Model):
     Author          =models.OneToOneField(User)
     full_name       =models.CharField(max_length=56, null=True,blank=True)

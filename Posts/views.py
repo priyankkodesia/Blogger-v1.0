@@ -156,16 +156,19 @@ def postDetailView(request,slug=None):
     context={'object':queryset,'share_string':share_string}
     return render(request,'post_detail.html',context)
 
-class postLikeToggle(LoginRequiredMixin):
-    def get_redirect_url(self):
-        slug=ˆself.kwargs.get('slug')
+class postLikeToggle(LoginRequiredMixin,RedirectView):
+    def get_redirect_url(self,*args,**kwargs):
+        slug=self.kwargs.get('slug')
         obj=PostModel.objects.get(slug=slug)
         print("obj is %s"%(obj))
         url_=obj.get_absolute_url()
         print('so url_ becomes %s'%(url_))
         user=self.request.user
         if user.is_authenticated():
-            obj.likes.add(user)
+            if user in obj.likes.all():
+                obj.likes.remove(user)
+            else:
+                obj.likes.add(user)
         return url_
 
 
