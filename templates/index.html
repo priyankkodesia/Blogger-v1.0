@@ -265,21 +265,21 @@
 		<div class="row" id='list' >
 			<div class="col-sm-5" style="background-color:#222">
 						
-				<div class="item content-markdown posts-list" style="border-bottom:.5px solid black !important;margin-top:15px;margin-bottom:4px">
+				<div class="item content-markdown posts-list" style="border-bottom:.5px solid black !important;margin-top:20px;margin-bottom:4px">
 									
 					<div id="searcher">
 					{% for post in posts_list %}
 					<div class="posts_list thumbnail" style="background-color:#c7c9cc">
-					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:140px;width:140px;float:left;margin:5px 15px 0px 20px;border:0.8px solid grey">{% endif %}
+					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">{% endif %}
 					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2></a>
 					<h4><span style="background-color:;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
 					<div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:90 }}</div>
-						<br>
+				
 					</div>
-					{% endfor %}
+					{% endfor %}<br>
 				</div>
 				</div>
-								<div class="pagination posts" style="margin-left:25% !important;margin:11.5px 3px">
+								<div class="pagination posts" style="margin-left:25% !important;">
 									<span class="step-links">
 								{% if posts_list.has_previous %}
 									<a href="?page1={{ posts_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;">previous</button></a>
@@ -526,14 +526,17 @@
 												pk=		result['result'][i]['pk']
 												work = result['result'][i]['work']
 												address = result['result'][i]['address']
+												full_name = result['result'][i]['full_name']
 												if (result['result'][i]['profile_pic']) {
 													profile_pic = result['result'][i]['profile_pic']
 												}
 												else {
 													profile_pic = 'no image';
 												}
-												full_name = result['result'][i]['full_name']
+												
+												
 
+												console.log(full_name)
 												var get_abs_url = "{% url 'Posts:authordetail' pk=12345 %}".replace(/12345/, pk);
 												if (profile_pic != 'no image') {
 													$('#searcher2').append('<div class="authors_list thumbnail" style="background-color:#158999"><img src=" ' + profile_pic + '" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">' +
@@ -541,6 +544,7 @@
 													    '<p>'+ work +'....</p><hr></div>')
 
 												}
+												
 
 												else {
 

@@ -19,6 +19,7 @@ class PostModel(models.Model):
     title           =models.CharField(max_length=120,default='')
     slug            =models.SlugField(unique=True,null=True,blank=True)
     content         =models.TextField(max_length=256, default='')
+    likes           =models.ManyToManyField(User, default=0, related_name='postlikes')
     category        =models.CharField(max_length=10,null=True)
     image           =models.ImageField(upload_to=upload_location_post,null=True,)
     timestamp       =models.DateTimeField(auto_now_add=True)

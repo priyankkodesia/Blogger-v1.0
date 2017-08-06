@@ -10,6 +10,8 @@ from django.db.models import Q
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import RedirectView
 
 # Create your views here.
 
@@ -153,6 +155,19 @@ def postDetailView(request,slug=None):
     share_string=quote_plus(queryset.content)
     context={'object':queryset,'share_string':share_string}
     return render(request,'post_detail.html',context)
+
+class postLikeToggle(LoginRequiredMixin):
+    def get_redirect_url(self):
+        slug=ˆself.kwargs.get('slug')
+        obj=PostModel.objects.get(slug=slug)
+        print("obj is %s"%(obj))
+        url_=obj.get_absolute_url()
+        print('so url_ becomes %s'%(url_))
+        user=self.request.user
+        if user.is_authenticated():
+            obj.likes.add(user)
+        return url_
+
 
 @login_required
 def authorDetailView(request,pk=None):
