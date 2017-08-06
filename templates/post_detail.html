@@ -5,11 +5,11 @@ body{background-image: url('http://1.bp.blogspot.com/-teEj3rZUjQk/UUhq1P2EFsI/AA
 .thumbnail{background-color:azure}
 </style>
 	<div class="thumbnail col-sm-5 col-sm-offset-3" style="text-align:center;">
+		<a href="{% url 'Posts:list' %}"><span class="glyphicon glyphicon-remove" style="float:right;"></span></a>
 <h2 style="margin:30px 5px 13px 15px;font-weight:900;">{{ object.title|upper }}</h2>			
 			
 {% if object.image %}<img src="{{ object.image.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 0px 20px;border:0.8px solid grey">{% endif %}
 <div class="content-markdown">{{ object.content }}</div>
-<a href="{{ object.get_like_url }}" style="color:white"><button type="button" name="button" style="padding:6px 16px 6px 16px" class="btn btn-primary" value="Like"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ object.likes.count }}</button></a>
 
 <hr>
 
@@ -22,7 +22,8 @@ body{background-image: url('http://1.bp.blogspot.com/-teEj3rZUjQk/UUhq1P2EFsI/AA
 
 <h4><span style="background-color:greenyellow;padding:0.3px">{{ object.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ object.Author.get_full_name }}</b></h4>
 
-			<a href="{% url 'Posts:list' %}"><button class="btn btn-primary">Back</button></a>
+			<a href="{{ object.get_like_url }}" style="color:white"><button type="button" name="button" style="padding:6px 16px 6px 16px" class="btn btn-primary" value="Like"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ object.likes.count }}</button></a>
+
 </div>
 
 		<br></br>

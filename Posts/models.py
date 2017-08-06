@@ -15,10 +15,10 @@ def upload_location_profile_pic(object,filename):
     return "profile_pics/%s/%s" %(object.Author.pk,filename)
 
 class PostModel(models.Model):
-    Author          =models.ForeignKey(User,default=1)
+    Author          =models.ForeignKey(User,default=1,on_delete=models.CASCADE)
     title           =models.CharField(max_length=120,default='')
     slug            =models.SlugField(unique=True,null=True,blank=True)
-    content         =models.TextField(max_length=256, default='')
+    content         =models.TextField(max_length=1024, default='')
     likes           =models.ManyToManyField(User, default=0, related_name='postlikes')
     category        =models.CharField(max_length=10,null=True)
     image           =models.ImageField(upload_to=upload_location_post,null=True,)
@@ -34,12 +34,12 @@ class PostModel(models.Model):
         return reverse('Posts:like-toggle',kwargs={'slug':self.slug})
 
 class AuthorDetailModel(models.Model):
-    Author          =models.OneToOneField(User)
+    Author = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name       =models.CharField(max_length=56, null=True,blank=True)
-    work            =models.TextField(max_length=100,default='',null=True)
-    address         =models.TextField(max_length=100,default='',null=True)
+    work            =models.TextField(max_length=512,default='',null=True)
+    address         =models.TextField(max_length=512,default='',null=True)
     profile_pic     =models.ImageField(upload_to=upload_location_profile_pic,null=True,blank=True)
-    author_bio      =models.TextField(max_length=256,default='',null=True)
+    author_bio      =models.TextField(max_length=512,default='',null=True)
 
     def __str__(self):
         return self.Author.username

@@ -3,6 +3,7 @@ from .forms import PostForm,LoginForm,UserRegistrationForm,UserBioForm
 from urllib.parse import quote_plus
 from django.core.urlresolvers import reverse,reverse_lazy
 from .models import PostModel,AuthorDetailModel
+from django.contrib.auth.models import User
 from django.http import Http404
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -123,6 +124,8 @@ def searchAuthors(request):
 def listView(request):
     if not request.user.is_authenticated:
         raise Http404
+    current_user=User.objects.get(pk=request.user.pk)
+    print("current user is %s"%(current_user))
     posts_list = PostModel.objects.all().order_by('-pk')
     paginator = Paginator(posts_list, 3)
     page = request.GET.get('page1')
@@ -143,7 +146,7 @@ def listView(request):
     except EmptyPage:
         authors_list = paginator.page(paginator.num_pages)
 
-    context = {'posts_list': posts_list, 'authors_list': authors_list}
+    context = {'posts_list': posts_list, 'authors_list': authors_list,'current_user':current_user}
     return render(request, 'index.html', context)
 
 
