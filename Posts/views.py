@@ -98,25 +98,22 @@ def searchPosts(request):
 
 def searchAuthors(request):
     result=[]
-    query=request.POST.get('query')
+    query=request.POST.get('query',None)
     print('query is %s' %(query))
-    res=AuthorDetailModel.objects.get(title__icontains=query)
-    for r in res:
-        full_name=r.Author.get_full_name()
-        
-        if r.image :
-            result.append({'title':r.title,
-                           'content':r.content,
-                           'image':r.image.url,
-                           'full_name':full_name,
-                           'timestamp':r.timestamp,
-                           'slug':r.slug})
+    res=AuthorDetailModel.objects.filter(full_name__icontains=query)
+    print(res)
+    for r in res:       
+        if r.profile_pic :
+            result.append({'pk':r.Author.pk,
+                            'full_name':r.full_name,
+                            'work':r.work,
+                            'profile_pic':r.profile_pic.url,                         
+                            'address':r.address,})
         else:
-            result.append({'title':r.title,
-                           'content':r.content,
-                           'full_name':full_name,
-                           'timestamp':r.timestamp,
-                           'slug':r.slug})
+            result.append({'pk': r.Author.pk,
+                            'full_name': r.full_name,
+                            'work': r.work,
+                            'address': r.address, })
     print(result)
     return JsonResponse({'result':result})
 
@@ -124,8 +121,6 @@ def searchAuthors(request):
 def listView(request):
     if not request.user.is_authenticated:
         raise Http404
-
-
     posts_list = PostModel.objects.all().order_by('-pk')
     paginator = Paginator(posts_list, 3)
     page = request.GET.get('page1')
@@ -165,7 +160,7 @@ def authorDetailView(request,pk=None):
     if not request.user.is_authenticated:
         raise Http404
     query=AuthorDetailModel.objects.get(pk=pk)
-    queryset=PostModel.objects.all()
+    queryset=PostModel.objects.filter(Author=query.Author.pk)
     context={'author':query,'posts':queryset}
     return render(request,'author_detail.html',context)
 

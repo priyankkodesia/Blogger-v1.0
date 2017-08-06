@@ -31,6 +31,7 @@ class PostModel(models.Model):
 
 class AuthorDetailModel(models.Model):
     Author          =models.OneToOneField(User)
+    full_name       =models.CharField(max_length=56, null=True,blank=True)
     work            =models.TextField(max_length=100,default='',null=True)
     address         =models.TextField(max_length=100,default='',null=True)
     profile_pic     =models.ImageField(upload_to=upload_location_profile_pic,null=True,blank=True)
@@ -38,6 +39,10 @@ class AuthorDetailModel(models.Model):
 
     def __str__(self):
         return self.Author.username
+    
+    def save(self,*args,**kwargs):
+        self.full_name = self.Author.get_full_name()
+        super(AuthorDetailModel,self).save(*args,**kwargs)
 
     def get_absolute_url(self):
         return reverse('Posts:authordetail',kwargs={'pk':self.pk})

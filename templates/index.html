@@ -47,14 +47,14 @@
 		}
 
 		#list-headings {
-			background-color: #aa321d;
+			background-color: #af0b05;
 			padding: 6px;
 			text-align: center;
 			max-width: 98.8%;
 			margin: auto;
 		}
 		#search{	
-			background-color: #aa321d;
+			background-color: #af0b05;
 			margin-bottom:60px !important;
 			text-align: center;
 			max-width: 98.8%;
@@ -199,19 +199,12 @@
 	<div class="container-fluid">
 		<div class="row " id='list-headings'>
 			<div class="col-sm-5">
-				<p style="margin:2px -13px -15px -50px;padding:11px 11px;font-size:20px;border-right:1px solid grey; color:white">Recent Posts from <b>All Categories</b></p>
+				<p style="margin:2px -13px -15px -50px;padding:11px 11px;font-size:20px; color:white"><b>Recent Posts</b></p>
 							
 			</div>
-			<div class="col-sm-2 link acti" >
-				<a href="" ><p class="category-links small" id="videos_link" >Videos</p></a>
-					
-			
-			</div>
-			<div class="col-sm-2 link " style="border-right:1px solid grey">
-				<a href="" >
-					<p class="category-links small" id="most_liked_link">Popular Posts</p></a>
-					
-			</div>
+<div class="col-sm-4 ">
+	</div>
+
 
 			<div class="col-sm-3 ">
 				
@@ -224,7 +217,7 @@
 			</div>
 		</div>
 	</div>
-		<div class="container-fluid body" style="background-color:#aa321d;max-width:96.6%">
+		<div class="container-fluid body" style="background-color:#af0b05;max-width:96.6%">
 		<div class="row " id='search'>
 			<div class="col-sm-5">
 				<form class="navbar-form" style="margin-left:30px " method='POST' action=''> {% csrf_token %}
@@ -232,16 +225,28 @@
 					<div class="form-group">
 						<input class="form-control "  type="text" id="search_text" placeholder="Search Posts" value='{{ request.POST.get }}' name='q'>
 					</div>
-					<button class="btn btn-primary"  id="search_btn" type="submit">Search</button>
+					<button class="btn btn-primary"  id="search_btn" type="submit" >Search</button>
 				</form>
 
 			</div>
-			<div class="col-sm-4">
-				
-			</div>
+		
+							<div class="col-sm-2 link acti" style="margin-bottom:-30px;border-left:1px solid grey;">
+								<a href="" style="text-decoration:none">
+									<p class="category-links small" id="videos_link">Videos</p>
+								</a>
 
-			<div class="col-sm-3 ">
-				<form style="display:flex"class="navbar-form" method='POST' action=''> {% csrf_token %}
+
+							</div>
+							<div class="col-sm-2 link " style="margin-bottom:-30px;border-right:1px solid grey;">
+								<a href=""  style="text-decoration:none">
+									<p class="category-links small" id="most_liked_link">Popular Posts</p>
+								</a>
+
+							</div>
+			
+
+			<div class="col-sm-3 " >
+				<form style="display:flex" class="navbar-form" method='POST' action=''> {% csrf_token %}
 
 					<div class="form-group">
 						<input class="form-control " style="margin-right:10px" type="text" id="search_authors" placeholder="Search Authors" value='{{ request.POST.get }}' name='query'>
@@ -256,40 +261,40 @@
 	</div>
 
 
-	<div class="container-fluid" style="background-color:#333">
-		<div class="row" id='list'>
-			<div class="col-sm-5" style="background-color:#eee">
+	<div class="container-fluid" style="background-color:#222">
+		<div class="row" id='list' >
+			<div class="col-sm-5" style="background-color:#222">
 						
-				<div class="item content-markdown posts-list" style="border-bottom:.5px solid black !important;padding-bottom:0px">
+				<div class="item content-markdown posts-list" style="border-bottom:.5px solid black !important;margin-top:15px;margin-bottom:4px">
 									
 					<div id="searcher">
 					{% for post in posts_list %}
-					<div class="posts_list">
-					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 0px 20px;border:0.8px solid grey">{% endif %}
-					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2></a>
-					<h4><span style="background-color:greenyellow;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
-					<div class="content-markdown">{{ post.content|truncatechars:90 }}</div>
-					<hr>
+					<div class="posts_list thumbnail" style="background-color:#c7c9cc">
+					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:140px;width:140px;float:left;margin:5px 15px 0px 20px;border:0.8px solid grey">{% endif %}
+					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2></a>
+					<h4><span style="background-color:;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
+					<div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:90 }}</div>
+						<br>
 					</div>
 					{% endfor %}
 				</div>
 				</div>
-								<div class="pagination posts" style="margin-left:25% !important;margin-top:40px">
+								<div class="pagination posts" style="margin-left:25% !important;margin:11.5px 3px">
 									<span class="step-links">
 								{% if posts_list.has_previous %}
 									<a href="?page1={{ posts_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;">previous</button></a>
 								{% endif %}
 
 								<span class="current" >
-									Page <b>{{ posts_list.number }}</b> of {{ posts_list.paginator.num_pages }}.
+									<span style="color:white;">Page <b>{{ posts_list.number }}</b> of {{ posts_list.paginator.num_pages }}</span>
 								</span> {% if posts_list.has_next %}
 									<a href="?page1={{ posts_list.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;">next</button></a>									{% endif %}
 									</span>
 								</div>
 			
 			</div>
-			<div class="col-sm-4" style="background-color:#111;color:white !important">
-				<div class="videos">
+			<div class="col-sm-4" style="background-color:#111;color:white !important;margin-top:0px;padding-bottom:40px">
+				<div class="videos" style="padding-top:20px">
 					<div class="vid-1"> 
 						<h2 id="heading-vid-1" style="margin:35px 5px 13px 15px;font-weight:900;text-align:center">Around the World!!</h2>
 						<iframe id="vid-1" width="400" height="190" src="https://www.youtube.com/embed/RcmrbNRK-jY"  frameborder="0" allowfullscreen></iframe>
@@ -301,47 +306,42 @@
 					</div>
 
 					<div class="col-sm-2">
-						<button type="button" id="videos-prev" class=btn style="background-color:#14247a;margin:10px 20px 10px 200px;color:white;">Prev</button>
+						<button type="button" id="videos-prev" class=btn style="background-color:#14247a;margin:23px 20px -23px 200px;color:white;">Prev</button>
 					</div>
 					<div class="col-sm-2">
-						<button type="button" id="videos-next" class=btn style="background-color:#14247a;margin:10px 30px 10px 50px;color:white;">Next</button>
+						<button type="button" id="videos-next" class=btn style="background-color:#14247a;margin:23px 30px -23px 50px;color:white;">Next</button>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-3" style="background-color:#eee ">
-				
+			<div class="col-sm-3" style="background-color:#222 !important ">
+			<div class="item authors" style="border-bottom:.5px solid black !important;">
+				<div id="searcher2"style="margin-top:20px;">
 				{% for author in authors_list %}
-						<div class="item" style="border-bottom:.5px solid black !important;padding-bottom:0px">
-							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">
-							<a href="{{ author.get_absolute_url }}" style="text-decoration:none;color:black"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">{{ author.Author.get_full_name}}</h2></a>
-							<p>{{ author.author_bio|truncatechars:40 }}....</p>
+						<div class="authors_list thumbnail" style="background-color:#d6dbda;padding:-10px -10px">
+							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:25px 10px 5px 10px;">
+							<a href="{{ author.get_absolute_url }}" style="text-decoration:none;color:black"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;margin-top:35px;">{{ author.full_name}}</h2></a>
+							<p>{{ author.work|truncatechars:60 }}....</p>
 							<hr>
 						</div>
 					{% endfor %}
-				
+			<hr>
 			</div>
 				
-					<div class="pagination authors" style="margin-left:5px !important;margin-top:40px">
+					<div class="pagination authors" style="margin-left:5px !important;margin-top:2px;margin-bottom:11px">
 						<span class="step-links">
 								{% if authors_list.has_previous %}
-									<a href="?page2={{ authors_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;margin-left:55px">previous</button></a>
+									<a href="?page2={{ authors_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;margin-top:-5px;margin-left:35px">previous</button></a>
 								{% endif %}
 
 								<span class="current" >
-									Page <b>{{ authors_list.number }}</b> of {{ authors_list.paginator.num_pages }}.
+									<span style="color:white;">Page <b>{{ authors_list.number }}</b> of {{ authors_list.paginator.num_pages }}</span>
 								</span> 
 								{% if authors_list.has_next %}
-									<a href="?page2={{ authors_list.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;margin-right:0px !important">next</button></a>
+									<a href="?page2={{ authors_list.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;margin-top:-5px;margin-right:0px !important">next</button></a>
 								{% endif %}
 						</span>
 					</div>
-				
-
-
 		</div>
-
-
-
 
 	</div>
 
@@ -445,6 +445,7 @@
 			$("#search_btn").on('click', function (e) {
 					var val = $('#search_text').val();
 					e.preventDefault();
+					if(val!=""){
 					$.ajax({
 						type: 'POST',
 						dataType: 'json',
@@ -479,7 +480,7 @@
 								var get_abs_url = "{% url 'Posts:postdetail' slug=12345 %}".replace(/12345/, slug);
 								console.log(updated)
 								if (image != 'no image') {
-									$('#searcher').append( '<div class="posts_list"><img src=" ' + image + '" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 0px 20px;border:0.8px solid grey">'+
+									$('#searcher').append( '<div class="posts_list"><img src=" ' + image + '" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 20px 20px;border:0.8px solid grey">'+
 									'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-weight:900;">' + title + '</h3></a>' +
 										'<h4><span style="background-color:greenyellow;padding:0.3px">'+d+'</span>&nbsp; POSTED BY <b>'+ full_name + '</b></h4>'+
 										
@@ -499,7 +500,63 @@
 						}
 
 					});
+					}
 				});
+
+							$("#search_btn2").on('click', function (e) {
+									var val = $('#search_authors').val();
+									console.log(val)
+									e.preventDefault();
+									if (val != "") {
+									$.ajax({
+										type: 'POST',
+										dataType: 'json',
+										url: '/searchAuthors/',
+										data: {
+											'query': val,
+											csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+										},
+										success: function (result) {
+											console.log('inside search function')
+											$('.pagination.authors').hide();
+											$('.authors_list').remove();
+											$('#searcher2').empty();
+											var len = (result['result'].length);
+											for (var i = 0; i < len; i++) {
+												pk=		result['result'][i]['pk']
+												work = result['result'][i]['work']
+												address = result['result'][i]['address']
+												if (result['result'][i]['profile_pic']) {
+													profile_pic = result['result'][i]['profile_pic']
+												}
+												else {
+													profile_pic = 'no image';
+												}
+												full_name = result['result'][i]['full_name']
+
+												var get_abs_url = "{% url 'Posts:authordetail' pk=12345 %}".replace(/12345/, pk);
+												if (profile_pic != 'no image') {
+													$('#searcher2').append('<div class="authors_list thumbnail" style="background-color:#158999"><img src=" ' + profile_pic + '" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">' +
+														'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">' + full_name + '</h3></a>' +
+													    '<p>'+ work +'....</p><hr></div>')
+
+												}
+
+												else {
+
+														$('#searcher2').append('<div class="authors_list thumbnail" style="background-color:#588d96">' +
+														'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">' + full_name + '</h3></a>' +
+														'<p>' + work + '....</p></div>')
+												}
+											}
+
+
+										}
+
+									});
+									}
+								});
+							
 									
 		})
 
