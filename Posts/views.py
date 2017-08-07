@@ -13,6 +13,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import RedirectView
+from django.views.generic.list import ListView
+from django.template import RequestContext
+import datetime
 
 # Create your views here.
 
@@ -54,8 +57,12 @@ def loginView(request):
         if user is not None:
             if user.is_active:
                 login(request,user)
-                print("not none")
-                return redirect('Posts:list')
+                response= redirect('Posts:list')
+                
+                response.set_cookie('last_connection',datetime.datetime.now())
+                response.set_cookie('username',datetime.datetime.now())
+
+                return response
         else:
             invalid_message="Invalid Credentials"
             return render(request,'login.html',{'invalid_message':invalid_message,'form':form})
@@ -124,31 +131,54 @@ def searchAuthors(request):
 def listView(request):
     if not request.user.is_authenticated:
         raise Http404
-    current_user=User.objects.get(pk=request.user.pk)
-    print("current user is %s"%(current_user))
-    posts_list = PostModel.objects.all().order_by('-pk')
-    paginator = Paginator(posts_list, 3)
-    page = request.GET.get('page1')
-    try:
-        posts_list = paginator.page(page)
-    except PageNotAnInteger:
-        posts_list = paginator.page(1)
-    except EmptyPage:
-        posts_list = paginator.page(paginator.num_pages)
 
-    authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
-    paginator = Paginator(authors_list, 3)
-    page = request.GET.get('page2')
-    try:
-        authors_list = paginator.page(page)
-    except PageNotAnInteger:
-        authors_list = paginator.page(1)
-    except EmptyPage:
-        authors_list = paginator.page(paginator.num_pages)
+    if 'username' in request.COOKIES and 'last_connection' in request.COOKIES:
+        username=request.COOKIES['username']
+        
+        last_connection=request.COOKIES['last_connection']
+        last_connection_time = datetime.datetime.strptime(last_connection[:-7],
+            "%Y-%m-%d %H:%M:%S")
 
-    context = {'posts_list': posts_list, 'authors_list': authors_list,'current_user':current_user}
-    return render(request, 'index.html', context)
+        if (datetime.datetime.now() - last_connection_time).seconds < 100:
+            current_user=User.objects.get(pk=request.user.pk)
+            print("current user is %s"%(current_user))
+            posts_list = PostModel.objects.all().order_by('-pk')
+            paginator = Paginator(posts_list, 3)
+            page = request.GET.get('page1')
+            try:
+                posts_list = paginator.page(page)
+            except PageNotAnInteger:
+                posts_list = paginator.page(1)
+            except EmptyPage:
+                posts_list = paginator.page(paginator.num_pages)
 
+            authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
+            paginator = Paginator(authors_list, 3)
+            page = request.GET.get('page2')
+            try:
+                authors_list = paginator.page(page)
+            except PageNotAnInteger:
+                authors_list = paginator.page(1)
+            except EmptyPage:
+                authors_list = paginator.page(paginator.num_pages)
+
+            context = {'posts_list': posts_list, 'authors_list': authors_list,'current_user':current_user}
+            return render(request, 'index.html', context)
+
+        else:
+            return render(request, 'login.html', {})
+    else:        
+        return render(request, 'login.html', {})
+
+class postListView(LoginRequiredMixin,ListView):
+    template_name = 'post_list.html'
+    model         = PostModel
+    context_object_name = 'posts_list'
+
+class authorListView(LoginRequiredMixin,ListView):
+    template_name='author_list.html'
+    queryset     = AuthorDetailModel.objects.exclude(pk=1)
+    context_object_name = 'authors_list'
 
 @login_required
 def postDetailView(request,slug=None):

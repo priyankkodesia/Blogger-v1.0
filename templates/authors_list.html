@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class='row'>
+<div class='col-xs-12 '>
+		<a href="{% url 'Posts:list' %}"><span class="glyphicon glyphicon-remove" style="float:right;margin-top:10px;margin-right:10px"></span></a>
+			{% for author in authors_list %}
+				<div class="thumbnail author col-sm-5 col-sm-offset-3" style="margin-top:20px">
+			 {% if author.profile_pic %}<img src="{{ author.profile_pic.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 20px 10px;border:0.8px solid grey">{% endif %}
+
+			 {% if author.Author.get_full_name %}<span style="display:flex"><h2 style="margin:10px 5px 5px 15px;font-weight:900;">Name :</h2><span style="font-weight:800;font-size:24px;margin-top:14px"> {{ author.Author.get_full_name }}</span></span>{% endif %}
+			 {% if author.work %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Work : </h4>{{ author.work }}{% endif %}
+			{% if author.address %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Address :</h4> {{ author.address }}{% endif %}
+			<br> {% if author.author_bio %}<h4 style="margin:10px 5px 5px 15px;font-weight:900 !important;">About {{ author|capfirst }} :</h4> {{ author.author_bio }}{% endif %}
+			<h4><span style="background-color:greenyellow;padding:0.3px;margin-bottom:0px">{{ author.timestamp|date }}</span></h4>&nbsp;
+		</div>
+		{% endfor %}
+    <br/>
+</div>
+</div>
+
+{% endblock content %}

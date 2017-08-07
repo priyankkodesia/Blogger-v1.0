@@ -283,15 +283,18 @@
 								<div class="pagination posts" style="margin-left:25% !important;">
 									<span class="step-links">
 								{% if posts_list.has_previous %}
-									<a href="?page1={{ posts_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;">previous</button></a>
+									<a href="?page1={{ posts_list.previous_page_number }}"><button type="button" class="btn next_prev" 
+									style="background-color:#14247a;color:white;">previous</button></a>
 								{% endif %}
 
 								<span class="current" >
 									<span style="color:white;">Page <b>{{ posts_list.number }}</b> of {{ posts_list.paginator.num_pages }}</span>
 								</span> {% if posts_list.has_next %}
-									<a href="?page1={{ posts_list.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;">next</button></a>									{% endif %}
+									<a href="?page1={{ posts_list.next_page_number }}"><button type="button" class="btn next_prev"
+									 style="background-color:#14247a;color:white;">next</button></a>  {% endif %}
 									</span>
 								</div>
+					<a href="{% url 'Posts:posts_list' %}"><button type="button" class="btn btn-info">View All</button></a>
 			
 			</div>
 			<div class="col-sm-4" id="middle-div" style="background-color:#111;color:white !important;margin-top:0px;padding-bottom:40px">
@@ -316,7 +319,7 @@
 			</div>
 			<div class="col-sm-3" style="background-color:#222 !important ">
 			<div class="item authors" style="border-bottom:.5px solid black !important;">
-				<div id="searcher2"style="margin-top:20px;">
+				<div id="searcher2" style="margin-top:20px;">
 				{% for author in authors_list %}
 						<div class="authors_list thumbnail" style="background-color:#d6dbda;padding:-10px -10px">
 							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:25px 10px 5px 10px;">
@@ -331,17 +334,18 @@
 					<div class="pagination authors" style="margin-left:5px !important;margin-top:2px;margin-bottom:11px">
 						<span class="step-links">
 								{% if authors_list.has_previous %}
-									<a href="?page2={{ authors_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;margin-top:-5px;margin-left:35px">previous</button></a>
+									<a href="?page2={{ authors_list.previous_page_number }}"><button type="button" class="btn next_prev" style="background-color:#14247a;color:white;margin-top:-5px;margin-left:35px">previous</button></a>
 								{% endif %}
 
 								<span class="current" >
 									<span style="color:white;">Page <b>{{ authors_list.number }}</b> of {{ authors_list.paginator.num_pages }}</span>
 								</span> 
 								{% if authors_list.has_next %}
-									<a href="?page2={{ authors_list.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;margin-top:-5px;margin-right:0px !important">next</button></a>
+									<a href="?page2={{ authors_list.next_page_number }}"><button type="button" class="btn next_prev" style="background-color:#14247a;color:white;margin-top:-5px;margin-right:0px !important">next</button></a>
 								{% endif %}
 						</span>
 					</div>
+					<a href="{% url 'Posts:authors_list' %}"><button type="button" class="btn btn-info">View All</button></a>
 		</div>
 
 	</div>
@@ -441,8 +445,12 @@
 				vid_display(count)
 			})
 
+			$('.next_prev').on('click',function(){
 
-			$("#search_btn").on('click', function (e) {
+				$('html,body').animate({scrollTop: $(".item.authors").offset().bottom}, 2000);
+            });
+		
+					$("#search_btn").on('click', function (e) {
 					var val = $('#search_text').val();
 					e.preventDefault();
 					if(val!=""){
