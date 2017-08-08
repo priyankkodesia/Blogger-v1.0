@@ -127,6 +127,22 @@ def searchAuthors(request):
     print(result)
     return JsonResponse({'result':result})
 
+
+@login_required
+def postListView(request):
+    print("inside post list ")
+    query = PostModel.objects.all()
+    print(query)
+    return render(request, 'posts_list.html', {'posts_list': query})
+
+
+@login_required
+def authorListView(request):
+    print("inside authors list ")
+    query = AuthorDetailModel.objects.all()
+    print(query)
+    return render(request, 'authors_list.html', {'authors_list': query})
+
 @login_required
 def listView(request):
     if not request.user.is_authenticated:
@@ -139,7 +155,7 @@ def listView(request):
         last_connection_time = datetime.datetime.strptime(last_connection[:-7],
             "%Y-%m-%d %H:%M:%S")
 
-        if (datetime.datetime.now() - last_connection_time).seconds < 100:
+        if (datetime.datetime.now() - last_connection_time).seconds <500:
             current_user=User.objects.get(pk=request.user.pk)
             print("current user is %s"%(current_user))
             posts_list = PostModel.objects.all().order_by('-pk')
@@ -166,19 +182,10 @@ def listView(request):
             return render(request, 'index.html', context)
 
         else:
-            return render(request, 'login.html', {})
+            return reverse_lazy('login')
     else:        
         return render(request, 'login.html', {})
 
-class postListView(LoginRequiredMixin,ListView):
-    template_name = 'post_list.html'
-    model         = PostModel
-    context_object_name = 'posts_list'
-
-class authorListView(LoginRequiredMixin,ListView):
-    template_name='author_list.html'
-    queryset     = AuthorDetailModel.objects.exclude(pk=1)
-    context_object_name = 'authors_list'
 
 @login_required
 def postDetailView(request,slug=None):
