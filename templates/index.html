@@ -269,17 +269,26 @@
 		<div class="row" id='list' style="background-color:#333 !important">
 			<div class="col-sm-5" style="background-color:#222;padding-up:16px;margin-bottom:10px;padding-bottom:30px">
 						
+<<<<<<< HEAD
 				<div class="item content-markdown posts-list" style="border-bottom:.5px solid white !important;margin-top:18px;margin-bottom:12px">
 									
 					<div id="searcher">
 					{% for post in posts_list %}
 					<div class="posts_list thumbnail" style="background-color:#c7c9cc;padding:13px !important;min-height:195px">
+=======
+				<div class="item content-markdown posts-list" style="border-bottom:.5px solid black !important;margin-top:18px;margin-bottom:4px">
+									
+					<div id="searcher">
+					{% for post in posts_list %}
+					<div class="posts_list thumbnail" style="background-color:#c7c9cc">
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">{% endif %}
 					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2></a>
 					<h4><span style="background-color:#9423c4;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
 					<div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:90 }}</div>
 				
 					</div>
+<<<<<<< HEAD
 					{% endfor %}
 				<br></div><br>
 				</div>
@@ -289,6 +298,30 @@
 			</div>
 			<div class="col-sm-4" id="middle-div" style="background-color:#111;color:white !important;padding-bottom:63px;">
 				<div class="videos" >
+=======
+					{% endfor %}<br>
+				</div>
+				</div>
+								<div class="pagination posts" style="margin-left:25% !important;">
+									<span class="step-links">
+								{% if posts_list.has_previous %}
+									<a href="?page1={{ posts_list.previous_page_number }}"><button type="button" class="btn next_prev" 
+									style="background-color:#14247a;color:white;">previous</button></a>
+								{% endif %}
+
+								<span class="current" >
+									<span style="color:white;">Page <b>{{ posts_list.number }}</b> of {{ posts_list.paginator.num_pages }}</span>
+								</span> {% if posts_list.has_next %}
+									<a href="?page1={{ posts_list.next_page_number }}"><button type="button" class="btn next_prev"
+									 style="background-color:#14247a;color:white;">next</button></a>  {% endif %}
+									</span>
+								</div>
+					<a href="{% url 'Posts:posts' %}"><button type="button" class="btn btn-info">View All</button></a>
+			
+			</div>
+			<div class="col-sm-4" id="middle-div" style="background-color:#111;color:white !important;margin-top:0px;padding-bottom:40px">
+				<div class="videos" style="padding-top:20px">
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 					<div class="vid-1"> 
 						<h2 id="heading-vid-1" style="margin:35px 5px 12px 15px;font-weight:900;text-align:center">Around the World!!</h2>
 						<iframe id="vid-1" width="400" height="240" src="https://www.youtube.com/embed/RcmrbNRK-jY"  frameborder="0" allowfullscreen></iframe>
@@ -307,22 +340,52 @@
 					</div>
 				</div>
 			</div>
+<<<<<<< HEAD
 			<div class="col-sm-3" style="background-color:#222 !important; padding-bottom:20px">
 			<div class="item authors">
 				<div id="searcher2" style="margin-top:16px;padding-bottom:-15px">
+=======
+			<div class="col-sm-3" style="background-color:#222 !important ">
+			<div class="item authors" style="border-bottom:.5px solid black !important;">
+				<div id="searcher2" style="margin-top:20px;">
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 				{% for author in authors_list %}
 						<div class="authors_list thumbnail" style="background-color:#d6dbda;min-height:195px">
 							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:5%;height:140px;width:130px;margin:15px 10px 5px 10px;">
 							<a href="{{ author.get_absolute_url }}" style="text-decoration:none;color:black"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;margin-top:35px;">{{ author.full_name}}</h2></a>
+<<<<<<< HEAD
 							<h4>{{ author.work|truncatechars:60 }}</h4><br>
 							
+=======
+							<h4>{{ author.work|truncatechars:60 }}</h4>
+							<hr>
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 						</div>
 					{% endfor %}
 			&nbsp;
 			</div>
+<<<<<<< HEAD
 			<hr>	
 
 					<a href="{% url 'Posts:authors' %}"><button type="button" style="margin-left:40%;margin-top:-10px;margin-bottom:10px" class="btn btn-info">View All</button></a>
+=======
+				
+					<div class="pagination authors" style="margin-left:5px !important;margin-top:2px;margin-bottom:11px">
+						<span class="step-links">
+								{% if authors_list.has_previous %}
+									<a href="?page2={{ authors_list.previous_page_number }}"><button type="button" class="btn next_prev" style="background-color:#14247a;color:white;margin-top:-5px;margin-left:35px">previous</button></a>
+								{% endif %}
+
+								<span class="current" >
+									<span style="color:white;">Page <b>{{ authors_list.number }}</b> of {{ authors_list.paginator.num_pages }}</span>
+								</span> 
+								{% if authors_list.has_next %}
+									<a href="?page2={{ authors_list.next_page_number }}"><button type="button" class="btn next_prev" style="background-color:#14247a;color:white;margin-top:-5px;margin-right:0px !important">next</button></a>
+								{% endif %}
+						</span>
+					</div>
+					<a href="{% url 'Posts:authors' %}"><button type="button" class="btn btn-info">View All</button></a>
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 		</div>
 
 	</div>
@@ -422,6 +485,13 @@
 				vid_display(count)
 			})
 
+<<<<<<< HEAD
+=======
+			$('.next_prev').on('click',function(){
+
+				$('html,body').animate({scrollTop: $(".item.authors").offset().bottom}, 2000);
+            });
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 		
 					$("#search_btn").on('click', function (e) {
 					var val = $('#search_text').val();
@@ -444,7 +514,11 @@
 							for (var i = 0; i < len; i++) {
 
 								title = result['result'][i]['title']
+<<<<<<< HEAD
 								content = result['result'][i]['content']
+=======
+								content = result['result'][i]['title']
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 								image = result['result'][i]['image']
 								full_name = result['result'][i]['full_name']
 								timestamp = result['result'][i]['timestamp']

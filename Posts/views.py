@@ -57,8 +57,17 @@ def loginView(request):
         if user is not None:
             if user.is_active:
                 login(request,user)
+<<<<<<< HEAD
 
                 return redirect('Posts:list')
+=======
+                response= redirect('Posts:list')
+                
+                response.set_cookie('last_connection',datetime.datetime.now())
+                response.set_cookie('username',datetime.datetime.now())
+
+                return response
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
         else:
             invalid_message="Invalid Credentials"
             return render(request,'login.html',{'invalid_message':invalid_message,'form':form})
@@ -144,6 +153,7 @@ def listView(request):
     if not request.user.is_authenticated:
         raise Http404
 
+<<<<<<< HEAD
     current_user=User.objects.get(pk=request.user.pk)
     posts_list = PostModel.objects.all().order_by('-pk')
     paginator = Paginator(posts_list, 3)
@@ -167,6 +177,45 @@ def listView(request):
 
     context = {'posts_list': posts_list, 'authors_list': authors_list,'current_user':current_user}
     return render(request, 'index.html', context)
+=======
+    if 'username' in request.COOKIES and 'last_connection' in request.COOKIES:
+        username=request.COOKIES['username']
+        
+        last_connection=request.COOKIES['last_connection']
+        last_connection_time = datetime.datetime.strptime(last_connection[:-7],
+            "%Y-%m-%d %H:%M:%S")
+
+        if (datetime.datetime.now() - last_connection_time).seconds <500:
+            current_user=User.objects.get(pk=request.user.pk)
+            print("current user is %s"%(current_user))
+            posts_list = PostModel.objects.all().order_by('-pk')
+            paginator = Paginator(posts_list, 3)
+            page = request.GET.get('page1')
+            try:
+                posts_list = paginator.page(page)
+            except PageNotAnInteger:
+                posts_list = paginator.page(1)
+            except EmptyPage:
+                posts_list = paginator.page(paginator.num_pages)
+
+            authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
+            paginator = Paginator(authors_list, 3)
+            page = request.GET.get('page2')
+            try:
+                authors_list = paginator.page(page)
+            except PageNotAnInteger:
+                authors_list = paginator.page(1)
+            except EmptyPage:
+                authors_list = paginator.page(paginator.num_pages)
+
+            context = {'posts_list': posts_list, 'authors_list': authors_list,'current_user':current_user}
+            return render(request, 'index.html', context)
+
+        else:
+            return reverse_lazy('login')
+    else:        
+        return render(request, 'login.html', {})
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 
 
 @login_required

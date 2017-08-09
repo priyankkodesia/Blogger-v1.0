@@ -109,9 +109,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SESSION_SAVE_EVERY_REQUEST = True
+<<<<<<< HEAD
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SECURITY_EXPIRE_AFTER = 420
 SESSION_SECURITY_WARN_AFTER  = 300
+=======
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 

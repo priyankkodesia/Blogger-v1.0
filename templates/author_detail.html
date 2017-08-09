@@ -19,7 +19,11 @@ body{background-image: url('{% static 'img/author_detail_background.jpg' %}');ba
 			 {% if author.Author.get_full_name %}<span style="display:flex"><h2 style="margin:10px 5px 5px 15px;font-weight:900;">Name :</h2><span style="font-weight:800;font-size:24px;margin-top:14px"> {{ author.Author.get_full_name }}</span></span>{% endif %}
 			 {% if author.work %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Work : </h4>{{ author.work }}{% endif %}
 			{% if author.address %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Address :</h4> {{ author.address }}{% endif %}
+<<<<<<< HEAD
 			<br><br> {% if author.author_bio %}<h4 style="margin:10px 5px 5px 15px;font-weight:900 !important;">About {{ author|capfirst }} :</h4> {{ author.author_bio }}{% endif %}
+=======
+			<br> {% if author.author_bio %}<h4 style="margin:10px 5px 5px 15px;font-weight:900 !important;">About {{ author|capfirst }} :</h4> {{ author.author_bio }}{% endif %}
+>>>>>>> 15dbac4c947010490ac2f5038b9c59e1110ea365
 			<h4><span style="background-color:greenyellow;padding:0.3px;margin-bottom:0px">{{ author.timestamp|date }}</span></h4>&nbsp;
 		</div>
     <br/>
