@@ -126,18 +126,30 @@ def searchAuthors(request):
 
 @login_required
 def postListView(request):
-    print("inside post list ")
-    query = PostModel.objects.all()
-    print(query)
-    return render(request, 'posts_list.html', {'posts_list': query})
+    posts_list = PostModel.objects.all().order_by('-pk')
+    paginator = Paginator(posts_list, 8)
+    page = request.GET.get('page1')
+    try:
+        posts_list = paginator.page(page)
+    except PageNotAnInteger:
+        posts_list = paginator.page(1)
+    except EmptyPage:
+        posts_list = paginator.page(paginator.num_pages)
+    return render(request, 'posts_list.html', {'posts_list': posts_list})
 
 
 @login_required
 def authorListView(request):
-    print("inside authors list ")
-    query = AuthorDetailModel.objects.all()
-    print(query)
-    return render(request, 'authors_list.html', {'authors_list': query})
+    authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
+    paginator = Paginator(authors_list, 6)
+    page = request.GET.get('page2')
+    try:
+        authors_list = paginator.page(page)
+    except PageNotAnInteger:
+        authors_list = paginator.page(1)
+    except EmptyPage:
+        authors_list = paginator.page(paginator.num_pages)
+    return render(request, 'authors_list.html', {'authors_list': authors_list})
 
 @login_required
 def listView(request):

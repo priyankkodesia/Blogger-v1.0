@@ -11,15 +11,14 @@ body{background-image:url('http://wallpapercave.com/wp/UoQbFHi.jpg')}
 	<div class="col-xs-12 authors_head">
 
 		<h1 style="text-align:center">AUTHORS<h1>
-				<a href="{% url 'Posts:list' %}"><span class="glyphicon glyphicon-remove" style="float:right;"></span></a>
 
-			<div class="col-sm-3 " >
+			<div class="col-sm-3 " style="margin-left:38.5%" >
 				<form style="display:flex" class="navbar-form" method='POST' action=''> {% csrf_token %}
 
 					<div class="form-group">
 						<input class="form-control " style="margin-right:10px" type="text" id="search_authors" placeholder="Search Authors" value='{{ request.POST.get }}' name='query'>
 					</div>
-					<button class="btn btn-primary" style="margin-right:-130px" id="search_btn2" type="submit">Search</button>
+					<button class="btn btn-primary" style="margin-right:-130px;text-align:center;padding-top:6px !important" id="search_btn2" type="submit">Search</button>
 				
 				</form>
 
@@ -38,12 +37,14 @@ body{background-image:url('http://wallpapercave.com/wp/UoQbFHi.jpg')}
 			 {% if author.work %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Work : </h4>{{ author.work }}{% endif %}
 			{% if author.address %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Address :</h4> {{ author.address }}{% endif %}
 			<br><br> {% if author.author_bio|truncatechars:100 %}<h4 style="margin:10px 5px 5px 15px;font-weight:900 !important;">About {{ author|capfirst }} :</h4><span  style="margin:3px 5px 4px 15px"> {{ author.author_bio }}<span>{% endif %}
-			<h4><span style="background-color:greenyellow;padding:0.3px;margin-bottom:0px">{{ author.timestamp|date }}</span></h4>&nbsp;
 		</div>
 		{% endfor %}
-    <br/>
+    	<br/>
+			</div>
 
-    					<div class="pagination authors" style="margin-left:5px !important;margin-top:2px;margin-bottom:11px">
+	</div>
+</div><br>
+    					<div class="pagination authors" style="margin-left:44% !important;margin-top:2px;margin-bottom:11px">
 						<span class="step-links">
 								{% if authors_list.has_previous %}
 									<a href="?page2={{ authors_list.previous_page_number }}"><button type="button" class="btn next_prev" style="background-color:#14247a;color:white;margin-top:-5px;margin-left:35px">previous</button></a>
@@ -57,7 +58,7 @@ body{background-image:url('http://wallpapercave.com/wp/UoQbFHi.jpg')}
 								{% endif %}
 						</span>
 					</div>
-</div>
+<br>
 
 <script>
 $(document).ready(function(){
@@ -89,9 +90,9 @@ $("#search_btn2").on('click', function (e) {
 												full_name = result['result'][i]['full_name']
 												profile_pic=result['result'][i]['profile_pic']
 												var get_abs_url = "{% url 'Posts:authordetail' pk=12345 %}".replace(/12345/, pk);
-													$('#searcher2').append('<div class="authors_list thumbnail" style="background-color:#ccc"><img src=" ' + profile_pic + '" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">' +
+													$('#searcher2').append('<div class="col-xs-6 col-xs-offset-3"><div class="authors_list thumbnail" style="background-color:#ccc;min-height:200px"><img src=" ' + profile_pic + '" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">' +
 														'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">' + full_name + '</h3></a>' +
-													    '<p>'+ work +'....</p><hr></div>')
+													    '<p>'+ work +'....</p><hr></div></div>')
 											}
 
 										}
