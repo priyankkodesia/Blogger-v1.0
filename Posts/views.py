@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from .forms import PostForm,LoginForm,UserRegistrationForm,UserBioForm
+from .forms import PostForm,LoginForm,UserRegistrationForm,UserBioForm,CommentsForm
 from urllib.parse import quote_plus
 from django.core.urlresolvers import reverse,reverse_lazy
-from .models import PostModel,AuthorDetailModel
+from .models import PostModel,AuthorDetailModel,CommentsModel
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.http.response import HttpResponseRedirect, JsonResponse
@@ -185,10 +185,22 @@ def listView(request):
 def postDetailView(request,slug=None):
     if not request.user.is_authenticated:
         raise Http404
-    queryset=PostModel.objects.get(slug=slug)
-    share_string=quote_plus(queryset.content)
-    context={'object':queryset,'share_string':share_string}
-    return render(request,'post_detail.html',context)
+    if request.method=="POST":
+        post_ = PostModel.objects.get(slug=slug)
+        user_ = User.objects.get(pk=request.user.pk)
+        CommentForm=CommentsForm(request.POST or None)
+        if CommentForm.is_valid():
+             CommentForm.save(commit=False)
+             CommentForm.Post = post_
+             CommentForm.pk = user_.pk
+             CommentForm.save()
+             return reverse('Posts:postdetail',kwargs={'slug':slug})
+    if request.method=="GET":
+        queryset=PostModel.objects.get(slug=slug)
+        comments=CommentsModel.objects.all()
+        share_string=quote_plus(queryset.content)
+        context={'object':queryset,'share_string':share_string,'comments':comments}
+        return render(request,'post_detail.html',context)
 
 class postLikeToggle(LoginRequiredMixin,RedirectView):
     def get_redirect_url(self,*args,**kwargs):

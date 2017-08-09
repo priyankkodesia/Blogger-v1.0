@@ -27,7 +27,7 @@ class UserBioForm(forms.ModelForm):
         model=AuthorDetailModel
         fields=['work','address','profile_pic','author_bio']
 
-class CommentForm(forms.ModelForm):
+class CommentsForm(forms.ModelForm):
     class Meta:
         model   =CommentsModel
         fields  =['content']

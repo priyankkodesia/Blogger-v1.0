@@ -204,6 +204,8 @@
 							
 			</div>
 <div class="col-sm-4 ">
+			<a href="{% url 'Posts:list' %}" style="margin-right:0px; " ><button type="button" class="btn btn-success" style="color:#000">Refresh</button></a>
+
 	</div>
 
 
@@ -228,7 +230,6 @@
 					</div>
 					<button class="btn btn-primary"  id="search_btn" type="submit" >Search</button>
 				</form>
-					<a href="{% url 'Posts:list' %}" style="margin-right:-280px;margin-bottom:40px;position:relative; " ><span class="glyphicon glyphicon-remove" style="color:#000"></span></a>
 
 			</div>
 		
@@ -257,7 +258,6 @@
 					<button class="btn btn-primary" style="margin-right:-130px" id="search_btn2" type="submit">Search</button>
 				
 				</form>
-					<a href="{% url 'Posts:list' %}" style="margin-right:-330px;margin-bottom:40px;position:relative; " ><span class="glyphicon glyphicon-remove" style="color:#000"></span></a>
 
 			</div>
 		</div>
@@ -277,7 +277,7 @@
 					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">{% endif %}
 					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2></a>
 					<h4><span style="background-color:#9423c4;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
-					<div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:90 }}</div>
+					<div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:40 }}</div>
 				
 					</div>
 					{% endfor %}

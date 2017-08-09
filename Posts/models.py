@@ -33,7 +33,7 @@ class PostModel(models.Model):
         return reverse('Posts:like-toggle',kwargs={'slug':self.slug})
 
 class AuthorDetailModel(models.Model):
-    Author = models.OneToOneField(User, on_delete=models.CASCADE)
+    Author          = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name       =models.CharField(max_length=56, null=True,blank=True)
     work            =models.TextField(max_length=512,default='',null=True)
     address         =models.TextField(max_length=512,default='',null=True)
@@ -49,11 +49,6 @@ class AuthorDetailModel(models.Model):
 
     def get_absolute_url(self):
         return reverse('Posts:authordetail',kwargs={'pk':self.pk})
-
-class CommentsModel(models.Model):
-    Author        = models.ForeignKey(User,default=1)
-    content         =models.TextField(max_length=256,null=True,blank=True)
-    timestamp       =models.DateTimeField(auto_now_add=False,auto_now=True,null=True)
 
 
 def create_slug(instance, new_slug=None):
@@ -76,3 +71,11 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_post_receiver, sender=PostModel)
 
+class CommentsModel(models.Model):
+    Post            =models.ForeignKey(PostModel,on_delete=models.CASCADE,null=True)
+    Author          =models.ForeignKey(User,default=1)
+    content         =models.TextField(max_length=258,null=True,blank=True)
+    timestamp       =models.DateTimeField(auto_now_add=False,auto_now=True,null=True)
+
+    def __str__(self):
+        return self.Author.first_name
