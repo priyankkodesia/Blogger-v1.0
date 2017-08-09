@@ -1,4 +1,4 @@
-from Posts.models import PostModel,AuthorDetailModel
+from Posts.models import PostModel,AuthorDetailModel,CommentsModel
 from pagedown.widgets import PagedownWidget
 from django import forms
 from django.conf import settings
@@ -26,3 +26,8 @@ class UserBioForm(forms.ModelForm):
     class Meta:
         model=AuthorDetailModel
         fields=['work','address','profile_pic','author_bio']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model   =CommentsModel
+        fields  =['content']

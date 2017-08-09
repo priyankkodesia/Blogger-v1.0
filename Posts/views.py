@@ -3,6 +3,7 @@ from .forms import PostForm,LoginForm,UserRegistrationForm,UserBioForm
 from urllib.parse import quote_plus
 from django.core.urlresolvers import reverse,reverse_lazy
 from .models import PostModel,AuthorDetailModel
+from django.contrib.auth.models import User
 from django.http import Http404
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -10,6 +11,11 @@ from django.db.models import Q
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import RedirectView
+from django.views.generic.list import ListView
+from django.template import RequestContext
+import datetime
 
 # Create your views here.
 
@@ -51,7 +57,7 @@ def loginView(request):
         if user is not None:
             if user.is_active:
                 login(request,user)
-                print("not none")
+
                 return redirect('Posts:list')
         else:
             invalid_message="Invalid Credentials"
@@ -117,10 +123,28 @@ def searchAuthors(request):
     print(result)
     return JsonResponse({'result':result})
 
+
+@login_required
+def postListView(request):
+    print("inside post list ")
+    query = PostModel.objects.all()
+    print(query)
+    return render(request, 'posts_list.html', {'posts_list': query})
+
+
+@login_required
+def authorListView(request):
+    print("inside authors list ")
+    query = AuthorDetailModel.objects.all()
+    print(query)
+    return render(request, 'authors_list.html', {'authors_list': query})
+
 @login_required
 def listView(request):
     if not request.user.is_authenticated:
         raise Http404
+
+    current_user=User.objects.get(pk=request.user.pk)
     posts_list = PostModel.objects.all().order_by('-pk')
     paginator = Paginator(posts_list, 3)
     page = request.GET.get('page1')
@@ -141,7 +165,7 @@ def listView(request):
     except EmptyPage:
         authors_list = paginator.page(paginator.num_pages)
 
-    context = {'posts_list': posts_list, 'authors_list': authors_list}
+    context = {'posts_list': posts_list, 'authors_list': authors_list,'current_user':current_user}
     return render(request, 'index.html', context)
 
 
@@ -153,6 +177,22 @@ def postDetailView(request,slug=None):
     share_string=quote_plus(queryset.content)
     context={'object':queryset,'share_string':share_string}
     return render(request,'post_detail.html',context)
+
+class postLikeToggle(LoginRequiredMixin,RedirectView):
+    def get_redirect_url(self,*args,**kwargs):
+        slug=self.kwargs.get('slug')
+        obj=PostModel.objects.get(slug=slug)
+        print("obj is %s"%(obj))
+        url_=obj.get_absolute_url()
+        print('so url_ becomes %s'%(url_))
+        user=self.request.user
+        if user.is_authenticated():
+            if user in obj.likes.all():
+                obj.likes.remove(user)
+            else:
+                obj.likes.add(user)
+        return url_
+
 
 @login_required
 def authorDetailView(request,pk=None):

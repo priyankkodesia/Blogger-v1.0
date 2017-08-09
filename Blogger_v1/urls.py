@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^$',views.loginView,name='login'),
     url(r'^register/$',views.register,name='register'),
     url(r'^logout/$',views.logoutView,name='logout'),
+    url(r'session_security/', include('session_security.urls')),
 
 ]
 if settings.DEBUG:

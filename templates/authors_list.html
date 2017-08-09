@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+body{background-image:url('http://wallpapercave.com/wp/UoQbFHi.jpg')}
+.list{left:6%}
+.authors_list{background-image:url('https://wallpaperscraft.com/image/line_light_background_bright_43975_2560x1600.jpg')}
+.authors_head{text-align: center;color:aquamarine;background-color:#111;}
+.glyphicon{position:absolute;float:right;margin-top: 10px;margin-right:10px;}
+</style>
+<div class="row">
+	<div class="col-xs-12 authors_head">
+
+		<h1 style="text-align:center">AUTHORS<h1>
+				<a href="{% url 'Posts:list' %}"><span class="glyphicon glyphicon-remove" style="float:right;"></span></a>
+
+			<div class="col-sm-3 " >
+				<form style="display:flex" class="navbar-form" method='POST' action=''> {% csrf_token %}
+
+					<div class="form-group">
+						<input class="form-control " style="margin-right:10px" type="text" id="search_authors" placeholder="Search Authors" value='{{ request.POST.get }}' name='query'>
+					</div>
+					<button class="btn btn-primary" style="margin-right:-130px" id="search_btn2" type="submit">Search</button>
+				
+				</form>
+
+			</div>
+
+	</div>
+</div>
+			<div class='row'>
+<div class='col-xs-12 list'>
+			<div id="searcher2">
+			{% for author in authors_list %}
+	<div class="thumbnail authors_list col-sm-5 col-sm-offset-3" style="margin:10px;padding:13px;max-height:330px">
+			 {% if author.profile_pic %}<img src="{{ author.profile_pic.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 20px 10px;border:0.8px solid grey">{% endif %}
+
+			 {% if author.Author.get_full_name %}<span style="display:flex"><h2 style="font-weight:900;">Name :</h2><h3 style="margin-top:25px;margin-left:10px;font-weight:900;"> {{ author.Author.get_full_name }}</h3></span>{% endif %}
+			 {% if author.work %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Work : </h4>{{ author.work }}{% endif %}
+			{% if author.address %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Address :</h4> {{ author.address }}{% endif %}
+			<br><br> {% if author.author_bio|truncatechars:100 %}<h4 style="margin:10px 5px 5px 15px;font-weight:900 !important;">About {{ author|capfirst }} :</h4><span  style="margin:3px 5px 4px 15px"> {{ author.author_bio }}<span>{% endif %}
+			<h4><span style="background-color:greenyellow;padding:0.3px;margin-bottom:0px">{{ author.timestamp|date }}</span></h4>&nbsp;
+		</div>
+		{% endfor %}
+    <br/>
+
+    					<div class="pagination authors" style="margin-left:5px !important;margin-top:2px;margin-bottom:11px">
+						<span class="step-links">
+								{% if authors_list.has_previous %}
+									<a href="?page2={{ authors_list.previous_page_number }}"><button type="button" class="btn next_prev" style="background-color:#14247a;color:white;margin-top:-5px;margin-left:35px">previous</button></a>
+								{% endif %}
+
+								<span class="current" >
+						<span style="color:white;">Page <b>{{ authors_list.number }}</b> of {{ authors_list.paginator.num_pages }}</span>
+								</span> 
+								{% if authors_list.has_next %}
+									<a href="?page2={{ authors_list.next_page_number }}"><button type="button" class="btn next_prev" style="background-color:#14247a;color:white;margin-top:-5px;margin-right:0px !important">next</button></a>
+								{% endif %}
+						</span>
+					</div>
+</div>
+
+<script>
+$(document).ready(function(){
+
+
+$("#search_btn2").on('click', function (e) {
+									var val = $('#search_authors').val();
+									console.log(val)
+									e.preventDefault();
+									if (val != "") {
+									$.ajax({
+										type: 'POST',
+										dataType: 'json',
+										url: '/searchAuthors/',
+										data: {
+											'query': val,
+											csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+										},
+										success: function (result) {
+											console.log('inside search function')
+											$('.pagination.authors').hide();
+											$('.authors_list').remove();
+											$('#searcher2').empty();
+											var len = (result['result'].length);
+											for (var i = 0; i < len; i++) {
+												pk=		result['result'][i]['pk']
+												work = result['result'][i]['work']
+												address = result['result'][i]['address']
+												full_name = result['result'][i]['full_name']
+												profile_pic=result['result'][i]['profile_pic']
+												var get_abs_url = "{% url 'Posts:authordetail' pk=12345 %}".replace(/12345/, pk);
+													$('#searcher2').append('<div class="authors_list thumbnail" style="background-color:#ccc"><img src=" ' + profile_pic + '" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">' +
+														'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">' + full_name + '</h3></a>' +
+													    '<p>'+ work +'....</p><hr></div>')
+											}
+
+										}
+
+									});
+									}
+								});
+	
+})
+
+</script>
+
+{% endblock content %}

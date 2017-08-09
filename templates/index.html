@@ -102,7 +102,7 @@
 		}
 
 		.item {
-			border-bottom: 0.8px solid grey;
+			
 			color: #333;
 			
 		}
@@ -121,6 +121,7 @@
 				<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a></li>
 				<li><a href="{% url 'Posts:create' %}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create</a></li>
 				<li><a href=""><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span>&nbsp;Chat Room</a></li>
+				&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;Hello {{ current_user.first_name|capfirst }}</a>
 
 			</ul>
 	
@@ -212,7 +213,7 @@
 									font-size:20px;
 									font-weight:900;
 									margin:9px -15px -5px 0px;margin-left:-10px;
-									color:white;text-decoration:none;">Authors</h4>
+									color:white;text-decoration:none;">New Authors</h4>
 					
 			</div>
 		</div>
@@ -220,13 +221,14 @@
 		<div class="container-fluid body" style="background-color:#af0b05;max-width:96.6%">
 		<div class="row " id='search'>
 			<div class="col-sm-5">
-				<form class="navbar-form" style="margin-left:30px " method='POST' action=''> {% csrf_token %}
+				<form class="navbar-form"  method='POST' action=''> {% csrf_token %}
 
 					<div class="form-group">
-						<input class="form-control "  type="text" id="search_text" placeholder="Search Posts" value='{{ request.POST.get }}' name='q'>
+						<input class="form-control " type="text" id="search_text" placeholder="Search Posts" value='{{ request.POST.get }}' name='q'>
 					</div>
 					<button class="btn btn-primary"  id="search_btn" type="submit" >Search</button>
 				</form>
+					<a href="{% url 'Posts:list' %}" style="margin-right:-280px;margin-bottom:40px;position:relative; " ><span class="glyphicon glyphicon-remove" style="color:#000"></span></a>
 
 			</div>
 		
@@ -250,10 +252,12 @@
 
 					<div class="form-group">
 						<input class="form-control " style="margin-right:10px" type="text" id="search_authors" placeholder="Search Authors" value='{{ request.POST.get }}' name='query'>
+
 					</div>
 					<button class="btn btn-primary" style="margin-right:-130px" id="search_btn2" type="submit">Search</button>
 				
 				</form>
+					<a href="{% url 'Posts:list' %}" style="margin-right:-330px;margin-bottom:40px;position:relative; " ><span class="glyphicon glyphicon-remove" style="color:#000"></span></a>
 
 			</div>
 		</div>
@@ -262,46 +266,36 @@
 
 
 	<div class="container-fluid" style="background-color:#222">
-		<div class="row" id='list' >
-			<div class="col-sm-5" style="background-color:#222">
+		<div class="row" id='list' style="background-color:#333 !important">
+			<div class="col-sm-5" style="background-color:#222;padding-up:16px;margin-bottom:10px;padding-bottom:30px">
 						
-				<div class="item content-markdown posts-list" style="border-bottom:.5px solid black !important;margin-top:15px;margin-bottom:4px">
+				<div class="item content-markdown posts-list" style="border-bottom:.5px solid white !important;margin-top:18px;margin-bottom:12px">
 									
 					<div id="searcher">
 					{% for post in posts_list %}
-					<div class="posts_list thumbnail" style="background-color:#c7c9cc">
-					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:140px;width:140px;float:left;margin:5px 15px 0px 20px;border:0.8px solid grey">{% endif %}
+					<div class="posts_list thumbnail" style="background-color:#c7c9cc;padding:13px !important;min-height:195px">
+					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">{% endif %}
 					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2></a>
-					<h4><span style="background-color:;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
+					<h4><span style="background-color:#9423c4;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
 					<div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:90 }}</div>
-						<br>
+				
 					</div>
 					{% endfor %}
+				<br></div><br>
 				</div>
-				</div>
-								<div class="pagination posts" style="margin-left:25% !important;margin:11.5px 3px">
-									<span class="step-links">
-								{% if posts_list.has_previous %}
-									<a href="?page1={{ posts_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;">previous</button></a>
-								{% endif %}
 
-								<span class="current" >
-									<span style="color:white;">Page <b>{{ posts_list.number }}</b> of {{ posts_list.paginator.num_pages }}</span>
-								</span> {% if posts_list.has_next %}
-									<a href="?page1={{ posts_list.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;">next</button></a>									{% endif %}
-									</span>
-								</div>
-			
+					<span style="margin-bottom:10px;margin-top:10px"><a href="{% url 'Posts:posts' %}"><button type="button"  style="margin-left:40%;" class="btn btn-info">View All</button></a></span>
+	
 			</div>
-			<div class="col-sm-4" style="background-color:#111;color:white !important;margin-top:0px;padding-bottom:40px">
-				<div class="videos" style="padding-top:20px">
+			<div class="col-sm-4" id="middle-div" style="background-color:#111;color:white !important;padding-bottom:63px;">
+				<div class="videos" >
 					<div class="vid-1"> 
-						<h2 id="heading-vid-1" style="margin:35px 5px 13px 15px;font-weight:900;text-align:center">Around the World!!</h2>
-						<iframe id="vid-1" width="400" height="190" src="https://www.youtube.com/embed/RcmrbNRK-jY"  frameborder="0" allowfullscreen></iframe>
+						<h2 id="heading-vid-1" style="margin:35px 5px 12px 15px;font-weight:900;text-align:center">Around the World!!</h2>
+						<iframe id="vid-1" width="400" height="240" src="https://www.youtube.com/embed/RcmrbNRK-jY"  frameborder="0" allowfullscreen></iframe>
 					</div>
 					<div class="vid-2">
-						<h2 id="heading-vid-2" style="margin:35px 5px 13px 15px;font-weight:900;text-align:center">Most Affordable Destinations!!</h2>
-						<iframe  id="vid-2" width="400" height="210" src="https://www.youtube.com/embed/sRyslbdtT90" frameborder="0" allowfullscreen></iframe>
+						<h2 id="heading-vid-2" style="margin:35px 5px 12px 15px;font-weight:900;text-align:center">Most Affordable Destinations!!</h2>
+						<iframe  id="vid-2" width="400" height="240" src="https://www.youtube.com/embed/sRyslbdtT90" frameborder="0" allowfullscreen></iframe>
 						
 					</div>
 
@@ -313,34 +307,22 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-3" style="background-color:#222 !important ">
-			<div class="item authors" style="border-bottom:.5px solid black !important;">
-				<div id="searcher2"style="margin-top:20px;">
+			<div class="col-sm-3" style="background-color:#222 !important; padding-bottom:20px">
+			<div class="item authors">
+				<div id="searcher2" style="margin-top:16px;padding-bottom:-15px">
 				{% for author in authors_list %}
-						<div class="authors_list thumbnail" style="background-color:#d6dbda;padding:-10px -10px">
-							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:25px 10px 5px 10px;">
+						<div class="authors_list thumbnail" style="background-color:#d6dbda;min-height:195px">
+							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:5%;height:140px;width:130px;margin:15px 10px 5px 10px;">
 							<a href="{{ author.get_absolute_url }}" style="text-decoration:none;color:black"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;margin-top:35px;">{{ author.full_name}}</h2></a>
-							<p>{{ author.work|truncatechars:60 }}....</p>
-							<hr>
+							<h4>{{ author.work|truncatechars:60 }}</h4><br>
+							
 						</div>
 					{% endfor %}
-			<hr>
+			&nbsp;
 			</div>
-				
-					<div class="pagination authors" style="margin-left:5px !important;margin-top:2px;margin-bottom:11px">
-						<span class="step-links">
-								{% if authors_list.has_previous %}
-									<a href="?page2={{ authors_list.previous_page_number }}"><button type="button"class="btn" style="background-color:#14247a;color:white;margin-top:-5px;margin-left:35px">previous</button></a>
-								{% endif %}
+			<hr>	
 
-								<span class="current" >
-									<span style="color:white;">Page <b>{{ authors_list.number }}</b> of {{ authors_list.paginator.num_pages }}</span>
-								</span> 
-								{% if authors_list.has_next %}
-									<a href="?page2={{ authors_list.next_page_number }}"><button type="button" class="btn" style="background-color:#14247a;color:white;margin-top:-5px;margin-right:0px !important">next</button></a>
-								{% endif %}
-						</span>
-					</div>
+					<a href="{% url 'Posts:authors' %}"><button type="button" style="margin-left:40%;margin-top:-10px;margin-bottom:10px" class="btn btn-info">View All</button></a>
 		</div>
 
 	</div>
@@ -354,13 +336,12 @@
 				
 			})
 			$('#videos_link').on('click',function(){
-				$('.most_liked').hide();
 				$('.videos').show();
 
 			})
 			$('#most_liked_link').on('click',function(){
-				$('.most_liked').show();
 				$('.videos').hide();
+				
 
 			})
 
@@ -441,8 +422,8 @@
 				vid_display(count)
 			})
 
-
-			$("#search_btn").on('click', function (e) {
+		
+					$("#search_btn").on('click', function (e) {
 					var val = $('#search_text').val();
 					e.preventDefault();
 					if(val!=""){
@@ -463,13 +444,8 @@
 							for (var i = 0; i < len; i++) {
 
 								title = result['result'][i]['title']
-								content = result['result'][i]['title']
-								if (result['result'][i]['image']) {
-									image = result['result'][i]['image']
-								}
-								else {
-									image = 'no image';
-								}
+								content = result['result'][i]['content']
+								image = result['result'][i]['image']
 								full_name = result['result'][i]['full_name']
 								timestamp = result['result'][i]['timestamp']
 								var date=new Date(timestamp)
@@ -479,24 +455,13 @@
 								slug = result['result'][i]['slug']
 								var get_abs_url = "{% url 'Posts:postdetail' slug=12345 %}".replace(/12345/, slug);
 								console.log(updated)
-								if (image != 'no image') {
-									$('#searcher').append( '<div class="posts_list"><img src=" ' + image + '" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 20px 20px;border:0.8px solid grey">'+
-									'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-weight:900;">' + title + '</h3></a>' +
-										'<h4><span style="background-color:greenyellow;padding:0.3px">'+d+'</span>&nbsp; POSTED BY <b>'+ full_name + '</b></h4>'+
+									$('#searcher').append( '<div class="posts_list thumbnail"style="background-color:#ccc"><img src=" ' + image + '" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">'+
+									'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">' + title + '</h3></a>' +
+										'<h4><span style="background-color:#9423c4;padding:0.3px">'+d+'</span>&nbsp; POSTED BY <b>'+ full_name + '</b></h4>'+
 										
-										'<div class="content-markdown">' + content + '</div><br><br><hr></div>')
-												}
-								else {
-																	
-									$('#searcher').append( '<div class="posts_list"><a href=" ' + get_abs_url +
-									 ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-weight:900;">' + title + '</h3></a>' +
-										'<h4><span style="background-color:greenyellow;padding:0.3px">'+timestamp+'</span>&nbsp; POSTED BY'+full_name+'<b>'+ full_name + '</b></h4>'+
-										
-										'<div class="content-markdown">' + content + '</div><br><br></div>')
-								}
+										'<div class="content-markdown">' + content + '</div><hr></div>')
+												
 							}
-
-
 						}
 
 					});
@@ -526,30 +491,13 @@
 												pk=		result['result'][i]['pk']
 												work = result['result'][i]['work']
 												address = result['result'][i]['address']
-												if (result['result'][i]['profile_pic']) {
-													profile_pic = result['result'][i]['profile_pic']
-												}
-												else {
-													profile_pic = 'no image';
-												}
 												full_name = result['result'][i]['full_name']
-
+												profile_pic=result['result'][i]['profile_pic']
 												var get_abs_url = "{% url 'Posts:authordetail' pk=12345 %}".replace(/12345/, pk);
-												if (profile_pic != 'no image') {
-													$('#searcher2').append('<div class="authors_list thumbnail" style="background-color:#158999"><img src=" ' + profile_pic + '" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">' +
+													$('#searcher2').append('<div class="authors_list thumbnail" style="background-color:#ccc"><img src=" ' + profile_pic + '" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">' +
 														'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">' + full_name + '</h3></a>' +
 													    '<p>'+ work +'....</p><hr></div>')
-
-												}
-
-												else {
-
-														$('#searcher2').append('<div class="authors_list thumbnail" style="background-color:#588d96">' +
-														'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">' + full_name + '</h3></a>' +
-														'<p>' + work + '....</p></div>')
-												}
 											}
-
 
 										}
 

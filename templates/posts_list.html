@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+	<div class="col-xs-12 authors_head">
+
+		<h1 style="text-align:center">POSTS<h1>
+				<a href="{% url 'Posts:list' %}"><span class="glyphicon glyphicon-remove" style="float:right;"></span></a>
+
+			<div class="col-sm-3 " >
+				<form class="navbar-form"  method='POST' action=''> {% csrf_token %}
+
+					<div class="form-group">
+						<input class="form-control " type="text" id="search_text" placeholder="Search Posts" value='{{ request.POST.get }}' name='q'>
+					</div>
+					<button class="btn btn-primary"  id="search_btn" type="submit" >Search</button>
+				</form>
+
+			</div>
+
+	</div>
+</div>
+<div class="col-xs-12" style="background-color:#222">
+			
+	<div class="item content-markdown posts-list" style="border-bottom:.5px solid black !important;margin-top:18px;margin-bottom:4px">
+						
+		<div id="searcher">
+		{% for post in posts_list %}
+		<div class="posts_list thumbnail" style="background-color:#c7c9cc">
+		{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">{% endif %}
+		<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2></a>
+		<h4><span style="background-color:#9423c4;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
+		<div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:90 }}</div>
+	
+		</div>
+		{% endfor %}<br>
+	</div>
+	</div>
+
+				<div class="pagination posts" style="margin-left:25% !important;">
+						<span class="step-links">
+					{% if posts_list.has_previous %}
+						<a href="?page1={{ posts_list.previous_page_number }}"><button type="button" class="btn next_prev" 
+						style="background-color:#14247a;color:white;">previous</button></a>
+					{% endif %}
+
+					<span class="current" >
+						<span style="color:white;">Page <b>{{ posts_list.number }}</b> of {{ posts_list.paginator.num_pages }}</span>
+					</span> {% if posts_list.has_next %}
+						<a href="?page1={{ posts_list.next_page_number }}"><button type="button" class="btn next_prev"
+						 style="background-color:#14247a;color:white;">next</button></a>  {% endif %}
+						</span>
+					</div>
+				</div>
+
+
+<script>
+$(document).ready(function(){
+
+				$("#search_btn").on('click', function (e) {
+					var val = $('#search_text').val();
+					e.preventDefault();
+					if(val!=""){
+					$.ajax({
+						type: 'POST',
+						dataType: 'json',
+						url: '/searchPosts/',
+						data: {
+							'q': val,
+							csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+						},
+						success: function (result) {
+							$('.pagination.posts').hide();
+							$('.posts_list').remove();
+							$('#searcher').empty();
+							var len = (result['result'].length);
+							console.log(len)
+							for (var i = 0; i < len; i++) {
+
+								title = result['result'][i]['title']
+								content = result['result'][i]['title']
+								image = result['result'][i]['image']
+								full_name = result['result'][i]['full_name']
+								timestamp = result['result'][i]['timestamp']
+								var date=new Date(timestamp)
+								var d=date.toDateString();
+
+								updated = result['result'][i]['updated']
+								slug = result['result'][i]['slug']
+								var get_abs_url = "{% url 'Posts:postdetail' slug=12345 %}".replace(/12345/, slug);
+								console.log(updated)
+									$('#searcher').append( '<div class="posts_list thumbnail"style="background-color:#ccc"><img src=" ' + image + '" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">'+
+									'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">' + title + '</h3></a>' +
+										'<h4><span style="background-color:#9423c4;padding:0.3px">'+d+'</span>&nbsp; POSTED BY <b>'+ full_name + '</b></h4>'+
+										
+										'<div class="content-markdown">' + content + '</div><hr></div>')
+												
+							}
+						}
+
+					});
+					}
+				});
+
+
+});
+
+</script>
+
+
+
+{% endblock %}
