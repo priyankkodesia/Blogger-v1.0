@@ -68,34 +68,45 @@ $(document).ready(function(){
 
 
 $("#search_btn2").on('click', function (e) {
-									var val = $('#search_authors').val();
-									console.log(val)
-									e.preventDefault();
-									if (val != "") {
-									$.ajax({
-										type: 'POST',
-										dataType: 'json',
-										url: '/searchAuthors/',
-										data: {
-											'query': val,
-											csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-										},
-										success: function (result) {
-											console.log('inside search function')
-											$('.pagination.authors').hide();
-											$('.authors_list').remove();
-											$('#searcher2').empty();
-											var len = (result['result'].length);
-											for (var i = 0; i < len; i++) {
-												pk=		result['result'][i]['pk']
-												work = result['result'][i]['work']
-												address = result['result'][i]['address']
-												full_name = result['result'][i]['full_name']
-												profile_pic=result['result'][i]['profile_pic']
-												var get_abs_url = "{% url 'Posts:authordetail' pk=12345 %}".replace(/12345/, pk);
-													$('#searcher2').append('<div class="col-xs-6 col-xs-offset-3"><div class="authors_list thumbnail" style="background-color:#ccc;min-height:200px"><img src=" ' + profile_pic + '" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">' +
-														'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">' + full_name + '</h3></a>' +
-													    '<p>'+ work +'....</p><hr></div></div>')
+var val = $('#search_authors').val();
+console.log(val)
+e.preventDefault();
+if (val != "") {
+$.ajax({
+	type: 'POST',
+	dataType: 'json',
+	url: '/searchAuthors/',
+	data: {
+		'query': val,
+		csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+	},
+	success: function (result) {
+		console.log('inside search function')
+		$('.pagination.authors').hide();
+		$('.authors_list').remove();
+		$('#searcher2').empty();
+		var len = (result['result'].length);
+		for (var i = 0; i < len; i++) {
+			pk=		result['result'][i]['pk']
+			work = result['result'][i]['work']
+			address = result['result'][i]['address']
+			full_name = result['result'][i]['full_name']
+			profile_pic=result['result'][i]['profile_pic']
+			author_bio=result['result'][i]['author_bio']
+			console.log(author_bio)
+			var get_abs_url = "{% url 'Posts:authordetail' pk=12345 %}".replace(/12345/, pk);
+
+			 $('#searcher2').append('<div class="thumbnail authors_list col-sm-6 col-sm-offset-3" style="margin-left:20%;margin-top:20px" '+ 
+			 	'style="margin:10px;padding:13px;max-height:330px">'+
+	  '<img src=" '+profile_pic +' " class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 20px '+
+	  '10px;border:0.8px solid grey">'+
+
+			 '<span style="display:flex"><h2 style="font-weight:900;">Name :</h2><a href=" ' +get_abs_url +' " '+  
+			 'style="text-decoration:none;"><h3 style="margin-top:25px;margin-left:10px;font-weight:900;">'+ full_name+'</h3></a></span>'+
+			 '<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Work : </h4> '+ work +
+			'<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Address :</h4>'+ address +
+			'<br><br><h4 style="margin:10px 5px 5px 15px;font-weight:900 !important;">About :</h4><span  style="margin:3px 5px 4px 15px">'+ author_bio +'<span></div>')
+
 											}
 
 										}

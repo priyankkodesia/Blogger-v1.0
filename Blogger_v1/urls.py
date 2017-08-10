@@ -18,6 +18,15 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from Posts import views
+from django.contrib.auth.views import (
+    password_reset,
+    password_reset_done,
+    password_reset_confirm,
+    password_reset_complete,
+    # these are the two new imports
+    password_change,
+    password_change_done,
+)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,6 +37,20 @@ urlpatterns = [
     url(r'^register/$',views.register,name='register'),
     url(r'^logout/$',views.logoutView,name='logout'),
     url(r'session_security/', include('session_security.urls')),
+
+       ###built in password reset functionality-start
+    url(r'^accounts/password/reset/done/$',
+        password_reset_done,
+        {'template_name': 'registration/password_reset_done.html'},
+        name="password_reset_done"),
+    # new url definitions
+    url(r'^accounts/password/change/$', password_change, {
+        'template_name': 'registration/password_change_form.html'},
+        name='password_change'),
+    url(r'^accounts/password/change/done/$', password_change_done,
+        {'template_name': 'registration/password_change_done.html'},
+        name='password_change_done'),
+    ### end
 
 ]
 if settings.DEBUG:

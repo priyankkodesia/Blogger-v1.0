@@ -13,7 +13,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<style>
 		body {
-			background-color: #333
+			background-color: #333;
+			
 		}
 
 		#logout {
@@ -120,8 +121,8 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a></li>
 				<li><a href="{% url 'Posts:create' %}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create</a></li>
-				<li><a href=""><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span>&nbsp;Chat Room</a></li>
-				&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;Hello {{ current_user.first_name|capfirst }}</a>
+				<li><a href="{% url 'Posts:chat' %}"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span>&nbsp;Chat Room</a></li>
+				<li><a href="{% url 'password_change' %}"<span style="right:-650px;margin-top:-3px;" class="glyphicon glyphicon-wrench"></span><span style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif">&nbsp;&nbsp;Password Change</span></a></li>
 
 			</ul>
 	
@@ -265,9 +266,9 @@
 	</div>
 
 
-	<div class="container-fluid" style="background-color:#222">
-		<div class="row" id='list' style="background-color:#333 !important">
-			<div class="col-sm-5" style="background-color:#222;padding-up:16px;margin-bottom:10px;padding-bottom:30px">
+	<div class="container-fluid" style="background-color:#222;">
+		<div class="row" id='list' style="background-color:#333 !important;">
+			<div class="col-sm-5" style="background-color:#222;margin-bottom:10px;padding-bottom:30px">
 						
 				<div class="item content-markdown posts-list" style="border-bottom:.5px solid white !important;margin-top:18px;margin-bottom:12px">
 									

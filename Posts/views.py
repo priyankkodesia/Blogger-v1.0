@@ -114,12 +114,14 @@ def searchAuthors(request):
                             'full_name':r.full_name,
                             'work':r.work,
                             'profile_pic':r.profile_pic.url,                         
-                            'address':r.address,})
+                            'address':r.address,
+                             'author_bio':r.author_bio})
         else:
             result.append({'pk': r.Author.pk,
                             'full_name': r.full_name,
                             'work': r.work,
-                            'address': r.address, })
+                            'address': r.address,
+                            'author_bio':r.author_bio })
     print(result)
     return JsonResponse({'result':result})
 
@@ -127,7 +129,7 @@ def searchAuthors(request):
 @login_required
 def postListView(request):
     posts_list = PostModel.objects.all().order_by('-pk')
-    paginator = Paginator(posts_list, 8)
+    paginator = Paginator(posts_list, 6)
     page = request.GET.get('page1')
     try:
         posts_list = paginator.page(page)
@@ -158,49 +160,39 @@ def listView(request):
 
     current_user=User.objects.get(pk=request.user.pk)
     posts_list = PostModel.objects.all().order_by('-pk')
-    paginator = Paginator(posts_list, 3)
-    page = request.GET.get('page1')
-    try:
-        posts_list = paginator.page(page)
-    except PageNotAnInteger:
-        posts_list = paginator.page(1)
-    except EmptyPage:
-        posts_list = paginator.page(paginator.num_pages)
-
     authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
-    paginator = Paginator(authors_list, 3)
-    page = request.GET.get('page2')
-    try:
-        authors_list = paginator.page(page)
-    except PageNotAnInteger:
-        authors_list = paginator.page(1)
-    except EmptyPage:
-        authors_list = paginator.page(paginator.num_pages)
 
     context = {'posts_list': posts_list, 'authors_list': authors_list,'current_user':current_user}
     return render(request, 'index.html', context)
+
+@login_required
+def chatView(request,*args,**kwargs):
+     if request.method=="GET":
+        try:
+            comments=CommentsModel.objects.all()
+        except:
+            comments=CommentsModel.objects.get(None)
+        return render(request,'chat.html',{'comments':comments})
+     if request.method=="POST":
+        CommentForm = CommentsForm(request.POST or None)
+        user_ = User.objects.get(pk=request.user.pk)
+        print("logged in user pk is %s"%(user_))
+        if CommentForm.is_valid():
+             CommentForm.save(commit=False)
+             CommentForm.pk = user_.pk
+             CommentsModel.save()
+             return render(request,'chat.html',{})
+
 
 
 @login_required
 def postDetailView(request,slug=None):
     if not request.user.is_authenticated:
         raise Http404
-    if request.method=="POST":
-        post_ = PostModel.objects.get(slug=slug)
-        user_ = User.objects.get(pk=request.user.pk)
-        CommentForm=CommentsForm(request.POST or None)
-        if CommentForm.is_valid():
-             CommentForm.save(commit=False)
-             CommentForm.Post = post_
-             CommentForm.pk = user_.pk
-             CommentForm.save()
-             return reverse('Posts:postdetail',kwargs={'slug':slug})
-    if request.method=="GET":
-        queryset=PostModel.objects.get(slug=slug)
-        comments=CommentsModel.objects.all()
-        share_string=quote_plus(queryset.content)
-        context={'object':queryset,'share_string':share_string,'comments':comments}
-        return render(request,'post_detail.html',context)
+    queryset=PostModel.objects.get(slug=slug)
+    share_string=quote_plus(queryset.content)
+    context={'object':queryset,'share_string':share_string}
+    return render(request,'post_detail.html',context)
 
 class postLikeToggle(LoginRequiredMixin,RedirectView):
     def get_redirect_url(self,*args,**kwargs):

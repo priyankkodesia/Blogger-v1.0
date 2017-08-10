@@ -72,7 +72,6 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_post_receiver, sender=PostModel)
 
 class CommentsModel(models.Model):
-    Post            =models.ForeignKey(PostModel,on_delete=models.CASCADE,null=True)
     Author          =models.ForeignKey(User,default=1)
     content         =models.TextField(max_length=258,null=True,blank=True)
     timestamp       =models.DateTimeField(auto_now_add=False,auto_now=True,null=True)

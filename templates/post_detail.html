@@ -23,19 +23,8 @@ body{background-image: url('http://1.bp.blogspot.com/-teEj3rZUjQk/UUhq1P2EFsI/AA
 <h4><span style="background-color:greenyellow;padding:0.3px">{{ object.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ object.Author.get_full_name }}</b></h4>
 
 			<a href="{{ object.get_like_url }}" style="color:white"><button type="button" name="button" style="padding:6px 16px 6px 16px" class="btn btn-primary" value="Like"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ object.likes.count }}</button></a>
-		<form class="navbar-form"  method='GET' action=''> {% csrf_token %}
-				<div class="form-group">
-						<input class="form-control " type="text" id="comment_input" placeholder="Post Comment" value='{{ request.POST.get }}' name='comment_query'>
-					</div>
-				<button class="btn btn-primary"  id="comment_btn" type="submit" >Search</button>
-		</form>
-			{% if comments %}
-			{% for comment in comments %}
-				<div class="thumbnail">
-						Comment:{{ comment.content }}
-				</div>
-			{% endfor %}
-			{% endif %}
+
+
 </div>
 
 		<br></br>
