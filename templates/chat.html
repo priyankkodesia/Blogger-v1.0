@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-		<form class="navbar-form"  method='GET' action=''> {% csrf_token %}
+		<form class="navbar-form"  method='POST' id="myform" action=''> {% csrf_token %}
 				<div class="form-group">
-						<input class="form-control " type="text" id="comment_input" placeholder="Post Comment" value='{{ request.POST.get }}' name='comment_query'>
+						<input class="form-control " type="text" id="comment_input" placeholder="Post Comment" value='{{ request.POST.get }}' name='comment_query' required>
 					</div>
 				<button class="btn btn-primary"  id="comment_btn" type="submit" >Comment</button>
 		</form>
 
-{% if comments %}
+        {% if comments %}
 			{% for comment in comments %}
 				<div class="thumbnail">
-						Comment:{{ comment.content }}
+						<span style="display:flex"><h3 style="margin-left:30px">{{ comment.content }}</h3>  <a href="{{ comment.Author.get_absolute_url }}"><p style="left:13;position:absolute;margin-top:-5px;"> @{{ comment.Author }} -- </p></span></a>
 				</div>
 			{% endfor %}
             {% endif %}
+
+
             
 {% endblock %}

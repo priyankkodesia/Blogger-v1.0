@@ -159,31 +159,11 @@ def listView(request):
         raise Http404
 
     current_user=User.objects.get(pk=request.user.pk)
-    posts_list = PostModel.objects.all().order_by('-pk')
-    authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
+    posts_list = PostModel.objects.all().order_by('-pk')[:3]
+    authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')[:3]
 
     context = {'posts_list': posts_list, 'authors_list': authors_list,'current_user':current_user}
     return render(request, 'index.html', context)
-
-@login_required
-def chatView(request,*args,**kwargs):
-     if request.method=="GET":
-        try:
-            comments=CommentsModel.objects.all()
-        except:
-            comments=CommentsModel.objects.get(None)
-        return render(request,'chat.html',{'comments':comments})
-     if request.method=="POST":
-        CommentForm = CommentsForm(request.POST or None)
-        user_ = User.objects.get(pk=request.user.pk)
-        print("logged in user pk is %s"%(user_))
-        if CommentForm.is_valid():
-             CommentForm.save(commit=False)
-             CommentForm.pk = user_.pk
-             CommentsModel.save()
-             return render(request,'chat.html',{})
-
-
 
 @login_required
 def postDetailView(request,slug=None):
@@ -193,6 +173,25 @@ def postDetailView(request,slug=None):
     share_string=quote_plus(queryset.content)
     context={'object':queryset,'share_string':share_string}
     return render(request,'post_detail.html',context)
+
+@login_required
+def chatView(request,*args,**kwargs):
+     if request.method=="GET":
+        try:
+            comments=CommentsModel.objects.all().order_by('-timestamp')
+        except:
+            comments = None
+        return render(request,'chat.html',{'comments':comments})
+     if request.method=="POST":
+        q=request.POST.get('comment_query')
+        CommentForm = CommentsForm(request.POST)
+        if CommentForm.is_valid():
+            comment_instance = CommentForm.save(commit=False)
+            comment_instance.Author = request.user
+            comment_instance.content = q
+            comment_instance.save()
+        return redirect('Posts:chat')
+    
 
 class postLikeToggle(LoginRequiredMixin,RedirectView):
     def get_redirect_url(self,*args,**kwargs):
