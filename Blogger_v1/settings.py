@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'pagedown',
     'session_security',
+    
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,13 @@ STATICFILES_DIRS = [STATIC_DIR]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT=MEDIA_DIR
+
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'mail.travelogue.in'
+EMAIL_MAIN = 'mail.travelogue.in'
+EMAIL_HOST_USER = 'priyank.kodesia'
+EMAIL_HOST_PASSWORD = 'SendgriD!43'
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -48,14 +48,14 @@
 		}
 
 		#list-headings {
-			background-color:#50afab !important;
+			background-color:#1d73af !important;
 			padding: 6px;
 			text-align: center;
 			max-width: 98.8%;
 			margin: auto;
 		}
 		#search{	
-			background-color: #50afab !important;
+			background-color: #1d73af !important;
 			margin-bottom:60px !important;
 			text-align: center;
 			max-width: 98.8%;
@@ -123,7 +123,7 @@
 				<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a></li>
 				<li><a href="{% url 'Posts:create' %}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create</a></li>
 				<li><a href="{% url 'Posts:chat' %}"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span>&nbsp;Chat Room</a></li>
-				<li><a href="{% url 'password_change' %}"<span style="right:-650px;margin-top:-3px;" class="glyphicon glyphicon-wrench"></span><span style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif">&nbsp;&nbsp;Password Change</span></a></li>
+				<li><a href="{% url 'Posts:change_password' %}"<span style="right:-650px;margin-top:-3px;" class="glyphicon glyphicon-wrench"></span><span style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif">&nbsp;&nbsp;Password Change</span></a></li>
 
 			</ul>
 	
@@ -221,7 +221,7 @@
 			</div>
 		</div>
 	</div>
-		<div class="container-fluid body" style="background-color:#50afab;max-width:96.6%">
+		<div class="container-fluid body" style="background-color:#1d73af;max-width:96.6%">
 		<div class="row " id='search'>
 			<div class="col-sm-5">
 				<form class="navbar-form"  method='POST' action=''> {% csrf_token %}
@@ -269,7 +269,7 @@
 									
 					<div id="searcher">
 					{% for post in posts_list %}
-					<div class="posts_list thumbnail" style="background-image:url('http://cdn.wallpapersafari.com/72/18/Rq7Dn9.png');background-size:100% 100%;padding:13px !important;max-height:195px">
+					<div class="posts_list thumbnail" style="background-image:url('http://cdn.wallpapersafari.com/73/78/je0icI.jpg');background-size:100% 100%;padding:13px !important;max-height:195px">
 					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">{% endif %}
 					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:white;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title|capfirst }}</h2></a>
 					<div >{{ post.content|truncatechars:80 }}</div><br>
@@ -308,7 +308,7 @@
 			<div class="item authors">
 				<div id="searcher2" style="margin-top:16px;padding-bottom:-15px">
 				{% for author in authors_list %}
-						<div class="authors_list thumbnail" style="background-image:url('http://cdn.wallpapersafari.com/72/18/Rq7Dn9.png');background-size:100% 100%;min-height:195px">
+						<div class="authors_list thumbnail" style="background-image:url('http://cdn.wallpapersafari.com/73/78/je0icI.jpg');background-size:100% 100%;min-height:195px">
 							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:5%;height:140px;width:130px;margin:15px 10px 5px 10px;">
 							<a href="{{ author.get_absolute_url }}" style="text-decoration:none;color:white"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;margin-top:35px;">{{ author.full_name|capfirst}}</h2></a>
 							<h4>{{ author.work|truncatechars:60 }}</h4><br>
@@ -460,7 +460,7 @@
 								slug = result['result'][i]['slug']
 								var get_abs_url = "{% url 'Posts:postdetail' slug=12345 %}".replace(/12345/, slug);
 								console.log(updated)
-									$('#searcher').append('<div class="posts_list thumbnail" style="background-image:url(\'http://cdn.wallpapersafari.com/72/18/Rq7Dn9.png\');background-size:100% 100%;padding:13px !important;max-height:195px">'+
+									$('#searcher').append('<div class="posts_list thumbnail" style="background-image:url(\'http://cdn.wallpapersafari.com/73/78/je0icI.jpg\');background-size:100% 100%;padding:13px !important;max-height:195px">'+
 					'<img src="'+image+'" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">'+
 					'<a href="'+get_abs_url+'" style="text-decoration:none;color:white;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">'+title+'</h2></a>'+
 					'<div >'+content+'...</div><br>&nbsp; <span style="margin-top:80px !important"><p style="float:right;margin-bottom:2px;font-size:20px"><b>'+full_name+'</b></p><p style="margin-left:75%;margin-bottom:20px !important">'+d+'</p></span></div>')
@@ -499,7 +499,7 @@
 												full_name = result['result'][i]['full_name']
 												profile_pic=result['result'][i]['profile_pic']
 												var get_abs_url = "{% url 'Posts:authordetail' pk=12345 %}".replace(/12345/, pk);
-													$('#searcher2').append('<div class="authors_list thumbnail" style="background-image:url(\'http://cdn.wallpapersafari.com/72/18/Rq7Dn9.png\');background-size:100% 100%;min-height:195px">'+
+													$('#searcher2').append('<div class="authors_list thumbnail" style="background-image:url(\'http://cdn.wallpapersafari.com/73/78/je0icI.jpg\');background-size:100% 100%;min-height:195px">'+
 							'<img src="'+profile_pic+'" class="img-responsive" style="float:left;border-radius:5%;height:140px;width:130px;margin:15px 10px 5px 10px;">'+
 							'<a href="'+get_abs_url+'" style="text-decoration:none;color:white"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;margin-top:35px;">'+full_name+'</h2></a>'+
 							'<h4>'+work+'</h4><br></div>')

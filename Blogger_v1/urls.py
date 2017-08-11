@@ -38,19 +38,8 @@ urlpatterns = [
     url(r'^logout/$',views.logoutView,name='logout'),
     url(r'session_security/', include('session_security.urls')),
 
-       ###built in password reset functionality-start
-    url(r'^accounts/password/reset/done/$',
-        password_reset_done,
-        {'template_name': 'registration/password_reset_done.html'},
-        name="password_reset_done"),
-    # new url definitions
-    url(r'^accounts/password/change/$', password_change, {
-        'template_name': 'registration/password_change_form.html'},
-        name='password_change'),
-    url(r'^accounts/password/change/done/$', password_change_done,
-        {'template_name': 'registration/password_change_done.html'},
-        name='password_change_done'),
-    ### end
+
+    url(r'^', include('django.contrib.auth.urls')),
 
 ]
 if settings.DEBUG:

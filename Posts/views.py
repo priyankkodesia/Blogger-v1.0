@@ -3,21 +3,24 @@ from .forms import PostForm,LoginForm,UserRegistrationForm,UserBioForm,CommentsF
 from urllib.parse import quote_plus
 from django.core.urlresolvers import reverse,reverse_lazy
 from .models import PostModel,AuthorDetailModel,CommentsModel
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import login,logout,authenticate,update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import RedirectView
 from django.views.generic.list import ListView
+from django.contrib.auth.views import password_reset, password_reset_confirm,password_reset_complete
 from django.template import RequestContext
 import datetime
 
-# Create your views here.
+
 
 def register(request):
     if request.method=="GET":
@@ -32,9 +35,10 @@ def register(request):
             Auth=BioForm.save(commit=False)
             Auth.Author = user
             BioForm.save()
+            messages.success(request,"Your profile has been created.Welcome to the Blog.!!!",extra_tags='alert')
             return redirect('login')
         else:
-            
+            messages.warning(request,"Please correct the errors below")
             return render(request, 'registration.html', {'RegForm.errors': RegForm.errors,
                                                          'BioForm.errors': BioForm.errors})
 
@@ -128,7 +132,7 @@ def searchAuthors(request):
 
 @login_required
 def postListView(request):
-    posts_list = PostModel.objects.all().order_by('-pk')
+    posts_list = PostModel.objects.all().order_by('-likes')
     paginator = Paginator(posts_list, 6)
     page = request.GET.get('page1')
     try:
@@ -161,18 +165,23 @@ def listView(request):
     current_user=User.objects.get(pk=request.user.pk)
     posts_list = PostModel.objects.all().order_by('-pk')[:3]
     authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')[:3]
-    authors_list_liked = PostModel.objects.exclude(pk=1).order_by('-likes')[:3]
 
-    context = {'posts_list': posts_list,'authors_list_liked': authors_list_liked, 'authors_list': authors_list,'current_user':current_user}
+    context = {'posts_list': posts_list,'authors_list': authors_list,'current_user':current_user}
     return render(request, 'index.html', context)
 
 @login_required
 def postDetailView(request,slug=None):
     if not request.user.is_authenticated:
         raise Http404
+    flag=False
     queryset=PostModel.objects.get(slug=slug)
+    print(queryset.Author)
+    print(request.user)
+    if(queryset.Author == request.user):
+         flag=True
+    
     share_string=quote_plus(queryset.content)
-    context={'object':queryset,'share_string':share_string}
+    context={'object':queryset,'share_string':share_string,'flag':flag}
     return render(request,'post_detail.html',context)
 
 @login_required
@@ -180,8 +189,8 @@ def chatView(request,*args,**kwargs):
      if request.method=="GET":
 
         try:
-            comments=CommentsModel.objects.all().order_by('-timestamp')
-
+            comments=CommentsModel.objects.all().order_by('-pk')
+            print(comments)
         except:
             comments = None
         return render(request,'chat.html',{'comments':comments})
@@ -223,29 +232,44 @@ def authorDetailView(request,pk=None):
     return render(request,'author_detail.html',context)
 
 @login_required
-def deleteView(request,pk=None):
+def deleteView(request,slug=None):
     if not request.user.is_authenticated:
         raise Http404
-    queryset=PostModel.objects.get(pk=pk)
+    queryset=PostModel.objects.get(slug=slug)
     queryset.delete()
-    return redirect('Posts:list')
+    return redirect('Posts:posts')
+
 
 @login_required
-def editView(request,slug=None):
-    if not request.user.is_authenticated:
-        raise Http404
-    instance= get_object_or_404(PostModel,slug=slug)
-    form =PostForm(request.POST or None,request.FILES or None, instance=instance)
-    if request.user.is_authenticated:
+def password_change(request):
+    form_class =PasswordChangeForm(request.user)
+    if request.method == "GET":
+        return render(request,'password_change.html',{'form':form_class})
+    if request.method == "POST":
+        form=PasswordChangeForm(request.user,request.POST)
         if form.is_valid():
-            instance=form.save(commit=False)
-            instance.Author=request.Author
-            instance.save()
-            instance.edited= True
-            return redirect('Posts:list')
-    return render(request,'create_post.html',{'form':PostForm})
+            print("form is valid")
+            user=form.save()
+            print("form saved")
+            update_session_auth_hash(request,user)
+            messages.success(request,"Your password has been successfully changed",extra_tags='alert')
+            return redirect("Posts:list")
+        else:
+            messages.warning(request,"Please correct the errors below")
+    return render(request,'password_change.html',{'form':form})
+
 
 @login_required
 def logoutView(request):
     logout(request)
-    return redirect('login')
+    return render(request,'login.html',{})
+
+def reset_confirm(request, uidb36=None, token=None):
+    return password_reset_confirm(request, template_name='registration/password_reset_confirm.html',
+        uidb36=uidb36, token=token, post_reset_redirect='login.html')
+
+def reset(request):
+    return password_reset(request, template_name='registration/password_reset_form.html',
+        email_template_name='registration/password_reset_email.html',
+        subject_template_name='registration/password_reset_subject.txt',
+        post_reset_redirect=reverse('login'))

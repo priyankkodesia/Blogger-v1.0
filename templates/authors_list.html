@@ -33,12 +33,12 @@ body{background-image:url('http://wallpapercave.com/wp/UoQbFHi.jpg')}
 <div class='col-xs-12 list'>
 			<div id="searcher2">
 			{% for author in authors_list %}
-	<div class="thumbnail authors_list col-sm-5 col-sm-offset-3" style="margin:10px;padding:13px;max-height:330px">
+	<div class="thumbnail authors_list col-sm-5 col-sm-offset-3" style="margin:10px;padding:13px;height:330px">
 			 {% if author.profile_pic %}<img src="{{ author.profile_pic.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 20px 10px;border:0.8px solid grey">{% endif %}
 
 			 {% if author.Author.get_full_name %}<span style="display:flex"><h2 style="font-weight:900;">Name :</h2><a href="{{ author.get_absolute_url }}" style="text-decoration:none;"><h3 style="margin-top:25px;margin-left:10px;font-weight:900;"> {{ author.Author.get_full_name }}</h3></a></span>{% endif %}
-			 {% if author.work %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Work : </h4>{{ author.work }}{% endif %}
-			{% if author.address %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Address :</h4> {{ author.address }}{% endif %}
+			 {% if author.work %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Work : </h4>{{ author.work|truncatechars:20 }}{% endif %}
+			{% if author.address %}<h4 style="margin:10px 5px 5px 15px;font-weight:900;">Address :</h4> {{ author.address|truncatechars:35 }}{% endif %}
 			<br><br> {% if author.author_bio|truncatechars:100 %}<h4 style="margin:10px 5px 5px 15px;font-weight:900 !important;">About {{ author|capfirst }} :</h4><span  style="margin:3px 5px 4px 15px"> {{ author.author_bio }}<span>{% endif %}
 		</div>
 		{% endfor %}

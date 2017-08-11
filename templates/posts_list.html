@@ -37,7 +37,10 @@ body{background-image:url('http://wallpapercave.com/wp/UoQbFHi.jpg')}
 				 {% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 20px 10px;border:0.8px solid grey">{% endif %}
 
 				 {% if post.title %}<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin-top:25px;margin-left:10px;font-weight:900;"> {{ post.title|capfirst }}</h2></a>{% endif %}
+				 
 				 <h4><span style="padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
+				  				  <span style="margin-left:300px;color:blue" class="glyphicon glyphicon-thumbs-up">&nbsp;{{ post.likes.count }}</span>
+
 				 <div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:90 }}</div>
 			</div>
 		{% endfor %}
