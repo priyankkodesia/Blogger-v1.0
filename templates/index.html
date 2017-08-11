@@ -48,14 +48,14 @@
 		}
 
 		#list-headings {
-			background-color: #af0b05;
+			background-color:#50afab !important;
 			padding: 6px;
 			text-align: center;
 			max-width: 98.8%;
 			margin: auto;
 		}
 		#search{	
-			background-color: #af0b05;
+			background-color: #50afab !important;
 			margin-bottom:60px !important;
 			text-align: center;
 			max-width: 98.8%;
@@ -108,6 +108,7 @@
 			
 		}
 		.item h2:hover{color:#666}
+		.thumbnail{color:white}
 	</style>
 </head>
 
@@ -205,23 +206,22 @@
 							
 			</div>
 <div class="col-sm-4 ">
-			<a href="{% url 'Posts:list' %}" style="margin-right:0px; " ><button type="button" class="btn btn-success" style="color:#000">Refresh</button></a>
+				<a href="{% url 'Posts:list' %}" ><span class="glyphicon glyphicon-refresh" style="margin-left:-30%;color:black;font-size:18px"></button></a>
 
 	</div>
 
 
 			<div class="col-sm-3 ">
 				
-					<h4 class="category-links large" style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
-									font-size:20px;
-									font-weight:900;
+					<h4 class="category-links large" style="font-size:20px;
+									font-weight:700;
 									margin:9px -15px -5px 0px;margin-left:-10px;
 									color:white;text-decoration:none;">New Authors</h4>
 					
 			</div>
 		</div>
 	</div>
-		<div class="container-fluid body" style="background-color:#af0b05;max-width:96.6%">
+		<div class="container-fluid body" style="background-color:#50afab;max-width:96.6%">
 		<div class="row " id='search'>
 			<div class="col-sm-5">
 				<form class="navbar-form"  method='POST' action=''> {% csrf_token %}
@@ -234,29 +234,24 @@
 
 			</div>
 		
-							<div class="col-sm-2 link acti" style="margin-bottom:-30px;border-left:1px solid grey;">
+							<div class="col-sm-3 link acti" style="margin-bottom:-30px;border-left:1px solid grey;">
 								<a href="" style="text-decoration:none">
 									<p class="category-links small" id="videos_link">Videos</p>
 								</a>
 
 
 							</div>
-							<div class="col-sm-2 link " style="margin-bottom:-30px;border-right:1px solid grey;">
-								<a href=""  style="text-decoration:none">
-									<p class="category-links small" id="most_liked_link">Popular Posts</p>
-								</a>
 
-							</div>
 			
 
 			<div class="col-sm-3 " >
 				<form style="display:flex" class="navbar-form" method='POST' action=''> {% csrf_token %}
 
 					<div class="form-group">
-						<input class="form-control " style="margin-right:10px" type="text" id="search_authors" placeholder="Search Authors" value='{{ request.POST.get }}' name='query'>
+						<input class="form-control " style="margin-right:-50px" type="text" id="search_authors" placeholder="Search Authors" value='{{ request.POST.get }}' name='query'>
 
 					</div>
-					<button class="btn btn-primary" style="margin-right:-130px" id="search_btn2" type="submit">Search</button>
+					<button class="btn btn-primary" style="margin-right:-210px;margin-left:55px" id="search_btn2" type="submit">Search</button>
 				
 				</form>
 
@@ -274,47 +269,48 @@
 									
 					<div id="searcher">
 					{% for post in posts_list %}
-					<div class="posts_list thumbnail" style="background-color:#c7c9cc;padding:13px !important;min-height:195px">
+					<div class="posts_list thumbnail" style="background-image:url('http://cdn.wallpapersafari.com/72/18/Rq7Dn9.png');background-size:100% 100%;padding:13px !important;max-height:195px">
 					{% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">{% endif %}
-					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title }}</h2></a>
-					<h4><span style="background-color:#9423c4;padding:0.3px">{{ post.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ post.Author.get_full_name }}</b></h4>
-					<div class="content-markdown" style="margin-bottom:20px">{{ post.content|truncatechars:40 }}</div>
+					<a href="{{ post.get_absolute_url }}" style="text-decoration:none;color:white;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">{{ post.title|capfirst }}</h2></a>
+					<div >{{ post.content|truncatechars:80 }}</div><br>
+					&nbsp; <span style="margin-top:80px !important"><p style="float:right;margin-bottom:2px;font-size:20px"><b>{{ post.Author.get_full_name }}</b></p><p style="margin-left:80%;margin-bottom:20px !important">{{ post.timestamp|date }}</p></span>
+					
 				
 					</div>
 					{% endfor %}
 				<br></div><br>
 				</div>
-
-					<span style="margin-bottom:10px;margin-top:10px"><a href="{% url 'Posts:posts' %}"><button type="button"  style="margin-left:40%;" class="btn btn-info">View All</button></a></span>
+ 
+					<span  class="view_all_posts" style="margin-bottom:10px;margin-top:10px"><a href="{% url 'Posts:posts' %}"><button type="button"  style="margin-left:40%;" class="btn btn-primary">View All</button></a></span>
 	
 			</div>
-			<div class="col-sm-4" id="middle-div" style="background-color:#111;color:white !important;padding-bottom:63px;">
+			<div class="col-sm-3" id="middle-div" style="background-color:#111;color:white !important;padding-bottom:30px;">
 				<div class="videos" >
 					<div class="vid-1"> 
-						<h2 id="heading-vid-1" style="margin:35px 5px 12px 15px;font-weight:900;text-align:center">Around the World!!</h2>
-						<iframe id="vid-1" width="400" height="240" src="https://www.youtube.com/embed/RcmrbNRK-jY"  frameborder="0" allowfullscreen></iframe>
+						<h2 id="heading-vid-1" style="margin:22px 5px 12px 15px;font-weight:900;text-align:center">Around the World!!</h2>
+						<iframe id="vid-1" width="300" height="207" src="https://www.youtube.com/embed/RcmrbNRK-jY"  frameborder="0" allowfullscreen></iframe>
 					</div>
 					<div class="vid-2">
-						<h2 id="heading-vid-2" style="margin:35px 5px 12px 15px;font-weight:900;text-align:center">Most Affordable Destinations!!</h2>
-						<iframe  id="vid-2" width="400" height="240" src="https://www.youtube.com/embed/sRyslbdtT90" frameborder="0" allowfullscreen></iframe>
+						<h2 id="heading-vid-2" style="margin:46px 5px 17px 15px;font-weight:900;text-align:center">Most Affordable Destinations!!</h2>
+						<iframe  id="vid-2" width="300" height="200" src="https://www.youtube.com/embed/sRyslbdtT90" frameborder="0" allowfullscreen></iframe>
 						
-					</div>
+					</div><br><br><hr>
 
 					<div class="col-sm-2">
-						<button type="button" id="videos-prev" class=btn style="background-color:#14247a;margin:23px 20px -23px 200px;color:white;">Prev</button>
+						<button type="button" id="videos-prev" class=btn style="background-color:#14247a;margin:-12px 10px -10px 160px;color:white;">Prev</button>
 					</div>
 					<div class="col-sm-2">
-						<button type="button" id="videos-next" class=btn style="background-color:#14247a;margin:23px 30px -23px 50px;color:white;">Next</button>
+						<button type="button" id="videos-next" class=btn style="background-color:#14247a;margin:-12px 10px -10px 10px;color:white;">Next</button>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-3" style="background-color:#222 !important; padding-bottom:20px">
+			<div class="col-sm-4" style="background-color:#222 !important; padding-bottom:20px">
 			<div class="item authors">
 				<div id="searcher2" style="margin-top:16px;padding-bottom:-15px">
 				{% for author in authors_list %}
-						<div class="authors_list thumbnail" style="background-color:#d6dbda;min-height:195px">
+						<div class="authors_list thumbnail" style="background-image:url('http://cdn.wallpapersafari.com/72/18/Rq7Dn9.png');background-size:100% 100%;min-height:195px">
 							<img src="{{ author.profile_pic.url }}" class="img-responsive" style="float:left;border-radius:5%;height:140px;width:130px;margin:15px 10px 5px 10px;">
-							<a href="{{ author.get_absolute_url }}" style="text-decoration:none;color:black"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;margin-top:35px;">{{ author.full_name}}</h2></a>
+							<a href="{{ author.get_absolute_url }}" style="text-decoration:none;color:white"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;margin-top:35px;">{{ author.full_name|capfirst}}</h2></a>
 							<h4>{{ author.work|truncatechars:60 }}</h4><br>
 							
 						</div>
@@ -323,7 +319,7 @@
 			</div>
 			<hr>	
 
-					<a href="{% url 'Posts:authors' %}"><button type="button" style="margin-left:40%;margin-top:-10px;margin-bottom:10px" class="btn btn-info">View All</button></a>
+					<span class="view_all_authors"><a href="{% url 'Posts:authors' %}"><button type="button" style="margin-left:40%;margin-top:-10px;margin-bottom:10px" class="btn btn-primary">View All</button></a></span>
 		</div>
 
 	</div>
@@ -342,6 +338,9 @@
 			})
 			$('#most_liked_link').on('click',function(){
 				$('.videos').hide();
+				{% for auth in authors_list_liked %}
+					console.log(auth.content)
+				{% endfor %}
 				
 
 			})
@@ -423,10 +422,12 @@
 				vid_display(count)
 			})
 
+
 		
 					$("#search_btn").on('click', function (e) {
 					var val = $('#search_text').val();
 					e.preventDefault();
+					$('.view_all_posts').hide();
 					if(val!=""){
 					$.ajax({
 						type: 'POST',
@@ -446,6 +447,9 @@
 
 								title = result['result'][i]['title']
 								content = result['result'][i]['content']
+								content= content.toString();
+								content = content.slice(0,60);
+								console.log(content)
 								image = result['result'][i]['image']
 								full_name = result['result'][i]['full_name']
 								timestamp = result['result'][i]['timestamp']
@@ -456,11 +460,10 @@
 								slug = result['result'][i]['slug']
 								var get_abs_url = "{% url 'Posts:postdetail' slug=12345 %}".replace(/12345/, slug);
 								console.log(updated)
-									$('#searcher').append( '<div class="posts_list thumbnail"style="background-color:#ccc"><img src=" ' + image + '" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">'+
-									'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">' + title + '</h3></a>' +
-										'<h4><span style="background-color:#9423c4;padding:0.3px">'+d+'</span>&nbsp; POSTED BY <b>'+ full_name + '</b></h4>'+
-										
-										'<div class="content-markdown">' + content + '</div><hr></div>')
+									$('#searcher').append('<div class="posts_list thumbnail" style="background-image:url(\'http://cdn.wallpapersafari.com/72/18/Rq7Dn9.png\');background-size:100% 100%;padding:13px !important;max-height:195px">'+
+					'<img src="'+image+'" class="img-responsive" style="height:150px;width:140px;float:left;margin:10px 15px 10px 20px;border:0.8px solid grey">'+
+					'<a href="'+get_abs_url+'" style="text-decoration:none;color:white;"><h2 style="margin:10px 5px 13px 15px;font-weight:900;">'+title+'</h2></a>'+
+					'<div >'+content+'...</div><br>&nbsp; <span style="margin-top:80px !important"><p style="float:right;margin-bottom:2px;font-size:20px"><b>'+full_name+'</b></p><p style="margin-left:75%;margin-bottom:20px !important">'+d+'</p></span></div>')
 												
 							}
 						}
@@ -473,6 +476,7 @@
 									var val = $('#search_authors').val();
 									console.log(val)
 									e.preventDefault();
+									$('.view_all_authors').hide();
 									if (val != "") {
 									$.ajax({
 										type: 'POST',

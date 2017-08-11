@@ -1,20 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+body{background-image:url('https://s-media-cache-ak0.pinimg.com/originals/bb/71/60/bb71600148b1f4d059ba015abd92e5e2.jpg');background-size:100% 100%}
+.comments_head{text-align: center;color:aquamarine;background-color:#111;}
+.glyphicon{position:absolute;float:right;margin-top: 10px;margin-right:10px;}
+.comment_form{margin-left:23.9%}
+.comments_list{margin-top:20px}
+#comment_input{background-color:seashell}
+.thumbnail{background-image:url('http://cdn.wallpapersafari.com/39/1/gIAkEU.jpg');color:white;padding-right:10px}
+form{display: flex}
+</style>
+
+
+
+	<div class="row">
+	<div class="col-xs-12 comments_head">
+
+		<h1 style="text-align:center">FORUM<h1>
+				<a href="{% url 'Posts:chat' %}" ><span class="glyphicon glyphicon-refresh" style="right:42px;font-size:18px"></button></a>
+
+				<a href="{% url 'Posts:list' %}"><span class="glyphicon glyphicon-remove" style="right:14px;font-size:18px"></span></a>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 comment_form">
 		<form class="navbar-form"  method='POST' id="myform" action=''> {% csrf_token %}
 				<div class="form-group">
-						<input class="form-control " type="text" id="comment_input" placeholder="Post Comment" value='{{ request.POST.get }}' name='comment_query' required>
+						<textarea class="form-control " cols="88" rows="5"  type="address" id="comment_input" placeholder="Post Comment" value='{{ request.POST.get }}' name='comment_query' required></textarea>
 					</div>
-				<button class="btn btn-primary"  id="comment_btn" type="submit" >Comment</button>
+				<button class="btn btn-primary" style="height:35px;margin-top:40px;margin-left:20px" id="comment_btn" type="submit" >Comment</button>
 		</form>
-
+	</div>
+</div>
+	<div class="row">
+		<div class="col-xs-6 col-xs-offset-3 comments_list"><hr>
         {% if comments %}
 			{% for comment in comments %}
 				<div class="thumbnail">
-						<span style="display:flex"><h3 style="margin-left:30px">{{ comment.content }}</h3>  <a href="{{ comment.Author.get_absolute_url }}"><p style="left:13;position:absolute;margin-top:-5px;"> @{{ comment.Author }} -- </p></span></a>
+						<h3 style="color:#29cea4" >&nbsp; {{ comment.Author|capfirst }}-- </h3><h4 style="margin-left:30px;text-align:left">{{ comment.content }}</h4><p style="margin-left:80%;position:relative">{{ comment.timestamp|timesince}} ago</p>
 				</div>
 			{% endfor %}
             {% endif %}
 
+		</div>
+	</div>
 
             
 {% endblock %}

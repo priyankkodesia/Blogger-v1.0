@@ -2,7 +2,7 @@
 {% block content %}
 <style>
 body{background-image: url('http://1.bp.blogspot.com/-teEj3rZUjQk/UUhq1P2EFsI/AAAAAAAAjXU/c94NKqiCFVQ/s1600/Travel++HD+wallpapers+(3).jpg');background-size:100%}
-.thumbnail{background-color:azure}
+.thumbnail{background-color:linen}
 </style>
 	<div class="thumbnail col-sm-5 col-sm-offset-3" style="text-align:center;">
 		<a href="{% url 'Posts:list' %}"><span class="glyphicon glyphicon-remove" style="float:right;"></span></a>
@@ -20,10 +20,9 @@ body{background-image: url('http://1.bp.blogspot.com/-teEj3rZUjQk/UUhq1P2EFsI/AA
 </div>
 </div>
 
-<h4><span style="background-color:greenyellow;padding:0.3px">{{ object.timestamp|date }}</span>&nbsp; POSTED BY <b>{{ object.Author.get_full_name }}</b></h4>
 
-			<a href="{{ object.get_like_url }}" style="color:white"><button type="button" name="button" style="padding:6px 16px 6px 16px" class="btn btn-primary" value="Like"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ object.likes.count }}</button></a>
-
+			<a href="{{ object.get_like_url }}" style="color:white"><button type="button" name="button" style="padding:6px 16px 6px 16px;margin-left:35%" class="btn btn-primary" value="Like"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ object.likes.count }}</button></a>
+<span style="margin-top:80px !important"><p style="float:right;margin-bottom:2px;font-size:20px"><b>{{ object.Author.get_full_name }}</b></p><p style="margin-left:80%;margin-bottom:20px !important">{{ object.timestamp|date }}</p></span>
 
 </div>
 

@@ -161,8 +161,9 @@ def listView(request):
     current_user=User.objects.get(pk=request.user.pk)
     posts_list = PostModel.objects.all().order_by('-pk')[:3]
     authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')[:3]
+    authors_list_liked = PostModel.objects.exclude(pk=1).order_by('-likes')[:3]
 
-    context = {'posts_list': posts_list, 'authors_list': authors_list,'current_user':current_user}
+    context = {'posts_list': posts_list,'authors_list_liked': authors_list_liked, 'authors_list': authors_list,'current_user':current_user}
     return render(request, 'index.html', context)
 
 @login_required
@@ -177,8 +178,10 @@ def postDetailView(request,slug=None):
 @login_required
 def chatView(request,*args,**kwargs):
      if request.method=="GET":
+
         try:
             comments=CommentsModel.objects.all().order_by('-timestamp')
+
         except:
             comments = None
         return render(request,'chat.html',{'comments':comments})
