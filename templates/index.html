@@ -499,9 +499,10 @@
 												full_name = result['result'][i]['full_name']
 												profile_pic=result['result'][i]['profile_pic']
 												var get_abs_url = "{% url 'Posts:authordetail' pk=12345 %}".replace(/12345/, pk);
-													$('#searcher2').append('<div class="authors_list thumbnail" style="background-color:#ccc"><img src=" ' + profile_pic + '" class="img-responsive" style="float:left;border-radius:80%;height:120px;width:120px;margin:5px 10px 5px 10px;">' +
-														'<a href=" ' + get_abs_url + ' " style="text-decoration:none;color:black;"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;">' + full_name + '</h3></a>' +
-													    '<p>'+ work +'....</p><hr></div>')
+													$('#searcher2').append('<div class="authors_list thumbnail" style="background-image:url(\'http://cdn.wallpapersafari.com/72/18/Rq7Dn9.png\');background-size:100% 100%;min-height:195px">'+
+							'<img src="'+profile_pic+'" class="img-responsive" style="float:left;border-radius:5%;height:140px;width:130px;margin:15px 10px 5px 10px;">'+
+							'<a href="'+get_abs_url+'" style="text-decoration:none;color:white"><h2 style="margin:30px 5px 13px 15px;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;font-weight:900;margin-top:35px;">'+full_name+'</h2></a>'+
+							'<h4>'+work+'</h4><br></div>')
 											}
 
 										}
