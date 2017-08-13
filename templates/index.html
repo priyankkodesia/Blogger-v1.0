@@ -122,7 +122,7 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a></li>
 				<li><a href="{% url 'Posts:create' %}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create</a></li>
-				<li><a href="{% url 'Posts:chat' %}"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span>&nbsp;Chat Room</a></li>
+				<li><a href="{% url 'Posts:chat' %}"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span>&nbsp;Forum</a></li>
 				<li><a href="{% url 'Posts:change_password' %}"<span style="right:-650px;margin-top:-3px;" class="glyphicon glyphicon-wrench"></span><span style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif">&nbsp;&nbsp;Password Change</span></a></li>
 
 			</ul>
@@ -332,19 +332,6 @@
 				$(this).addClass("acti")
 				
 			})
-			$('#videos_link').on('click',function(){
-				$('.videos').show();
-
-			})
-			$('#most_liked_link').on('click',function(){
-				$('.videos').hide();
-				{% for auth in authors_list_liked %}
-					console.log(auth.content)
-				{% endfor %}
-				
-
-			})
-
 
 			var count=0
 			$('#videos-prev').hide()
