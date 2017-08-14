@@ -4,6 +4,7 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.conf import settings
 from django.contrib.auth.models import User
+import datetime
 
 # Create your models here.
 
@@ -78,5 +79,16 @@ class CommentsModel(models.Model):
 
     def __str__(self):
         return self.Author.first_name
-    
+
+class Post_views(models.Model):
+    entry = models.ForeignKey(PostModel,related_name='post_views')
+    ip= models.CharField(max_length=40)
+    session=models.CharField(max_length=40,null=True)
+    created =models.DateTimeField(default=datetime.datetime.now())
+
+    def __str__(self):
+        return self.entry.Author
+
+    class Meta:
+        verbose_name_plural = "Post_views"    
     

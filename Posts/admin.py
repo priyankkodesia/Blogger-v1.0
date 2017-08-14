@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import PostModel,AuthorDetailModel,CommentsModel
+from .models import PostModel,AuthorDetailModel,CommentsModel,Post_views
 
 class PostModelAdmin(admin.ModelAdmin):
     list_display=['title','timestamp']
@@ -13,3 +13,5 @@ class PostModelAdmin(admin.ModelAdmin):
 admin.site.register(PostModel,PostModelAdmin)
 admin.site.register(AuthorDetailModel)
 admin.site.register(CommentsModel)
+admin.site.register(Post_views)
+

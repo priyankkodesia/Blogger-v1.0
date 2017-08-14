@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from .forms import PostForm,LoginForm,UserRegistrationForm,UserBioForm,CommentsForm
 from urllib.parse import quote_plus
 from django.core.urlresolvers import reverse,reverse_lazy
-from .models import PostModel,AuthorDetailModel,CommentsModel
+from .models import PostModel,AuthorDetailModel,CommentsModel,Post_views
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import Http404
@@ -14,12 +14,12 @@ from django.contrib.auth import login,logout,authenticate,update_session_auth_ha
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView,DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth.views import password_reset, password_reset_confirm,password_reset_complete
 from django.template import RequestContext
 import datetime
-
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def register(request):
@@ -133,6 +133,7 @@ def searchAuthors(request):
 @login_required
 def postListView(request):
     posts_list = PostModel.objects.all().order_by('-likes')
+    posts_count=PostModel.objects.all().count()
     paginator = Paginator(posts_list, 6)
     page = request.GET.get('page1')
     try:
@@ -141,12 +142,13 @@ def postListView(request):
         posts_list = paginator.page(1)
     except EmptyPage:
         posts_list = paginator.page(paginator.num_pages)
-    return render(request, 'posts_list.html', {'posts_list': posts_list})
+    return render(request, 'posts_list.html', {'posts_list': posts_list,'posts_count':posts_count})
 
 
 @login_required
 def authorListView(request):
     authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')
+    authors_count=AuthorDetailModel.objects.all().count()
     paginator = Paginator(authors_list, 6)
     page = request.GET.get('page2')
     try:
@@ -155,7 +157,7 @@ def authorListView(request):
         authors_list = paginator.page(1)
     except EmptyPage:
         authors_list = paginator.page(paginator.num_pages)
-    return render(request, 'authors_list.html', {'authors_list': authors_list})
+    return render(request, 'authors_list.html', {'authors_list': authors_list,'authors_count': authors_count})
 
 @login_required
 def listView(request):
@@ -169,20 +171,62 @@ def listView(request):
     context = {'posts_list': posts_list,'authors_list': authors_list,'current_user':current_user}
     return render(request, 'index.html', context)
 
-@login_required
-def postDetailView(request,slug=None):
-    if not request.user.is_authenticated:
-        raise Http404
-    flag=False
-    queryset=PostModel.objects.get(slug=slug)
-    print(queryset.Author)
-    print(request.user)
-    if(queryset.Author == request.user):
-         flag=True
-    
-    share_string=quote_plus(queryset.content)
-    context={'object':queryset,'share_string':share_string,'flag':flag}
-    return render(request,'post_detail.html',context)
+
+class PostDetailView(DetailView,LoginRequiredMixin):
+    model = PostModel
+    template_name = "post_detail.html"
+
+    def get_object(self,*args,**kwargs):
+        self.Flag=False
+        self.slug=self.kwargs['slug']
+        self.query=get_object_or_404(PostModel,slug=self.slug)
+        print(self.query.content)
+        print(self.query.Author)
+        if(self.query.Author.pk == self.request.user.pk):
+            self.Flag =True
+        self.share_string= quote_plus(self.query.content)
+        return self.query
+
+
+    def get_client_ip(self):
+        ip = self.request.META.get("HTTP_X_FORWARDED_FOR", None)
+        if ip:
+            ip = ip.split(", ")[0]
+        else:
+            ip = self.request.META.get("REMOTE_ADDR", "")
+        return ip
+
+    def tracking_hit_post(self):
+        print(self.object)
+        entry = self.model.objects.get(slug=self.kwargs['slug'])
+
+        try:
+            Post_views.objects.get(entry=entry, ip=self.get_client_ip(), session=self.request.session.session_key)
+        except ObjectDoesNotExist:
+                import socket
+                dns = str(socket.getfqdn(self.get_client_ip())).split('.')[-1]
+                try:
+                    if str(dns) == 'localhost':
+                        view = Post_Views(entry=entry, 
+                                                  ip=self.get_client_ip(),
+                                                  created=datetime.datetime.now(),
+                                                  session=self.request.session.session_key)
+                        view.save()
+                    else: pass
+                except ValueError: pass
+        return Post_views.objects.filter(entry=entry).count()
+        
+    def get_context_data(self, **kwargs):
+        context_data = super(PostDetailView, self).get_context_data(**kwargs)
+
+        context_data['get_client_ip'] = self.get_client_ip()
+        context_data['tracking_hit_post'] = self.tracking_hit_post()
+        context_data['flag'] = self.Flag
+        context_data['share_string'] = self.share_string
+        context_data['object'] = self.get_object()
+
+        return context_data
+
 
 @login_required
 def chatView(request,*args,**kwargs):

@@ -6,7 +6,7 @@ body{background-image: url('http://1.bp.blogspot.com/-teEj3rZUjQk/UUhq1P2EFsI/AA
 </style>
 	<div class="thumbnail col-sm-5 col-sm-offset-3" style="text-align:center;">
 		<a href="{% url 'Posts:list' %}"><span class="glyphicon glyphicon-remove" style="float:right;"></span></a>
-<h2 style="margin:30px 5px 13px 15px;font-weight:900;">{{ object.title|upper }}</h2>			
+<h2 style="margin:30px 5px 13px 15px;font-weight:900;">{{ object.title|upper }} &nbsp;<h4>HITS: {{ tracking_hit_post }}</h4>	</h2>
 
 {% if object.image %}<img src="{{ object.image.url }}" class="img-responsive" style="height:160px;width:160px;float:left;margin:5px 15px 0px 20px;border:0.8px solid grey">{% endif %}
 <div style="text-align:left">{{ object.content }}</div>
@@ -23,8 +23,8 @@ body{background-image: url('http://1.bp.blogspot.com/-teEj3rZUjQk/UUhq1P2EFsI/AA
 			{% if flag %}<a href="{% url 'Posts:delete' slug=object.slug %}" style="color:white"><button type="button" name="button" class="btn btn-danger" > <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete Post</button></a>{% endif %}
 
 
-			<a href="{{ object.get_like_url }}" style="color:white"><button type="button" name="button" style="padding:6px 16px 6px 16px;margin-left:150px;margin-right:25px" class="btn btn-primary" value="Like"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ object.likes.count }}</button></a>
-<span style="margin-top:80px !important"><p style="float:right;margin-bottom:2px;font-size:20px"><b>{{ object.Author.get_full_name }}</b></p><p style="margin-left:80%;margin-bottom:20px !important">{{ object.timestamp|date }}</p></span>
+	<a href="{{ object.get_like_url }}" style="color:white"><button type="button" name="button" style="padding:6px 16px 6px 16px;margin-left:150px;margin-right:25px" class="btn btn-primary" value="Like"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ object.likes.count }}</button></a>
+<span style="margin-top:80px !important">	<p style="float:right;margin-bottom:2px;font-size:20px"><b>{{ object.Author.get_full_name }}</b></p><p style="margin-left:80%;margin-bottom:20px !important">{{ object.timestamp|date }}</p></span>
 
 </div>
 
