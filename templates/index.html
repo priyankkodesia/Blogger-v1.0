@@ -123,7 +123,8 @@
 				<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>&nbsp;Home</a></li>
 				<li><a href="{% url 'Posts:create' %}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create</a></li>
 				<li><a href="{% url 'Posts:chat' %}"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span>&nbsp;Forum</a></li>
-				<li><a href="{% url 'Posts:change_password' %}"<span style="right:-650px;margin-top:-3px;" class="glyphicon glyphicon-wrench"></span><span style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif">&nbsp;&nbsp;Password Change</span></a></li>
+				<li style="right:-250px;"><a href=""><span class="glyphicon glyphicon-user"></span>&nbsp; Active Users:<span id='logged_users'> {{ logged_users }}</span></a></li>
+				<li><a href="{% url 'Posts:change_password' %}"<span style="right:-500px;margin-top:-3px;" class="glyphicon glyphicon-wrench"></span><span style="font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif">&nbsp;&nbsp;Password Change</span></a></li>
 
 			</ul>
 	

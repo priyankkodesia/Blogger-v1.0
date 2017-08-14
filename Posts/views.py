@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from .forms import PostForm,LoginForm,UserRegistrationForm,UserBioForm,CommentsForm
 from urllib.parse import quote_plus
 from django.core.urlresolvers import reverse,reverse_lazy
-from .models import PostModel,AuthorDetailModel,CommentsModel,Post_views
+from .models import PostModel,AuthorDetailModel,CommentsModel,Post_views,LoggedUser
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import Http404
@@ -84,7 +84,6 @@ def createView(request):
 def searchPosts(request):
     result=[]
     query=request.POST.get('q')
-    print('query is %s' %(query))
     res=PostModel.objects.filter(title__icontains=query)
     for r in res:
         full_name=r.Author.get_full_name()
@@ -102,16 +101,13 @@ def searchPosts(request):
                            'full_name':full_name,
                            'timestamp':r.timestamp,
                            'slug':r.slug})
-    print(result)
     return JsonResponse({'result':result})
 
 
 def searchAuthors(request):
     result=[]
     query=request.POST.get('query',None)
-    print('query is %s' %(query))
     res=AuthorDetailModel.objects.filter(full_name__icontains=query)
-    print(res)
     for r in res:       
         if r.profile_pic :
             result.append({'pk':r.Author.pk,
@@ -126,7 +122,6 @@ def searchAuthors(request):
                             'work': r.work,
                             'address': r.address,
                             'author_bio':r.author_bio })
-    print(result)
     return JsonResponse({'result':result})
 
 
@@ -168,7 +163,8 @@ def listView(request):
     posts_list = PostModel.objects.all().order_by('-pk')[:3]
     authors_list = AuthorDetailModel.objects.exclude(pk=1).order_by('-pk')[:3]
 
-    context = {'posts_list': posts_list,'authors_list': authors_list,'current_user':current_user}
+    logged_users= [user.user for user in LoggedUser.objects.all()]
+    context = {'posts_list': posts_list,'authors_list': authors_list,'current_user':current_user,'logged_users':len(logged_users)}
     return render(request, 'index.html', context)
 
 
@@ -180,8 +176,7 @@ class PostDetailView(DetailView,LoginRequiredMixin):
         self.Flag=False
         self.slug=self.kwargs['slug']
         self.query=get_object_or_404(PostModel,slug=self.slug)
-        print(self.query.content)
-        print(self.query.Author)
+
         if(self.query.Author.pk == self.request.user.pk):
             self.Flag =True
         self.share_string= quote_plus(self.query.content)
@@ -197,7 +192,6 @@ class PostDetailView(DetailView,LoginRequiredMixin):
         return ip
 
     def tracking_hit_post(self):
-        print(self.object)
         entry = self.model.objects.get(slug=self.kwargs['slug'])
 
         try:
@@ -234,7 +228,6 @@ def chatView(request,*args,**kwargs):
 
         try:
             comments=CommentsModel.objects.all().order_by('-pk')
-            print(comments)
         except:
             comments = None
         return render(request,'chat.html',{'comments':comments})
@@ -253,9 +246,7 @@ class postLikeToggle(LoginRequiredMixin,RedirectView):
     def get_redirect_url(self,*args,**kwargs):
         slug=self.kwargs.get('slug')
         obj=PostModel.objects.get(slug=slug)
-        print("obj is %s"%(obj))
         url_=obj.get_absolute_url()
-        print('so url_ becomes %s'%(url_))
         user=self.request.user
         if user.is_authenticated():
             if user in obj.likes.all():
@@ -267,7 +258,6 @@ class postLikeToggle(LoginRequiredMixin,RedirectView):
 
 @login_required
 def authorDetailView(request,pk=None):
-    print("inside author detail view")
     if not request.user.is_authenticated:
         raise Http404
     query=AuthorDetailModel.objects.get(pk=pk)
@@ -292,11 +282,8 @@ def password_change(request):
     if request.method == "POST":
         form=PasswordChangeForm(request.user,request.POST)
         if form.is_valid():
-            print("form is valid")
             user=form.save()
-            print("form saved")
             update_session_auth_hash(request,user)
-            messages.success(request,"Your password has been successfully changed",extra_tags='alert')
             return redirect("Posts:list")
         else:
             messages.warning(request,"Please correct the errors below")
