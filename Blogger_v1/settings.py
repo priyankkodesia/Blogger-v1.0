@@ -142,6 +142,6 @@ EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'mail.travelogue.in'
 EMAIL_MAIN = 'mail.travelogue.in'
 EMAIL_HOST_USER = 'priyankkodesia@gmail.com'
-EMAIL_HOST_PASSWORD = 'GooglE!43'
+EMAIL_HOST_PASSWORD = ###
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
